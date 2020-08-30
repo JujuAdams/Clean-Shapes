@@ -101,7 +101,7 @@ function __clean_class_rectangle(_left, _top, _right, _bottom) constructor
     {
         var _width  = abs(__right - __left);
         var _height = abs(__bottom - __top);
-        var _max    = max(_width, _height);
+        var _max    = min(_width, _height);
         
         var _aspect = _width / _height;
         

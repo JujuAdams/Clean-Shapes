@@ -10,6 +10,7 @@ varying float v_fBorderThickness;
 varying float v_fFlag1;
 varying float v_fFlag2;
 varying vec2  v_vTextureCoord;
+varying float v_fAspect;
 
 void main()
 {
@@ -30,6 +31,7 @@ void main()
     v_fBorderThickness = in_Normal.z;
     v_vTextureCoord = in_TextureCoord;
     v_fRounding = in_Normal.x;
+    v_fAspect = v_vTextureCoord.x;
     
     float flags = in_Position.z;
     if (flags >= 2.0) { v_fFlag2 = 1.0; flags -= 2.0; }

@@ -11,15 +11,16 @@ varying float v_fBorderThickness;
 varying float v_fFlag1;
 varying float v_fFlag2;
 varying vec2  v_vTextureCoord;
+varying float v_fAspect;
 
 void main()
 {
     gl_FragColor = v_vColour;
     
-    vec2 delta = abs(2.0*vec2(v_fFlag1, v_fFlag2) - 1.0) - vec2(1.0) + v_fRounding;
+    vec2 delta = (abs(2.0*vec2(v_fFlag1, v_fFlag2) - 1.0) - vec2(1.0))*vec2(v_fAspect, 1.0) + v_fRounding;
     float dist = min(max(delta.x, delta.y), 0.0) + length(max(delta, 0.0)) - v_fRounding;
     
-    gl_FragColor.rgb = mix(gl_FragColor.rgb, v_vBorderColour, 1.0 - smoothstep(v_fBorderThickness - softness*fwidth(-dist), v_fBorderThickness, -dist));
+    //gl_FragColor.rgb = mix(gl_FragColor.rgb, v_vBorderColour, 1.0 - smoothstep(v_fBorderThickness - softness*fwidth(-dist), v_fBorderThickness, -dist));
     
     gl_FragColor.a *= 1.0 - smoothstep(threshold - softness*fwidth(dist), threshold, dist);
 }
