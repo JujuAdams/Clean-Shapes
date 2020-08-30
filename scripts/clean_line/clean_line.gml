@@ -82,19 +82,60 @@ function __clean_class_line(_x1, _y1, _x2, _y2) constructor
     /// @param vertexBuffer
     build = function(_vbuff)
     {
-        var _dx = __x2 - __x1;
-        var _dy = __y2 - __y1;
-        var _d  = __thickness / sqrt(_dx*_dx + _dy*_dy);
-        var _nx =  _dy*_d;
-        var _ny = -_dx*_d;
+        var _dx  = __x2 - __x1;
+        var _dy  = __y2 - __y1;
+        var _d   = __thickness / sqrt(_dx*_dx + _dy*_dy);
+            _dx *= _d;
+            _dy *= _d;
+        var _nx  =  _dy;
+        var _ny  = -_dx;
         
-        vertex_position_3d(_vbuff, __x1 + _nx, __y1 + _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, __x2 + _nx, __y2 + _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, __x1 - _nx, __y1 - _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
+        var _x1 = __x1;
+        var _y1 = __y1;
+        var _x2 = __x2;
+        var _y2 = __y2;
         
-        vertex_position_3d(_vbuff, __x2 + _nx, __y2 + _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, __x2 - _nx, __y2 - _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, __x1 - _nx, __y1 - _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
+        if (__cap_start == "none")
+        {
+            _x1 += _dx;
+            _y1 += _dy;
+        }
+        
+        if (__cap_end == "none")
+        {
+            _x2 -= _dx;
+            _y2 -= _dy;
+        }
+        
+        var _is_round1 = (__cap_start == "round")? 4 : 0;
+        var _is_round2 = (__cap_end   == "round")? 4 : 0;
+        
+        //Start Cap
+        vertex_position_3d(_vbuff, _x1 - _nx - _dx, _y1 - _ny - _dy, 1 + _is_round1); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
+        vertex_position_3d(_vbuff, _x1 - _nx      , _y1 - _ny      , 3 + _is_round1); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
+        vertex_position_3d(_vbuff, _x1 + _nx - _dx, _y1 + _ny - _dy, 0 + _is_round1); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
+        
+        vertex_position_3d(_vbuff, _x1 - _nx      , _y1 - _ny      , 3 + _is_round1); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
+        vertex_position_3d(_vbuff, _x1 + _nx - _dx, _y1 + _ny - _dy, 0 + _is_round1); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
+        vertex_position_3d(_vbuff, _x1 + _nx      , _y1 + _ny      , 2 + _is_round1); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
+        
+        //Body
+        vertex_position_3d(_vbuff, _x1 + _nx      , _y1 + _ny      , 2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
+        vertex_position_3d(_vbuff, _x2 + _nx      , _y2 + _ny      , 2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
+        vertex_position_3d(_vbuff, _x1 - _nx      , _y1 - _ny      , 3); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
+        
+        vertex_position_3d(_vbuff, _x2 + _nx      , _y2 + _ny      , 2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
+        vertex_position_3d(_vbuff, _x2 - _nx      , _y2 - _ny      , 3); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
+        vertex_position_3d(_vbuff, _x1 - _nx      , _y1 - _ny      , 3); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
+        
+        //End Cap
+        vertex_position_3d(_vbuff, _x2 - _nx + _dx, _y2 - _ny + _dy, 1 + _is_round2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
+        vertex_position_3d(_vbuff, _x2 - _nx      , _y2 - _ny      , 3 + _is_round2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
+        vertex_position_3d(_vbuff, _x2 + _nx + _dx, _y2 + _ny + _dy, 0 + _is_round2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
+        
+        vertex_position_3d(_vbuff, _x2 - _nx      , _y2 - _ny      , 3 + _is_round2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
+        vertex_position_3d(_vbuff, _x2 + _nx + _dx, _y2 + _ny + _dy, 0 + _is_round2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
+        vertex_position_3d(_vbuff, _x2 + _nx      , _y2 + _ny      , 2 + _is_round2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
         
         return undefined;
     }

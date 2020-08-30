@@ -1,7 +1,7 @@
 //GM doesn't usually enable standard derivative functions, but we can force it on
 #extension GL_OES_standard_derivatives : require
 
-const float softness = 2.0;
+const float softness = 1.5;
 
 varying vec4 v_vColour;
 varying vec2 v_vTexcoord;
