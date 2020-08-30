@@ -12,8 +12,8 @@ function clean_rectangle(_left, _top, _right, _bottom)
 
 function __clean_class_rectangle(_left, _top, _right, _bottom) constructor
 {
-    __shader = sh_clean_polygon;
-    __format = global.__clean_vertex_format_polygon;
+    __shader = sh_clean_rectangle;
+    __format = global.__clean_vertex_format_rectangle;
     
     __left   = _left;
     __top    = _top;
@@ -99,13 +99,29 @@ function __clean_class_rectangle(_left, _top, _right, _bottom) constructor
     /// @param vertexBuffer
     build = function(_vbuff)
     {
-        vertex_position_3d(_vbuff, __left , __top   , 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, __right, __top   , 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, __left , __bottom, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour3, __alpha3); vertex_texcoord(_vbuff, 0, 0);
+        var _width  = abs(__right - __left);
+        var _height = abs(__bottom - __top);
+        var _max    = max(_width, _height);
         
-        vertex_position_3d(_vbuff, __right, __top   , 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, __right, __bottom, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour4, __alpha4); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, __left , __bottom, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour3, __alpha3); vertex_texcoord(_vbuff, 0, 0);
+        var _aspect = _width / _height;
+        
+        var _rounding = 2*__rounding / _max;
+        var _border_t = 2*__border_thickness / _max;
+        
+        //Compress the colour down to 22 bits to fit into the mantissa of a 32-bit float
+        //This trims off one bit from the green + blue channels
+        //TODO - Oops, this should remove a bit from the red+green channels since the eye is sensitive to blue
+        var _border_c  = (((__border_colour >> 17) & 0x7F) << 15)
+            _border_c |= (((__border_colour >>  9) & 0x7F) <<  8)
+            _border_c |= (__border_colour & 0xFF);
+        
+        vertex_position_3d(_vbuff, __left , __top   , 0); vertex_normal(_vbuff, _rounding, _border_c, _border_t); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, _aspect, 0);
+        vertex_position_3d(_vbuff, __right, __top   , 1); vertex_normal(_vbuff, _rounding, _border_c, _border_t); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, _aspect, 0);
+        vertex_position_3d(_vbuff, __left , __bottom, 2); vertex_normal(_vbuff, _rounding, _border_c, _border_t); vertex_colour(_vbuff, __colour3, __alpha3); vertex_texcoord(_vbuff, _aspect, 0);
+        
+        vertex_position_3d(_vbuff, __right, __top   , 1); vertex_normal(_vbuff, _rounding, _border_c, _border_t); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, _aspect, 0);
+        vertex_position_3d(_vbuff, __right, __bottom, 3); vertex_normal(_vbuff, _rounding, _border_c, _border_t); vertex_colour(_vbuff, __colour4, __alpha4); vertex_texcoord(_vbuff, _aspect, 0);
+        vertex_position_3d(_vbuff, __left , __bottom, 2); vertex_normal(_vbuff, _rounding, _border_c, _border_t); vertex_colour(_vbuff, __colour3, __alpha3); vertex_texcoord(_vbuff, _aspect, 0);
         
         return undefined;
     }

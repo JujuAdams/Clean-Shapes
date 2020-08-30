@@ -9,7 +9,7 @@
 #macro CLEAN_DEFAULT_RECTANGLE_BORDER_THICKNESS  3
 #macro CLEAN_DEFAULT_RECTANGLE_BORDER_COLOUR     c_white
 #macro CLEAN_DEFAULT_RECTANGLE_BORDER_ALPHA      draw_get_alpha()
-#macro CLEAN_DEFAULT_RECTANGLE_ROUNDING          10
+#macro CLEAN_DEFAULT_RECTANGLE_ROUNDING          0
 
 #macro CLEAN_DEFAULT_CIRCLE_COLOUR               draw_get_colour()
 #macro CLEAN_DEFAULT_CIRCLE_ALPHA                draw_get_alpha()
@@ -74,6 +74,13 @@ vertex_format_add_normal();
 vertex_format_add_colour();
 vertex_format_add_texcoord();
 global.__clean_vertex_format_polygon = vertex_format_end();
+
+vertex_format_begin();
+vertex_format_add_position_3d();
+vertex_format_add_normal();
+vertex_format_add_colour();
+vertex_format_add_texcoord();
+global.__clean_vertex_format_rectangle = vertex_format_end();
 
 vertex_format_begin();
 vertex_format_add_position_3d();
