@@ -13,18 +13,14 @@ function __clean_class_polyline(_array) constructor
     __format = global.__clean_vertex_format_polyline;
     
     __point_array = _array;
-    __colour      = c_white;
-    __alpha       = 1.0;
+    __colour      = CLEAN_DEFAULT_POLYLINE_COLOUR;
+    __alpha       = CLEAN_DEFAULT_POLYLINE_ALPHA;
     __blend_array = undefined;
     
-    __border_thickness = 0.0;
-    __border_colour    = c_white;
-    __border_alpha     = 1.0;
+    __thickness = CLEAN_DEFAULT_POLYLINE_THICKNESS;
     
-    __thickness = 10;
-    
-    __cap_start = "none";
-    __cap_end   = "none";
+    __cap_start = CLEAN_DEFAULT_POLYLINE_START_CAP;
+    __cap_end   = CLEAN_DEFAULT_POLYLINE_END_CAP;
     
     /// @param color
     /// @param alpha

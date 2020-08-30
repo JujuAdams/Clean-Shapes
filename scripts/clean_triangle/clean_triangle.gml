@@ -24,18 +24,18 @@ function __clean_class_triangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor
     __x3 = _x3;
     __y3 = _y3;
     
-    __colour1 = c_white;
-    __alpha1  = 1.0;
-    __colour2 = c_white;
-    __alpha2  = 1.0;
-    __colour3 = c_white;
-    __alpha3  = 1.0;
+    __colour1 = CLEAN_DEFAULT_TRIANGLE_COLOUR;
+    __alpha1  = CLEAN_DEFAULT_TRIANGLE_ALPHA;
+    __colour2 = CLEAN_DEFAULT_TRIANGLE_COLOUR;
+    __alpha2  = CLEAN_DEFAULT_TRIANGLE_ALPHA;
+    __colour3 = CLEAN_DEFAULT_TRIANGLE_COLOUR;
+    __alpha3  = CLEAN_DEFAULT_TRIANGLE_ALPHA;
     
-    __border_thickness = 0.0;
-    __border_colour    = c_white;
-    __border_alpha     = 1.0;
+    __border_thickness = CLEAN_DEFAULT_TRIANGLE_BORDER_THICKNESS;
+    __border_colour    = CLEAN_DEFAULT_TRIANGLE_BORDER_COLOUR;
+    __border_alpha     = CLEAN_DEFAULT_TRIANGLE_BORDER_ALPHA;
     
-    __rounding = 0.0;
+    __rounding = CLEAN_DEFAULT_TRIANGLE_ROUNDING;
     
     /// @param color
     /// @param alpha

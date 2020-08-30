@@ -20,20 +20,20 @@ function __clean_class_rectangle(_left, _top, _right, _bottom) constructor
     __right  = _right;
     __bottom = _bottom;
     
-    __colour1 = c_white;
-    __alpha1  = 1.0;
-    __colour2 = c_white;
-    __alpha2  = 1.0;
-    __colour3 = c_white;
-    __alpha3  = 1.0;
-    __colour4 = c_white;
-    __alpha4  = 1.0;
+    __colour1 = CLEAN_DEFAULT_RECTANGLE_COLOUR;
+    __alpha1  = CLEAN_DEFAULT_RECTANGLE_ALPHA;
+    __colour2 = CLEAN_DEFAULT_RECTANGLE_COLOUR;
+    __alpha2  = CLEAN_DEFAULT_RECTANGLE_ALPHA;
+    __colour3 = CLEAN_DEFAULT_RECTANGLE_COLOUR;
+    __alpha3  = CLEAN_DEFAULT_RECTANGLE_ALPHA;
+    __colour4 = CLEAN_DEFAULT_RECTANGLE_COLOUR;
+    __alpha4  = CLEAN_DEFAULT_RECTANGLE_ALPHA;
     
-    __border_thickness = 0.0;
-    __border_colour    = c_white;
-    __border_alpha     = 1.0;
+    __border_thickness = CLEAN_DEFAULT_RECTANGLE_BORDER_THICKNESS;
+    __border_colour    = CLEAN_DEFAULT_RECTANGLE_BORDER_COLOUR;
+    __border_alpha     = CLEAN_DEFAULT_RECTANGLE_BORDER_ALPHA;
     
-    __rounding = 0.0;
+    __rounding = CLEAN_DEFAULT_RECTANGLE_ROUNDING;
     
     /// @param color
     /// @param alpha

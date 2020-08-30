@@ -13,15 +13,15 @@ function __clean_class_convex(_array) constructor
     __format = global.__clean_vertex_format_polygon;
     
     __point_array = _array;
-    __colour      = c_white;
-    __alpha       = 1.0;
+    __colour      = CLEAN_DEFAULT_CONVEX_COLOUR;
+    __alpha       = CLEAN_DEFAULT_CONVEX_ALPHA;
     __blend_array = undefined;
     
-    __border_thickness = 0.0;
-    __border_colour    = c_white;
-    __border_alpha     = 1.0;
+    __border_thickness = CLEAN_DEFAULT_CONVEX_BORDER_THICKNESS;
+    __border_colour    = CLEAN_DEFAULT_CONVEX_BORDER_COLOUR;
+    __border_alpha     = CLEAN_DEFAULT_CONVEX_BORDER_ALPHA;
     
-    __rounding = 0;
+    __rounding = CLEAN_DEFAULT_CONVEX_ROUNDING;
     
     /// @param color
     /// @param alpha

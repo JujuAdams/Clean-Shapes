@@ -18,14 +18,14 @@ function __clean_class_circle(_x, _y, _radius) constructor
     __y      = _y;
     __radius = _radius;
     
-    __colour = c_white;
-    __alpha  = 1.0;
+    __colour = CLEAN_DEFAULT_CIRCLE_COLOUR;
+    __alpha  = CLEAN_DEFAULT_CIRCLE_ALPHA;
     
-    __ring_thickness = 0.0;
+    __ring_thickness = CLEAN_DEFAULT_CIRCLE_RING_THICKNESS;
     
-    __border_thickness = 0.0;
-    __border_colour    = c_white;
-    __border_alpha     = 1.0;
+    __border_thickness = CLEAN_DEFAULT_CIRCLE_BORDER_THICKNESS;
+    __border_colour    = CLEAN_DEFAULT_CIRCLE_BORDER_COLOUR;
+    __border_alpha     = CLEAN_DEFAULT_CIRCLE_BORDER_ALPHA;
     
     __segment_start =   0.0;
     __segment_end   = 360.0;
