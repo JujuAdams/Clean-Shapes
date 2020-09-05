@@ -69,11 +69,12 @@ vertex_format_add_texcoord();
 global.__clean_vertex_format_polyline = vertex_format_end();
 
 vertex_format_begin();
-vertex_format_add_position_3d();
-vertex_format_add_normal();
-vertex_format_add_colour();
-vertex_format_add_custom(vertex_type_float3, vertex_usage_color);
-vertex_format_add_texcoord();
+vertex_format_add_position_3d(); //XY, type
+vertex_format_add_normal(); //First boundary
+vertex_format_add_colour(); //Fill colour
+vertex_format_add_custom(vertex_type_float3, vertex_usage_color); //Second boundary
+vertex_format_add_custom(vertex_type_float4, vertex_usage_color); //Border colour
+vertex_format_add_texcoord(); //Rounding, border thickness
 global.__clean_vertex_format_polygon = vertex_format_end();
 
 vertex_format_begin();
