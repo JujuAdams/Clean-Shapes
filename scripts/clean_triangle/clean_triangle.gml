@@ -14,8 +14,8 @@ function clean_triangle(_x1, _y1, _x2, _y2, _x3, _y3)
 
 function __clean_class_triangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor
 {
-    __shader = sh_clean_convex;
-    __format = global.__clean_vertex_format_convex;
+    __shader = sh_clean;
+    __format = global.__clean_vertex_format;
     
     __x1 = _x1;
     __y1 = _y1;

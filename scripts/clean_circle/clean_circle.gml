@@ -11,8 +11,8 @@ function clean_circle(_x, _y, _radius)
 
 function __clean_class_circle(_x, _y, _radius) constructor
 {
-    __shader = sh_clean_circle;
-    __format = global.__clean_vertex_format_circle;
+    __shader = sh_clean;
+    __format = global.__clean_vertex_format;
     
     __x      = _x;
     __y      = _y;
@@ -76,13 +76,18 @@ function __clean_class_circle(_x, _y, _radius) constructor
     /// @param vertexBuffer
     build = function(_vbuff)
     {
-        vertex_position_3d(_vbuff, __x - __radius, __y - __radius, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, __x + __radius, __y - __radius, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_texcoord(_vbuff, 1, 0);
-        vertex_position_3d(_vbuff, __x - __radius, __y + __radius, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_texcoord(_vbuff, 0, 1);
+        var _border_r = colour_get_red(  __border_colour)/255;
+        var _border_g = colour_get_green(__border_colour)/255;
+        var _border_b = colour_get_blue( __border_colour)/255;
+        var _border_a = __border_alpha;
         
-        vertex_position_3d(_vbuff, __x + __radius, __y - __radius, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_texcoord(_vbuff, 1, 0);
-        vertex_position_3d(_vbuff, __x - __radius, __y + __radius, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_texcoord(_vbuff, 0, 1);
-        vertex_position_3d(_vbuff, __x + __radius, __y + __radius, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_texcoord(_vbuff, 1, 1);
+        vertex_position_3d(_vbuff, __x - __radius, __y - __radius, 1); vertex_normal(_vbuff, __segment_start, __segment_end, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, __ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, __border_thickness/__radius);
+        vertex_position_3d(_vbuff, __x + __radius, __y - __radius, 3); vertex_normal(_vbuff, __segment_start, __segment_end, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, __ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, __border_thickness/__radius);
+        vertex_position_3d(_vbuff, __x - __radius, __y + __radius, 5); vertex_normal(_vbuff, __segment_start, __segment_end, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, __ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, __border_thickness/__radius);
+                                                                                                                                                                                                                                                                                                                       
+        vertex_position_3d(_vbuff, __x + __radius, __y - __radius, 3); vertex_normal(_vbuff, __segment_start, __segment_end, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, __ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, __border_thickness/__radius);
+        vertex_position_3d(_vbuff, __x - __radius, __y + __radius, 5); vertex_normal(_vbuff, __segment_start, __segment_end, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, __ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, __border_thickness/__radius);
+        vertex_position_3d(_vbuff, __x + __radius, __y + __radius, 7); vertex_normal(_vbuff, __segment_start, __segment_end, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, __ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, __border_thickness/__radius);
         
         return undefined;
     }

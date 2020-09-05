@@ -1,12 +1,11 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
+  "type": 1,
   "parent": {
     "name": "Clean Shapes",
     "path": "folders/Clean Shapes.yy",
   },
   "resourceVersion": "1.0",
-  "name": "clean_batch_end",
+  "name": "sh_clean_line",
   "tags": [],
-  "resourceType": "GMScript",
+  "resourceType": "GMShader",
 }

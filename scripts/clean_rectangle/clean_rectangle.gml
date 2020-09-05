@@ -12,8 +12,8 @@ function clean_rectangle(_left, _top, _right, _bottom)
 
 function __clean_class_rectangle(_left, _top, _right, _bottom) constructor
 {
-    __shader = sh_clean_convex;
-    __format = global.__clean_vertex_format_convex;
+    __shader = sh_clean;
+    __format = global.__clean_vertex_format;
     
     __left   = _left;
     __top    = _top;

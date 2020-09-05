@@ -10,7 +10,7 @@ function clean_polyline(_array)
 function __clean_class_polyline(_array) constructor
 {
     __shader = sh_clean_polyline;
-    __format = global.__clean_vertex_format_polyline;
+    __format = global.__clean_vertex_format;
     
     __point_array = _array;
     __colour      = CLEAN_DEFAULT_POLYLINE_COLOUR;

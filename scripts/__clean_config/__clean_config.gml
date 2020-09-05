@@ -68,21 +68,14 @@ vertex_format_add_colour();
 vertex_format_add_texcoord();
 global.__clean_vertex_format_polyline = vertex_format_end();
 
-vertex_format_begin();
-vertex_format_add_position_3d();                                  //XY, type
-vertex_format_add_normal();                                       //First boundary
-vertex_format_add_colour();                                       //Fill colour
-vertex_format_add_custom(vertex_type_float3, vertex_usage_color); //Second boundary
-vertex_format_add_custom(vertex_type_float4, vertex_usage_color); //Border colour
-vertex_format_add_texcoord();                                     //Rounding, border thickness
-global.__clean_vertex_format_convex = vertex_format_end();
-
-vertex_format_begin();
-vertex_format_add_position_3d();
-vertex_format_add_normal();
-vertex_format_add_colour();
-vertex_format_add_texcoord();
-global.__clean_vertex_format_circle = vertex_format_end();
+vertex_format_begin();                                            //LINE:                CIRCLE:                       CONVEX:
+vertex_format_add_position_3d();                                  //XY, type             XY, type                      XY, type
+vertex_format_add_normal();                                       //x1, y1, x2           Segment start/end, unused     First boundary
+vertex_format_add_colour();                                       //Colour               Fill colour                   Fill colour
+vertex_format_add_custom(vertex_type_float3, vertex_usage_color); //y2, x3, y3           Ring / Border thickness       Second boundary
+vertex_format_add_custom(vertex_type_float4, vertex_usage_color); //Thickness, unused    Border colour                 Border colour
+vertex_format_add_texcoord();                                     //Cap, join            Corner IDs, unused            Rounding, border thickness
+global.__clean_vertex_format = vertex_format_end();
 
 /// @param [value...]
 function __clean_trace()
