@@ -13,12 +13,21 @@ varying float v_fRounding;
 varying float v_fBorderThickness;
 varying vec4  v_vBorderColour;
 
+float distanceBoundingLines(vec2 position, vec3 line1, vec3 line2, float offset)
+{
+    vec2 delta = vec2(line1.z - dot(line1.xy, position),
+                      line2.z - dot(line2.xy, position)) + offset;
+    return min(max(delta.x, delta.y), 0.0) + length(max(delta, 0.0)) - offset;
+}
+
+float feather(float dist, float threshold)
+{
+    return smoothstep(threshold - softness*fwidth(dist), threshold, dist);
+}
+
 void main()
 {
-    vec2 delta = vec2(v_vLine1.z - dot(v_vLine1.xy, v_vPosition),
-                      v_vLine2.z - dot(v_vLine2.xy, v_vPosition)) + v_fRounding;
-    float dist = min(max(delta.x, delta.y), 0.0) + length(max(delta, 0.0)) - v_fRounding;
-    
-    gl_FragColor = mix(v_vFillColour, v_vBorderColour, 1.0 - smoothstep(v_fBorderThickness - softness*fwidth(-dist), v_fBorderThickness, -dist));
-    gl_FragColor.a *= 1.0 - smoothstep(1.0 - softness*fwidth(dist), 1.0, dist);
+    float dist = distanceBoundingLines(v_vPosition, v_vLine1, v_vLine2, v_fRounding);
+    gl_FragColor = mix(v_vBorderColour, v_vFillColour, feather(-dist, v_fBorderThickness));
+    gl_FragColor.a *= 1.0 - feather(dist, 1.0);
 }
