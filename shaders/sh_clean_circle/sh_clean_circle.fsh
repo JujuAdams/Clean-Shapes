@@ -1,3 +1,5 @@
+precision highp float;
+
 //GM doesn't usually enable standard derivative functions, but we can force it on
 #extension GL_OES_standard_derivatives : require
 
