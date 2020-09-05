@@ -1,6 +1,4 @@
-/// @param pixels
-
-function clean_set_smoothness(_smoothness)
+function clean_get_smoothness()
 {
-    global.__clean_smoothness = _smoothness;
+    return global.__clean_smoothness;
 }
