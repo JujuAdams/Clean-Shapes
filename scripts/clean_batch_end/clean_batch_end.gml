@@ -24,6 +24,7 @@ function clean_batch_end()
         {
             if (_shader == undefined) shader_reset() else shader_set(_shader);
             vertex_end(_vbuff);
+            shader_set_uniform_f(global.__clean_u_fSmoothness, global.__clean_smoothness);
             vertex_submit(_vbuff, pr_trianglelist, -1);
             vertex_delete_buffer(_vbuff);
             _vbuff = undefined;
@@ -49,6 +50,7 @@ function clean_batch_end()
     {
         if (_shader == undefined) shader_reset() else shader_set(_shader);
         vertex_end(_vbuff);
+        shader_set_uniform_f(global.__clean_u_fSmoothness, global.__clean_smoothness);
         vertex_submit(_vbuff, pr_trianglelist, -1);
         vertex_delete_buffer(_vbuff);
         _vbuff = undefined;

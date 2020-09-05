@@ -14,7 +14,7 @@ function clean_triangle(_x1, _y1, _x2, _y2, _x3, _y3)
 
 function __clean_class_triangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor
 {
-    __shader = sh_clean;
+    __shader = shd_clean;
     __format = global.__clean_vertex_format;
     
     __x1 = _x1;
@@ -154,7 +154,7 @@ function __clean_class_triangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor
             _ny31 =  _tmp*_n;
         var _ds31 = dot_product(__x1, __y1, _nx31, _ny31);
         
-        //Segment 1
+        //Corner 1
         vertex_position_3d(_vbuff,  _cx,  _cy, 0); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _cc , _ac ); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, __rounding, __border_thickness);
         vertex_position_3d(_vbuff, _x31, _y31, 0); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _c31, _a31); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, __rounding, __border_thickness);
         vertex_position_3d(_vbuff, __x1, __y1, 0); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _c1 , _a1 ); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, __rounding, __border_thickness);
@@ -163,7 +163,7 @@ function __clean_class_triangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor
         vertex_position_3d(_vbuff, __x1, __y1, 0); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _c1 , _a1 ); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, __rounding, __border_thickness);
         vertex_position_3d(_vbuff, _x12, _y12, 0); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _c12, _a12); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, __rounding, __border_thickness);
         
-        //Segment 2
+        //Corner 2
         vertex_position_3d(_vbuff,  _cx,  _cy, 0); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _cc , _ac ); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, __rounding, __border_thickness);
         vertex_position_3d(_vbuff, _x12, _y12, 0); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _c12, _a12); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, __rounding, __border_thickness);
         vertex_position_3d(_vbuff, __x2, __y2, 0); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _c2 , _a2 ); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, __rounding, __border_thickness);
@@ -172,7 +172,7 @@ function __clean_class_triangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor
         vertex_position_3d(_vbuff, __x2, __y2, 0); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _c2 , _a2 ); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, __rounding, __border_thickness);
         vertex_position_3d(_vbuff, _x23, _y23, 0); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _c23, _a23); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, __rounding, __border_thickness);
         
-        //Segment 3
+        //Corner 3
         vertex_position_3d(_vbuff,  _cx,  _cy, 0); vertex_normal(_vbuff, _nx23, _ny23, _ds23); vertex_colour(_vbuff, _cc , _ac ); vertex_float3(_vbuff, _nx31, _ny31, _ds31); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, __rounding, __border_thickness);
         vertex_position_3d(_vbuff, _x23, _y23, 0); vertex_normal(_vbuff, _nx23, _ny23, _ds23); vertex_colour(_vbuff, _c23, _a23); vertex_float3(_vbuff, _nx31, _ny31, _ds31); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, __rounding, __border_thickness);
         vertex_position_3d(_vbuff, __x3, __y3, 0); vertex_normal(_vbuff, _nx23, _ny23, _ds23); vertex_colour(_vbuff, _c3 , _a3 ); vertex_float3(_vbuff, _nx31, _ny31, _ds31); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, __rounding, __border_thickness);
