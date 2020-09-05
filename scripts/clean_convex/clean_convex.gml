@@ -30,7 +30,6 @@ function __clean_class_convex(_array) constructor
         __colour      = _colour;
         __alpha       = _alpha;
         __blend_array = undefined;
-        
         return self;
     }
     
@@ -40,7 +39,6 @@ function __clean_class_convex(_array) constructor
         __colour      = undefined;
         __alpha       = undefined;
         __blend_array = _array;
-        
         return self;
     }
     
@@ -49,14 +47,12 @@ function __clean_class_convex(_array) constructor
         __border_thickness = _thickness;
         __border_colour    = _colour;
         __border_alpha     = _alpha;
-        
         return self;
     }
     
     rounding = function(_radius)
     {
         __rounding = _radius;
-        
         return self;
     }
     
