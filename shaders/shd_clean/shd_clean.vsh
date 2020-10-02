@@ -1,27 +1,28 @@
 precision highp float;
-                                //LINE:                CIRCLE:                     CONVEX:
-attribute vec3 in_Position;     //XY, type             XY, type                    XY, type
-attribute vec3 in_Normal;       //x1, y1, x2           Unused                      First boundary
-attribute vec4 in_Colour1;      //Colour               Fill colour                 Fill colour
-attribute vec3 in_Colour2;      //y2, x3, y3           Ring thickness, unused      Second boundary
-attribute vec4 in_Colour3;      //Thickness, unused    Border colour               Border colour
-attribute vec2 in_TextureCoord; //Cap, join            Unused, border thickness    Rounding, border thickness
+                                //LINE:                CIRCLE:                       CONVEX:
+attribute vec3 in_Position;     //XY, type             XY, type                      XY, type
+attribute vec3 in_Normal;       //x1, y1, x2           Segment start/end             First boundary
+attribute vec4 in_Colour1;      //Colour               Fill colour                   Fill colour
+attribute vec3 in_Colour2;      //y2, x3, y3           Ring thickness, unused        Second boundary
+attribute vec4 in_Colour3;      //Thickness, unused    Border colour                 Border colour
+attribute vec2 in_TextureCoord; //Cap, join            Rounding, border thickness    Rounding, border thickness
 
 //Shared
 varying float v_fMode;
 varying vec4  v_vFillColour;
 varying float v_fBorderThickness;
 varying vec4  v_vBorderColour;
+varying float v_fRounding;
 
 //Circle
 varying float v_fRingThickness;
+varying vec2  v_vSegment;
 varying vec2  v_vCornerID;
 
 //Convex
 varying vec2  v_vPosition;
 varying vec3  v_vLine1;
 varying vec3  v_vLine2;
-varying float v_fRounding;
 
 void main()
 {
@@ -46,6 +47,7 @@ void main()
     
     //Circle
     v_fRingThickness   = in_Colour2.x;
+    v_vSegment         = in_Normal.xy;
     v_vCornerID        = vec2(flag2, flag4);
     
     //Polygon

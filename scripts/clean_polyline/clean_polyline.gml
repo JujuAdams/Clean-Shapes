@@ -15,7 +15,6 @@ function __clean_class_polyline(_array) constructor
     __point_array = _array;
     __colour      = CLEAN_DEFAULT_POLYLINE_COLOUR;
     __alpha       = CLEAN_DEFAULT_POLYLINE_ALPHA;
-    __blend_array = undefined;
     
     __thickness = CLEAN_DEFAULT_POLYLINE_THICKNESS;
     
@@ -26,19 +25,8 @@ function __clean_class_polyline(_array) constructor
     /// @param alpha
     blend = function(_colour, _alpha)
     {
-        __colour      = _colour;
-        __alpha       = _alpha;
-        __blend_array = undefined;
-        
-        return self;
-    }
-    
-    /// @param blendArray
-    blend_ext = function(_array)
-    {
-        __colour      = undefined;
-        __alpha       = undefined;
-        __blend_array = _array;
+        __colour = _colour;
+        __alpha  = _alpha;
         
         return self;
     }
@@ -73,71 +61,98 @@ function __clean_class_polyline(_array) constructor
         var _y1 = undefined;
         var _x2 = __point_array[0];
         var _y2 = __point_array[1];
+        var _x3 = __point_array[2];
+        var _y3 = __point_array[3];
         
-        if (is_array(__blend_array))
+        var _mx12 = undefined;
+        var _my12 = undefined;
+        var _mx23 = 0.5*(_x2 + _x3);
+        var _my23 = 0.5*(_y2 + _y3);
+        
+        ///Start cap
+        var _dx = _x3 - _x2;
+        var _dy = _y3 - _y2;
+        var _d  = __thickness / sqrt(_dx*_dx + _dy*_dy);
+        _dx *= _d;
+        _dy *= _d;
+        _x1 = _x2 - _dx;
+        _y1 = _y2 - _dy;
+        
+        vertex_position_3d(_vbuff,   _x1,   _y1, 0); vertex_normal(_vbuff, _x2, _y2, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _mx23, _my23); vertex_float4(_vbuff, -__thickness, 0, 0, 0); vertex_texcoord(_vbuff, 1, 0);
+        vertex_position_3d(_vbuff, _mx23, _my23, 0); vertex_normal(_vbuff, _x2, _y2, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _mx23, _my23); vertex_float4(_vbuff,  __thickness, 0, 0, 0); vertex_texcoord(_vbuff, 3, 0);
+        vertex_position_3d(_vbuff,   _x1,   _y1, 0); vertex_normal(_vbuff, _x2, _y2, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _mx23, _my23); vertex_float4(_vbuff,  __thickness, 0, 0, 0); vertex_texcoord(_vbuff, 1, 0);
+        
+        vertex_position_3d(_vbuff,   _x1,   _y1, 0); vertex_normal(_vbuff, _x2, _y2, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _mx23, _my23); vertex_float4(_vbuff, -__thickness, 0, 0, 0); vertex_texcoord(_vbuff, 1, 0);
+        vertex_position_3d(_vbuff, _mx23, _my23, 0); vertex_normal(_vbuff, _x2, _y2, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _mx23, _my23); vertex_float4(_vbuff, -__thickness, 0, 0, 0); vertex_texcoord(_vbuff, 3, 0);
+        vertex_position_3d(_vbuff, _mx23, _my23, 0); vertex_normal(_vbuff, _x2, _y2, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _mx23, _my23); vertex_float4(_vbuff,  __thickness, 0, 0, 0); vertex_texcoord(_vbuff, 3, 0);
+        
+        //Points along the line
+        var _i = 4;
+        repeat((array_length(__point_array) div 2) - 2)
         {
-            var _c1 = undefined;
-            var _a1 = undefined;
-            var _c2 = __blend_array[0];
-            var _a2 = __blend_array[1];
+            _x1 = _x2;
+            _y1 = _y2;
+            _x2 = _x3;
+            _y2 = _y3;
+            _x3 = __point_array[_i  ];
+            _y3 = __point_array[_i+1];
             
-            var _i = 2;
-            repeat((array_length(__point_array) div 2) - 1)
-            {
-                _x1 = _x2;
-                _y1 = _y2;
-                _c1 = _c2;
-                _a1 = _a2;
-                _x2 = __point_array[_i  ];
-                _y2 = __point_array[_i+1];
-                _c2 = __blend_array[_i  ];
-                _a2 = __blend_array[_i+1];
-                
-                var _dx = _x2 - _x1;
-                var _dy = _y2 - _y1;
-                var _d  = __thickness / sqrt(_dx*_dx + _dy*_dy);
-                var _nx =  _dy*_d;
-                var _ny = -_dx*_d;
-                
-                vertex_position_3d(_vbuff, _x1 + _nx, _y1 + _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, _c1, _a1); vertex_texcoord(_vbuff, 0, 0);
-                vertex_position_3d(_vbuff, _x2 + _nx, _y2 + _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, _c2, _a2); vertex_texcoord(_vbuff, 0, 0);
-                vertex_position_3d(_vbuff, _x1 - _nx, _y1 - _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, _c1, _a1); vertex_texcoord(_vbuff, 0, 0);
-                
-                vertex_position_3d(_vbuff, _x2 + _nx, _y2 + _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, _c2, _a2); vertex_texcoord(_vbuff, 0, 0);
-                vertex_position_3d(_vbuff, _x2 - _nx, _y2 - _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, _c2, _a2); vertex_texcoord(_vbuff, 0, 0);
-                vertex_position_3d(_vbuff, _x1 - _nx, _y1 - _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, _c1, _a1); vertex_texcoord(_vbuff, 0, 0);
-                
-                _i += 2;
-            }
-        }
-        else
-        {
-            var _i = 2;
-            repeat((array_length(__point_array) div 2) - 1)
-            {
-                _x1 = _x2;
-                _y1 = _y2;
-                _x2 = __point_array[_i  ];
-                _y2 = __point_array[_i+1];
-                
-                var _dx = _x2 - _x1;
-                var _dy = _y2 - _y1;
-                var _d  = __thickness / sqrt(_dx*_dx + _dy*_dy);
-                var _nx =  _dy*_d;
-                var _ny = -_dx*_d;
-                
-                vertex_position_3d(_vbuff, _x1 + _nx, _y1 + _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_texcoord(_vbuff, 0, 0);
-                vertex_position_3d(_vbuff, _x2 + _nx, _y2 + _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_texcoord(_vbuff, 0, 0);
-                vertex_position_3d(_vbuff, _x1 - _nx, _y1 - _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_texcoord(_vbuff, 0, 0);
-                
-                vertex_position_3d(_vbuff, _x2 + _nx, _y2 + _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_texcoord(_vbuff, 0, 0);
-                vertex_position_3d(_vbuff, _x2 - _nx, _y2 - _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_texcoord(_vbuff, 0, 0);
-                vertex_position_3d(_vbuff, _x1 - _nx, _y1 - _ny, 0); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour, __alpha); vertex_texcoord(_vbuff, 0, 0);
-                
-                _i += 2;
-            }
+            _mx12 = _mx23;
+            _my12 = _my23;
+            _mx23 = 0.5*(_x2 + _x3);
+            _my23 = 0.5*(_y2 + _y3);
+            
+            __write_vertex(_vbuff, _mx12, _my12, _x2, _y2, _mx23, _my23, __colour, __alpha, __thickness);
+            
+            _i += 2;
         }
         
-        return undefined;
+        _x1 = _x2;
+        _y1 = _y2;
+        _x2 = _x3;
+        _y2 = _y3;
+        
+        _mx12 = _mx23;
+        _my12 = _my23;
+        
+        //BC midpoint to C
+        _dx = _x2 - _x1;
+        _dy = _y2 - _y1;
+        _d  = __thickness / sqrt(_dx*_dx + _dy*_dy);
+        _dx *= _d;
+        _dy *= _d;
+        
+        _x3 = _x2 + _dx;
+        _y3 = _y2 + _dy;
+        
+        //AB midpoint to B
+        vertex_position_3d(_vbuff, _mx12, _my12, 0); vertex_normal(_vbuff, _mx12, _my12, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _x2, _y2); vertex_float4(_vbuff, -__thickness, 0, 0, 0); vertex_texcoord(_vbuff, 1, 0);
+        vertex_position_3d(_vbuff, _x3  , _y3  , 0); vertex_normal(_vbuff, _mx12, _my12, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _x2, _y2); vertex_float4(_vbuff,  __thickness, 0, 0, 0); vertex_texcoord(_vbuff, 3, 0);
+        vertex_position_3d(_vbuff, _mx12, _my12, 0); vertex_normal(_vbuff, _mx12, _my12, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _x2, _y2); vertex_float4(_vbuff,  __thickness, 0, 0, 0); vertex_texcoord(_vbuff, 1, 0);
+        
+        vertex_position_3d(_vbuff, _mx12, _my12, 0); vertex_normal(_vbuff, _mx12, _my12, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _x2, _y2); vertex_float4(_vbuff, -__thickness, 0, 0, 0); vertex_texcoord(_vbuff, 1, 0);
+        vertex_position_3d(_vbuff, _x3  , _y3  , 0); vertex_normal(_vbuff, _mx12, _my12, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _x2, _y2); vertex_float4(_vbuff,  __thickness, 0, 0, 0); vertex_texcoord(_vbuff, 3, 0);
+        vertex_position_3d(_vbuff, _x3  , _y3  , 0); vertex_normal(_vbuff, _mx12, _my12, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _x2, _y2); vertex_float4(_vbuff, -__thickness, 0, 0, 0); vertex_texcoord(_vbuff, 3, 0);
+    }
+    
+    __write_vertex = function(_vbuff, _x1, _y1, _x2, _y2, _x3, _y3, _colour, _alpha, _thickness)
+    {
+        //AB midpoint to B
+        vertex_position_3d(_vbuff, _x1, _y1, 0); vertex_normal(_vbuff, _x1, _y1, _x2); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _y2, _x3, _y3); vertex_float4(_vbuff, -_thickness, 0, 0, 0); vertex_texcoord(_vbuff, 1, 0);
+        vertex_position_3d(_vbuff, _x2, _y2, 0); vertex_normal(_vbuff, _x1, _y1, _x2); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _y2, _x3, _y3); vertex_float4(_vbuff,  _thickness, 0, 0, 0); vertex_texcoord(_vbuff, 2, 0);
+        vertex_position_3d(_vbuff, _x1, _y1, 0); vertex_normal(_vbuff, _x1, _y1, _x2); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _y2, _x3, _y3); vertex_float4(_vbuff,  _thickness, 0, 0, 0); vertex_texcoord(_vbuff, 1, 0);
+        
+        vertex_position_3d(_vbuff, _x1, _y1, 0); vertex_normal(_vbuff, _x1, _y1, _x2); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _y2, _x3, _y3); vertex_float4(_vbuff, -_thickness, 0, 0, 0); vertex_texcoord(_vbuff, 1, 0);
+        vertex_position_3d(_vbuff, _x2, _y2, 0); vertex_normal(_vbuff, _x1, _y1, _x2); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _y2, _x3, _y3); vertex_float4(_vbuff,  _thickness, 0, 0, 0); vertex_texcoord(_vbuff, 2, 0);
+        vertex_position_3d(_vbuff, _x2, _y2, 0); vertex_normal(_vbuff, _x1, _y1, _x2); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _y2, _x3, _y3); vertex_float4(_vbuff, -_thickness, 0, 0, 0); vertex_texcoord(_vbuff, 2, 0);
+        
+        //B to BC midpoint
+        vertex_position_3d(_vbuff, _x2, _y2, 0); vertex_normal(_vbuff, _x1, _y1, _x2); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _y2, _x3, _y3); vertex_float4(_vbuff, -_thickness, 0, 0, 0); vertex_texcoord(_vbuff, 2, 0);
+        vertex_position_3d(_vbuff, _x3, _y3, 0); vertex_normal(_vbuff, _x1, _y1, _x2); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _y2, _x3, _y3); vertex_float4(_vbuff,  _thickness, 0, 0, 0); vertex_texcoord(_vbuff, 3, 0);
+        vertex_position_3d(_vbuff, _x2, _y2, 0); vertex_normal(_vbuff, _x1, _y1, _x2); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _y2, _x3, _y3); vertex_float4(_vbuff,  _thickness, 0, 0, 0); vertex_texcoord(_vbuff, 2, 0);
+        
+        vertex_position_3d(_vbuff, _x2, _y2, 0); vertex_normal(_vbuff, _x1, _y1, _x2); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _y2, _x3, _y3); vertex_float4(_vbuff, -_thickness, 0, 0, 0); vertex_texcoord(_vbuff, 2, 0);
+        vertex_position_3d(_vbuff, _x3, _y3, 0); vertex_normal(_vbuff, _x1, _y1, _x2); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _y2, _x3, _y3); vertex_float4(_vbuff, -_thickness, 0, 0, 0); vertex_texcoord(_vbuff, 3, 0);
+        vertex_position_3d(_vbuff, _x3, _y3, 0); vertex_normal(_vbuff, _x1, _y1, _x2); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _y2, _x3, _y3); vertex_float4(_vbuff,  _thickness, 0, 0, 0); vertex_texcoord(_vbuff, 3, 0);
     }
 }

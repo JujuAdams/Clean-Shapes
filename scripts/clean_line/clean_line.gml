@@ -13,17 +13,15 @@ function clean_line(_x1, _y1, _x2, _y2)
 function __clean_class_line(_x1, _y1, _x2, _y2) constructor
 {
     __shader = shd_clean_polyline;
-    __format = global.__clean_vertex_format_polyline;
+    __format = global.__clean_vertex_format;
     
     __x1 = _x1;
     __y1 = _y1;
     __x2 = _x2;
     __y2 = _y2;
     
-    __colour1 = CLEAN_DEFAULT_LINE_COLOUR;
-    __alpha1  = CLEAN_DEFAULT_LINE_ALPHA;
-    __colour2 = CLEAN_DEFAULT_LINE_COLOUR;
-    __alpha2  = CLEAN_DEFAULT_LINE_ALPHA;
+    __colour = CLEAN_DEFAULT_LINE_COLOUR;
+    __alpha  = CLEAN_DEFAULT_LINE_ALPHA;
     
     __thickness = CLEAN_DEFAULT_LINE_THICKNESS;
     
@@ -34,24 +32,8 @@ function __clean_class_line(_x1, _y1, _x2, _y2) constructor
     /// @param alpha
     blend = function(_colour, _alpha)
     {
-        __colour1 = _colour;
-        __alpha1  = _alpha;
-        __colour2 = _colour;
-        __alpha2  = _alpha;
-        
-        return self;
-    }
-    
-    /// @param color1
-    /// @param alpha1
-    /// @param color2
-    /// @param alpha2
-    blend2 = function(_colour1, _alpha1, _colour2, _alpha2)
-    {
-        __colour1 = _colour1;
-        __alpha1  = _alpha1;
-        __colour2 = _colour2;
-        __alpha2  = _alpha2;
+        __colour = _colour;
+        __alpha  = _alpha;
         
         return self;
     }
@@ -82,63 +64,60 @@ function __clean_class_line(_x1, _y1, _x2, _y2) constructor
     /// @param vertexBuffer
     build = function(_vbuff)
     {
-        var _dx  = __x2 - __x1;
-        var _dy  = __y2 - __y1;
-        var _d   = __thickness / sqrt(_dx*_dx + _dy*_dy);
-            _dx *= _d;
-            _dy *= _d;
-        var _nx  =  _dy;
-        var _ny  = -_dx;
+        var _x1 = undefined;
+        var _y1 = undefined;
+        var _x2 = __x1;
+        var _y2 = __y1;
+        var _x3 = __x2;
+        var _y3 = __y2;
         
-        var _x1 = __x1;
-        var _y1 = __y1;
-        var _x2 = __x2;
-        var _y2 = __y2;
+        var _mx12 = undefined;
+        var _my12 = undefined;
+        var _mx23 = 0.5*(_x2 + _x3);
+        var _my23 = 0.5*(_y2 + _y3);
         
-        //TODO - Optimise
-        if (__cap_start == "none")
-        {
-            _x1 += _dx;
-            _y1 += _dy;
-        }
+        ///Start cap
+        var _dx = _x3 - _x2;
+        var _dy = _y3 - _y2;
+        var _d  = __thickness / sqrt(_dx*_dx + _dy*_dy);
+        _dx *= _d;
+        _dy *= _d;
+        _x1 = _x2 - _dx;
+        _y1 = _y2 - _dy;
         
-        if (__cap_end == "none")
-        {
-            _x2 -= _dx;
-            _y2 -= _dy;
-        }
+        vertex_position_3d(_vbuff,   _x1,   _y1, 0); vertex_normal(_vbuff, _x2, _y2, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _mx23, _my23); vertex_float4(_vbuff, -__thickness, 0, 0, 0); vertex_texcoord(_vbuff, 1, 0);
+        vertex_position_3d(_vbuff, _mx23, _my23, 0); vertex_normal(_vbuff, _x2, _y2, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _mx23, _my23); vertex_float4(_vbuff,  __thickness, 0, 0, 0); vertex_texcoord(_vbuff, 3, 0);
+        vertex_position_3d(_vbuff,   _x1,   _y1, 0); vertex_normal(_vbuff, _x2, _y2, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _mx23, _my23); vertex_float4(_vbuff,  __thickness, 0, 0, 0); vertex_texcoord(_vbuff, 1, 0);
         
-        var _is_round1 = (__cap_start == "round")? 4 : 0;
-        var _is_round2 = (__cap_end   == "round")? 4 : 0;
+        vertex_position_3d(_vbuff,   _x1,   _y1, 0); vertex_normal(_vbuff, _x2, _y2, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _mx23, _my23); vertex_float4(_vbuff, -__thickness, 0, 0, 0); vertex_texcoord(_vbuff, 1, 0);
+        vertex_position_3d(_vbuff, _mx23, _my23, 0); vertex_normal(_vbuff, _x2, _y2, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _mx23, _my23); vertex_float4(_vbuff, -__thickness, 0, 0, 0); vertex_texcoord(_vbuff, 3, 0);
+        vertex_position_3d(_vbuff, _mx23, _my23, 0); vertex_normal(_vbuff, _x2, _y2, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _mx23, _my23); vertex_float4(_vbuff,  __thickness, 0, 0, 0); vertex_texcoord(_vbuff, 3, 0);
         
-        //TODO - Optimise
-        //Start Cap
-        vertex_position_3d(_vbuff, _x1 - _nx - _dx, _y1 - _ny - _dy, 1 + _is_round1); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, _x1 - _nx      , _y1 - _ny      , 3 + _is_round1); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, _x1 + _nx - _dx, _y1 + _ny - _dy, 0 + _is_round1); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
+        _x1 = _x2;
+        _y1 = _y2;
+        _x2 = _x3;
+        _y2 = _y3;
         
-        vertex_position_3d(_vbuff, _x1 - _nx      , _y1 - _ny      , 3 + _is_round1); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, _x1 + _nx - _dx, _y1 + _ny - _dy, 0 + _is_round1); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, _x1 + _nx      , _y1 + _ny      , 2 + _is_round1); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
+        _mx12 = _mx23;
+        _my12 = _my23;
         
-        //Body
-        vertex_position_3d(_vbuff, _x1 + _nx      , _y1 + _ny      , 2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, _x2 + _nx      , _y2 + _ny      , 2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, _x1 - _nx      , _y1 - _ny      , 3); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
+        //BC midpoint to C
+        _dx = _x2 - _x1;
+        _dy = _y2 - _y1;
+        _d  = __thickness / sqrt(_dx*_dx + _dy*_dy);
+        _dx *= _d;
+        _dy *= _d;
         
-        vertex_position_3d(_vbuff, _x2 + _nx      , _y2 + _ny      , 2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, _x2 - _nx      , _y2 - _ny      , 3); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, _x1 - _nx      , _y1 - _ny      , 3); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour1, __alpha1); vertex_texcoord(_vbuff, 0, 0);
+        _x3 = _x2 + _dx;
+        _y3 = _y2 + _dy;
         
-        //End Cap
-        vertex_position_3d(_vbuff, _x2 - _nx + _dx, _y2 - _ny + _dy, 1 + _is_round2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, _x2 - _nx      , _y2 - _ny      , 3 + _is_round2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, _x2 + _nx + _dx, _y2 + _ny + _dy, 0 + _is_round2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
+        //AB midpoint to B
+        vertex_position_3d(_vbuff, _mx12, _my12, 0); vertex_normal(_vbuff, _mx12, _my12, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _x2, _y2); vertex_float4(_vbuff, -__thickness, 0, 0, 0); vertex_texcoord(_vbuff, 1, 0);
+        vertex_position_3d(_vbuff, _x3  , _y3  , 0); vertex_normal(_vbuff, _mx12, _my12, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _x2, _y2); vertex_float4(_vbuff,  __thickness, 0, 0, 0); vertex_texcoord(_vbuff, 3, 0);
+        vertex_position_3d(_vbuff, _mx12, _my12, 0); vertex_normal(_vbuff, _mx12, _my12, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _x2, _y2); vertex_float4(_vbuff,  __thickness, 0, 0, 0); vertex_texcoord(_vbuff, 1, 0);
         
-        vertex_position_3d(_vbuff, _x2 - _nx      , _y2 - _ny      , 3 + _is_round2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, _x2 + _nx + _dx, _y2 + _ny + _dy, 0 + _is_round2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
-        vertex_position_3d(_vbuff, _x2 + _nx      , _y2 + _ny      , 2 + _is_round2); vertex_normal(_vbuff, 0, 0, 0); vertex_colour(_vbuff, __colour2, __alpha2); vertex_texcoord(_vbuff, 0, 0);
-        
-        return undefined;
+        vertex_position_3d(_vbuff, _mx12, _my12, 0); vertex_normal(_vbuff, _mx12, _my12, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _x2, _y2); vertex_float4(_vbuff, -__thickness, 0, 0, 0); vertex_texcoord(_vbuff, 1, 0);
+        vertex_position_3d(_vbuff, _x3  , _y3  , 0); vertex_normal(_vbuff, _mx12, _my12, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _x2, _y2); vertex_float4(_vbuff,  __thickness, 0, 0, 0); vertex_texcoord(_vbuff, 3, 0);
+        vertex_position_3d(_vbuff, _x3  , _y3  , 0); vertex_normal(_vbuff, _mx12, _my12, _x2); vertex_colour(_vbuff, __colour, __alpha); vertex_float3(_vbuff, _y2, _x2, _y2); vertex_float4(_vbuff, -__thickness, 0, 0, 0); vertex_texcoord(_vbuff, 3, 0);
     }
 }
