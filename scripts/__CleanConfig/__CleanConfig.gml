@@ -16,7 +16,7 @@
 #macro CLEAN_DEFAULT_CIRCLE_COLOUR               draw_get_colour()
 #macro CLEAN_DEFAULT_CIRCLE_ALPHA                draw_get_alpha()
 #macro CLEAN_DEFAULT_CIRCLE_RING_THICKNESS       999999
-#macro CLEAN_DEFAULT_CIRCLE_BORDER_THICKNESS     10
+#macro CLEAN_DEFAULT_CIRCLE_BORDER_THICKNESS     0
 #macro CLEAN_DEFAULT_CIRCLE_BORDER_COLOUR        c_white
 #macro CLEAN_DEFAULT_CIRCLE_BORDER_ALPHA         draw_get_alpha()
 

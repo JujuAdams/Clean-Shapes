@@ -44,6 +44,6 @@ void main()
     dist        = CircleDistance(   v_vPosition, v_vCircleXYR);
     derivatives = CircleDerivatives(v_vPosition, v_vCircleXYR);
     
-    gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, derivatives, v_fBorderThickness));
+    gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-(v_fBorderThickness + dist), -(v_fBorderThickness + derivatives), 0.0));
     gl_FragColor.a *= 1.0 - Feather(dist, derivatives, 0.0);
 }

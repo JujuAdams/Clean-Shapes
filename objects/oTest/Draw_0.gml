@@ -42,8 +42,8 @@ CleanBatchStart();
 //.Draw();
 
 CleanCircle(mouse_x, mouse_y, 60)
-.Blend(c_yellow, 1.0)
-.Border(5, c_red, 1.0)
+.Blend(0xCBC0FF, 1.0)
+.Border(4, c_white, 1.0)
 .Draw();
 
 CleanBatchEnd();
