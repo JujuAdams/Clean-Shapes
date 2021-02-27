@@ -12,6 +12,12 @@ function CleanBatchEnd()
     var _format = undefined;
     var _vbuff  = undefined;
     
+    //Find the inverse scale of our output surface
+    //These values are passed in our shader and are used for resolution independent rendering
+    var _invScale = TargetCurrentProjectionScale();
+    _invScale[@ 0] = 1/_invScale[0];
+    _invScale[@ 1] = 1/_invScale[1];
+    
     var _i = 0;
     repeat(array_length(_batchArray))
     {
@@ -27,6 +33,7 @@ function CleanBatchEnd()
             if (_shader == undefined) shader_reset() else shader_set(_shader);
             vertex_end(_vbuff);
             shader_set_uniform_f(global.__clean_u_fSmoothness, global.__cleanSmoothness);
+            shader_set_uniform_f(global.__clean_u_vInvOutputScale, _invScale[0], _invScale[1]);
             vertex_submit(_vbuff, pr_trianglelist, -1);
             vertex_delete_buffer(_vbuff);
             _vbuff = undefined;
@@ -53,6 +60,7 @@ function CleanBatchEnd()
         if (_shader == undefined) shader_reset() else shader_set(_shader);
         vertex_end(_vbuff);
         shader_set_uniform_f(global.__clean_u_fSmoothness, global.__cleanSmoothness);
+        shader_set_uniform_f(global.__clean_u_vInvOutputScale, _invScale[0], _invScale[1]);
         vertex_submit(_vbuff, pr_trianglelist, -1);
         vertex_delete_buffer(_vbuff);
         _vbuff = undefined;

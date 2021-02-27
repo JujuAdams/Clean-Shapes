@@ -1,17 +1,10 @@
-var _scale = TargetCurrentProjectionScale();
-
-shader_set(shdCleanCircle);
-shader_set_uniform_f(shader_get_uniform(shdCleanCircle, "u_fSmoothness"), CleanGetSmoothness());
-shader_set_uniform_f(shader_get_uniform(shdCleanCircle, "u_vInvOutputScale"), 1/_scale[0], 1/_scale[1]);
-draw_rectangle(0, 0, room_width, room_height, false);
-shader_reset();
-
-
-
-
-
-
-CleanSetSmoothness(1.5);
+//var _scale = TargetCurrentProjectionScale();
+//
+//shader_set(shdCleanCircle);
+//shader_set_uniform_f(shader_get_uniform(shdCleanCircle, "u_fSmoothness"), CleanGetSmoothness());
+//shader_set_uniform_f(shader_get_uniform(shdCleanCircle, "u_vInvOutputScale"), 1/_scale[0], 1/_scale[1]);
+//draw_rectangle(0, 0, room_width, room_height, false);
+//shader_reset();
 
 CleanBatchStart();
 
@@ -48,11 +41,9 @@ CleanBatchStart();
 //.Rounding(10)
 //.Draw();
 
-//CleanCircle(1000, 550, 150)
-//.Blend(c_white, 1.0)
-//.Border(5, c_black, 1.0)
-//.Ring(100)
-//.Segment(45, 135)
-//.Draw();
+CleanCircle(360, 180, 60)
+.Blend(c_yellow, 1.0)
+.Border(5, c_red, 1.0)
+.Draw();
 
 CleanBatchEnd();

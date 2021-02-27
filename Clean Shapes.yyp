@@ -13,6 +13,7 @@
     {"id":{"name":"CleanRectangle","path":"scripts/CleanRectangle/CleanRectangle.yy",},"order":3,},
     {"id":{"name":"CleanGetSmoothness","path":"scripts/CleanGetSmoothness/CleanGetSmoothness.yy",},"order":10,},
     {"id":{"name":"oTest","path":"objects/oTest/oTest.yy",},"order":1,},
+    {"id":{"name":"shdCleanCircle__OLD","path":"shaders/shdCleanCircle__OLD/shdCleanCircle__OLD.yy",},"order":6,},
     {"id":{"name":"CleanConvex","path":"scripts/CleanConvex/CleanConvex.yy",},"order":6,},
     {"id":{"name":"CleanBatchStart","path":"scripts/CleanBatchStart/CleanBatchStart.yy",},"order":7,},
     {"id":{"name":"shdClean","path":"shaders/shdClean/shdClean.yy",},"order":2,},

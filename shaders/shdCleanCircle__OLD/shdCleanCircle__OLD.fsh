@@ -1,17 +1,6 @@
-//Shared
-varying vec2  v_vPosition;
-varying float v_fMode;
-varying vec4  v_vFillColour;
-varying float v_fBorderThickness;
-varying vec4  v_vBorderColour;
-varying float v_fRounding;
-
-//Circle
+varying vec2 v_vPosition;
+varying vec4 v_vColour;
 varying vec3 v_vCircleData;
-
-//Convex
-varying vec3 v_vLine1;
-varying vec3 v_vLine2;
 
 uniform float u_fSmoothness;
 uniform vec2  u_vInvOutputScale;
@@ -44,6 +33,6 @@ void main()
     dist        = CircleDistance(   v_vPosition, v_vCircleData);
     derivatives = CircleDerivatives(v_vPosition, v_vCircleData);
     
-    gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, derivatives, v_fBorderThickness));
+    gl_FragColor = v_vColour;
     gl_FragColor.a *= 1.0 - Feather(dist, derivatives, 0.0);
 }

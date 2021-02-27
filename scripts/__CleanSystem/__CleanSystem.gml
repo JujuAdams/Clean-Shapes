@@ -6,7 +6,8 @@ __CleanTrace("Welcome to Clean Shapes by @jujuadams! This is version ", __CLEAN_
 global.__cleanBatch = undefined;
 global.__cleanSmoothness = CLEAN_DEFAULT_SMOOTHNESS;
 
-global.__clean_u_fSmoothness = shader_get_uniform(shdClean, "u_fSmoothness");
+global.__clean_u_fSmoothness     = shader_get_uniform(shdCleanCircle, "u_fSmoothness");
+global.__clean_u_vInvOutputScale = shader_get_uniform(shdCleanCircle, "u_vInvOutputScale");
 
 vertex_format_begin();
 vertex_format_add_position_3d();
@@ -61,12 +62,19 @@ function __CleanDraw()
 {
     if (!is_array(global.__cleanBatch)) //Ignore draw calls if we're in a batch
     {
+        //Find the inverse scale of our output surface
+        //These values are passed in our shader and are used for resolution independent rendering
+        var _invScale = TargetCurrentProjectionScale();
+        _invScale[@ 0] = 1/_invScale[0];
+        _invScale[@ 1] = 1/_invScale[1];
+        
         var _vbuff = vertex_create_buffer();
         vertex_begin(_vbuff, __format);
         Build(_vbuff);
         vertex_end(_vbuff);
         shader_set(__shader);
         shader_set_uniform_f(global.__clean_u_fSmoothness, global.__cleanSmoothness);
+        shader_set_uniform_f(global.__clean_u_vInvOutputScale, _invScale[0], _invScale[1]);
         vertex_submit(_vbuff, pr_trianglelist, -1);
         shader_reset();
         vertex_delete_buffer(_vbuff);

@@ -11,7 +11,7 @@ function CleanCircle(_x, _y, _radius)
 
 function __CleanClassCircle(_x, _y, _radius) constructor
 {
-    __shader = shdClean;
+    __shader = shdCleanCircle;
     __format = global.__cleanVertexFormat;
     
     __x      = _x;
@@ -95,13 +95,13 @@ function __CleanClassCircle(_x, _y, _radius) constructor
         var _ring_thickness   = __ringThickness   / _r;
         var _border_thickness = __borderThickness / _r;
         
-        vertex_position_3d(_vbuff, _x-_r, _y-_r, 1); vertex_normal(_vbuff, _segmentCentre, _segmentSize, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, _border_thickness);
-        vertex_position_3d(_vbuff, _x+_r, _y-_r, 3); vertex_normal(_vbuff, _segmentCentre, _segmentSize, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, _border_thickness);
-        vertex_position_3d(_vbuff, _x-_r, _y+_r, 5); vertex_normal(_vbuff, _segmentCentre, _segmentSize, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, _border_thickness);
+        vertex_position_3d(_vbuff, _x-_r, _y-_r, 1); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, _border_thickness);
+        vertex_position_3d(_vbuff, _x+_r, _y-_r, 1); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, _border_thickness);
+        vertex_position_3d(_vbuff, _x-_r, _y+_r, 1); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, _border_thickness);
         
-        vertex_position_3d(_vbuff, _x+_r, _y-_r, 3); vertex_normal(_vbuff, _segmentCentre, _segmentSize, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, _border_thickness);
-        vertex_position_3d(_vbuff, _x-_r, _y+_r, 5); vertex_normal(_vbuff, _segmentCentre, _segmentSize, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, _border_thickness);
-        vertex_position_3d(_vbuff, _x+_r, _y+_r, 7); vertex_normal(_vbuff, _segmentCentre, _segmentSize, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, _border_thickness);
+        vertex_position_3d(_vbuff, _x+_r, _y-_r, 1); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, _border_thickness);
+        vertex_position_3d(_vbuff, _x-_r, _y+_r, 1); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, _border_thickness);
+        vertex_position_3d(_vbuff, _x+_r, _y+_r, 1); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ring_thickness, 0, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, 0, _border_thickness);
         
         return undefined;
     }
