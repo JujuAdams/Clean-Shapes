@@ -6,8 +6,8 @@ __CleanTrace("Welcome to Clean Shapes by @jujuadams! This is version ", __CLEAN_
 global.__cleanBatch = undefined;
 global.__cleanSmoothness = CLEAN_DEFAULT_SMOOTHNESS;
 
-global.__clean_u_fSmoothness     = shader_get_uniform(shdCleanCircle, "u_fSmoothness");
-global.__clean_u_vInvOutputScale = shader_get_uniform(shdCleanCircle, "u_vInvOutputScale");
+global.__clean_u_fSmoothness     = shader_get_uniform(shdClean, "u_fSmoothness");
+global.__clean_u_vInvOutputScale = shader_get_uniform(shdClean, "u_vInvOutputScale");
 
 vertex_format_begin();
 vertex_format_add_position_3d();
@@ -18,7 +18,7 @@ global.__cleanVertexFormatPolyline = vertex_format_end();
 
 vertex_format_begin();                                            //LINE:                CIRCLE:                     CONVEX:
 vertex_format_add_position_3d();                                  //XY, type             XY, type                    XY, type
-vertex_format_add_normal();                                       //x1, y1, x2           Unused                      First boundary
+vertex_format_add_normal();                                       //x1, y1, x2           Circle X, Y, radius         First boundary
 vertex_format_add_colour();                                       //Colour               Fill colour                 Fill colour
 vertex_format_add_custom(vertex_type_float3, vertex_usage_color); //y2, x3, y3           Ring thickness, unused      Second boundary
 vertex_format_add_custom(vertex_type_float4, vertex_usage_color); //Thickness, unused    Border colour               Border colour

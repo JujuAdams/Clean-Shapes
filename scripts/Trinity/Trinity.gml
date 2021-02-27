@@ -44,8 +44,7 @@ function TargetCurrentProjectionScale()
 
 function TargetProjectionScale(_surfaceWidth, _surfaceHeight, _projectionMatrix)
 {
-    var _projMatrix  = matrix_get(matrix_projection);
-    var _result = matrix_transform_vertex(_projMatrix, 0.5*_surfaceWidth, -0.5*_surfaceHeight, 0);
+    var _result = matrix_transform_vertex(_projectionMatrix, 0.5*_surfaceWidth, -0.5*_surfaceHeight, 0);
     _result[1] = abs(_result[1]); //Stupid GM
     return _result;
 }

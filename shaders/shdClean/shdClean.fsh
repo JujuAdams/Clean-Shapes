@@ -1,9 +1,5 @@
-precision highp float;
-
-//GM doesn't usually enable standard derivative functions, but we can force it on
-#extension GL_OES_standard_derivatives : require
-
 //Shared
+varying vec2  v_vPosition;
 varying float v_fMode;
 varying vec4  v_vFillColour;
 varying float v_fBorderThickness;
@@ -11,58 +7,43 @@ varying vec4  v_vBorderColour;
 varying float v_fRounding;
 
 //Circle
-varying float v_fRingThickness;
-varying vec2  v_vSegment;
-varying vec2  v_vCornerID;
+varying vec3 v_vCircleXYR;
 
 //Convex
-varying vec2  v_vPosition;
-varying vec3  v_vLine1;
-varying vec3  v_vLine2;
+varying vec3 v_vLine1;
+varying vec3 v_vLine2;
 
 uniform float u_fSmoothness;
+uniform vec2  u_vInvOutputScale;
 
-float distanceCircle(vec2 cornerIDs, float thickness, vec2 segment, float rounding)
+float CircleDistance(vec2 pos, vec3 circleXYR)
 {
-    vec2 pos = 2.0*cornerIDs - 1.0;
-    float len = length(pos);
-    
-    vec2 segmentDir = vec2(cos(segment.x), -sin(segment.x));
-    float segmentAngle = acos(dot(pos/len, segmentDir)) - segment.y;
-    
-    vec3 delta = vec3(len*segmentAngle + rounding, len - 1.0 + rounding, -len - (thickness - 1.0) + rounding);
-    return min(max(delta.x, max(delta.y, delta.z)), 0.0) + length(max(delta, 0.0)) - rounding;
+    return length(pos - circleXYR.xy) - circleXYR.z;
 }
 
-float distanceBoundingLines(vec2 position, vec3 line1, vec3 line2, float rounding)
+vec2 CircleDerivatives(vec2 pos, vec3 circleXYR)
 {
-    vec2 delta = vec2(line1.z - dot(line1.xy, position),
-                      line2.z - dot(line2.xy, position)) + rounding;
-    return min(max(delta.x, delta.y), 0.0) + length(max(delta, 0.0)) - rounding;
+    //Emulates dFdx/dFdy
+    return vec2(CircleDistance(pos + vec2(u_vInvOutputScale.x, 0.0), circleXYR),
+                CircleDistance(pos + vec2(0.0, u_vInvOutputScale.y), circleXYR));
 }
 
-float feather(float dist, float threshold)
+float Feather(float dist, vec2 derivatives, float threshold)
 {
-    return smoothstep(threshold - u_fSmoothness*fwidth(dist), threshold, dist);
+    //Emulates fwidth
+    float fw = abs(dist - derivatives.x) + abs(dist - derivatives.y);
+    
+    return smoothstep(threshold - u_fSmoothness*fw, threshold, dist);
 }
 
 void main()
 {
     float dist = 0.0;
+    vec2  derivatives = vec2(0.0);
     
-    if (v_fMode == 1.0)
-    {
-        //Circle
-        dist = distanceCircle(v_vCornerID, v_fRingThickness, v_vSegment, v_fRounding);
-    }
-    else
-    {
-        //Convex polygons
-        dist = distanceBoundingLines(v_vPosition, v_vLine1, v_vLine2, v_fRounding);
-    }
+    dist        = CircleDistance(   v_vPosition, v_vCircleXYR);
+    derivatives = CircleDerivatives(v_vPosition, v_vCircleXYR);
     
-    gl_FragColor = vec4(dist, -dist, 0.0, 1.0);
-    
-    gl_FragColor = mix(v_vBorderColour, v_vFillColour, feather(-dist, v_fBorderThickness));
-    gl_FragColor.a *= 1.0 - feather(dist, 0.0);
+    gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, derivatives, v_fBorderThickness));
+    gl_FragColor.a *= 1.0 - Feather(dist, derivatives, 0.0);
 }

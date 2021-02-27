@@ -41,7 +41,7 @@ CleanBatchStart();
 //.Rounding(10)
 //.Draw();
 
-CleanCircle(360, 180, 60)
+CleanCircle(mouse_x, mouse_y, 60)
 .Blend(c_yellow, 1.0)
 .Border(5, c_red, 1.0)
 .Draw();

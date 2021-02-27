@@ -5,7 +5,7 @@
     "path": "folders/Clean Shapes/(System).yy",
   },
   "resourceVersion": "1.0",
-  "name": "shdCleanCircle",
+  "name": "shdClean__OLD",
   "tags": [],
   "resourceType": "GMShader",
 }
