@@ -13,7 +13,42 @@ function MatrixTransformVertex(_matrix, _x_in, _y_in, _z_in, _w_in)
     return [_x, _y, _z, _w];
 }
 
+function Vec2Add(_a, _b)
+{
+    return [_a[0] + _b[0], _a[1] + _b[1]];
+}
+
+function Vec2Sub(_a, _b)
+{
+    return [_a[0] - _b[0], _a[1] - _b[1]];
+}
+
 #macro VECTOR_PROJ_MATRIX_NEGATIVE_Y  ((os_type == os_windows) || (os_type == os_xboxone))
+
+function TargetCurrentWidth()
+{
+    var _surface = surface_get_target();
+    return (_surface < 0)? window_get_width() : surface_get_width(_surface);
+}
+
+function TargetCurrentHeight()
+{
+    var _surface = surface_get_target();
+    return (_surface < 0)? window_get_height() : surface_get_height(_surface);
+}
+
+function TargetCurrentProjectionScale()
+{
+    return TargetProjectionScale(TargetCurrentWidth(), TargetCurrentHeight(), matrix_get(matrix_projection));
+}
+
+function TargetProjectionScale(_surfaceWidth, _surfaceHeight, _projectionMatrix)
+{
+    var _projMatrix  = matrix_get(matrix_projection);
+    var _result = matrix_transform_vertex(_projMatrix, 0.5*_surfaceWidth, -0.5*_surfaceHeight, 0);
+    _result[1] = abs(_result[1]); //Stupid GM
+    return _result;
+}
 
 /// @param vector
 /// @param [surfaceWidth]
@@ -24,12 +59,11 @@ function Vec2ToScreen()
     var _vector        = argument[0];
     var _surfaceWidth  = (argument_count > 1)? argument[1] : undefined;
     var _surfaceHeight = (argument_count > 2)? argument[2] : undefined;
-    var _negativeY     = ((argument_count > 3) && (argument[3] != undefined))? argument[3] : VECTOR_PROJ_MATRIX_NEGATIVE_Y;
+    var _negativeY     = ((argument_count > 3) && (argument[3] != undefined))? argument[0] : VECTOR_PROJ_MATRIX_NEGATIVE_Y;
     
-    if (_surfaceWidth  == undefined) _surfaceWidth  = surface_get_width( surface_get_target());
-    if (_surfaceHeight == undefined) _surfaceHeight = surface_get_height(surface_get_target());
-    
-    if (_negativeY) _surfaceHeight *= -1;
+    if (_surfaceWidth  == undefined) _surfaceWidth  = TargetCurrentWidth();
+    if (_surfaceHeight == undefined) _surfaceHeight = TargetCurrentHeight();
+    if (_negativeY) _surfaceHeight *= -1.0;
     
     return [0.5*_surfaceWidth *_vector[0],
             0.5*_surfaceHeight*_vector[1]];
@@ -44,12 +78,11 @@ function Vec3ToScreen()
     var _vector        = argument[0];
     var _surfaceWidth  = (argument_count > 1)? argument[1] : undefined;
     var _surfaceHeight = (argument_count > 2)? argument[2] : undefined;
-    var _negativeY     = ((argument_count > 3) && (argument[3] != undefined))? argument[3] : VECTOR_PROJ_MATRIX_NEGATIVE_Y;
+    var _negativeY     = ((argument_count > 3) && (argument[3] != undefined))? argument[0] : VECTOR_PROJ_MATRIX_NEGATIVE_Y;
     
-    if (_surfaceWidth  == undefined) _surfaceWidth  = surface_get_width( surface_get_target());
-    if (_surfaceHeight == undefined) _surfaceHeight = surface_get_height(surface_get_target());
-    
-    if (_negativeY) _surfaceHeight *= -1;
+    if (_surfaceWidth  == undefined) _surfaceWidth  = TargetCurrentWidth();
+    if (_surfaceHeight == undefined) _surfaceHeight = TargetCurrentHeight();
+    if (_negativeY) _surfaceHeight *= -1.0;
     
     return [0.5*_surfaceWidth *_vector[0],
             0.5*_surfaceHeight*_vector[1]];
@@ -64,18 +97,17 @@ function Vec4ToScreen()
     var _vector        = argument[0];
     var _surfaceWidth  = (argument_count > 1)? argument[1] : undefined;
     var _surfaceHeight = (argument_count > 2)? argument[2] : undefined;
-    var _negativeY     = ((argument_count > 3) && (argument[3] != undefined))? argument[3] : VECTOR_PROJ_MATRIX_NEGATIVE_Y;
+    var _negativeY     = ((argument_count > 3) && (argument[3] != undefined))? argument[0] : VECTOR_PROJ_MATRIX_NEGATIVE_Y;
     
-    if (_surfaceWidth  == undefined) _surfaceWidth  = surface_get_width( surface_get_target());
-    if (_surfaceHeight == undefined) _surfaceHeight = surface_get_height(surface_get_target());
-    
-    if (_negativeY) _surfaceHeight *= -1;
+    if (_surfaceWidth  == undefined) _surfaceWidth  = TargetCurrentWidth();
+    if (_surfaceHeight == undefined) _surfaceHeight = TargetCurrentHeight();
+    if (_negativeY) _surfaceHeight *= -1.0;
     
     return [0.5*_surfaceWidth *_vector[0]/_vector[3],
             0.5*_surfaceHeight*_vector[1]/_vector[3]];
 }
 
-#macro MATRIX_STRING_FORMAT_TOTAL  3
+#macro MATRIX_STRING_FORMAT_TOTAL  4
 #macro MATRIX_STRING_FORMAT_DEC    7
 
 function MatrixToString(_matrix)
