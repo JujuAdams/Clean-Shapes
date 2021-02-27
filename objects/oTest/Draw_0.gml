@@ -1,3 +1,27 @@
+var _worldMatrix = matrix_get(matrix_world);
+var _viewMatrix  = matrix_get(matrix_view);
+var _projMatrix  = matrix_get(matrix_projection);
+
+var _matrix = matrix_multiply(matrix_multiply(_worldMatrix, _viewMatrix), _projMatrix);
+
+var _a = MatrixTransformVertex(_matrix, 0, 0, 0, 1);
+var _b = MatrixTransformVertex(_matrix, mouse_x, mouse_y, 0, 1);
+var _c = [_b[0] - _a[0], _b[1] - _a[1]];
+
+draw_text(10, 10, Vec4ToString(_a));
+draw_text(10, 30, Vec4ToString(_b));
+draw_text(10, 50, Vec2ToString(Vec2ToScreen(_c)));
+draw_text(10, 70, Vec2ToString([mouse_x, mouse_y]));
+
+
+
+
+
+
+
+
+
+
 CleanSetSmoothness(1.5);
 
 CleanBatchStart();

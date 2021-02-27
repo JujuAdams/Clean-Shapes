@@ -1,3 +1,5 @@
+#macro CLEAN_DEFAULT_SMOOTHNESS                  1.0
+
 #macro CLEAN_DEFAULT_LINE_COLOUR                 draw_get_colour()
 #macro CLEAN_DEFAULT_LINE_ALPHA                  draw_get_alpha()
 #macro CLEAN_DEFAULT_LINE_START_CAP              "round"

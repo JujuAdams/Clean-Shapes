@@ -4,7 +4,7 @@
 __CleanTrace("Welcome to Clean Shapes by @jujuadams! This is version ", __CLEAN_VERSION, ", ", __CLEAN_DATE);
 
 global.__cleanBatch = undefined;
-global.__cleanSmoothness = 1.5;
+global.__cleanSmoothness = CLEAN_DEFAULT_SMOOTHNESS;
 
 global.__clean_u_fSmoothness = shader_get_uniform(shdClean, "u_fSmoothness");
 
