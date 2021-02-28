@@ -37,19 +37,19 @@ CleanBatchStart();
 
 //CleanCapsule(x1, y1, x2, y2, true)
 //.Blend(0xCBC0FF, 1.0)
-//.Border(10, c_black, 1.0)
+//.Border(10, c_white, 1.0)
 //.Draw();
 
-CleanCapsuleVertical(x1, y1, x2, y2, false)
-.Blend(0xCBC0FF, 1.0)
-.Border(10, c_black, 1.0)
-.Draw();
-
-//CleanRectangle(x1, y1, x2, y2)
+//CleanCapsuleVertical(x1, y1, x2, y2, false)
 //.Blend(0xCBC0FF, 1.0)
 //.Border(10, c_black, 1.0)
-//.Rounding(10)
 //.Draw();
+
+CleanRectangle(x1, y1, x2, y2)
+.Blend(0xCBC0FF, 1.0)
+.Border(10, c_white, 1.0)
+.Rounding(30)
+.Draw();
 
 //CleanCircle(mouse_x, mouse_y, 60)
 //.Blend(0xCBC0FF, 1.0)

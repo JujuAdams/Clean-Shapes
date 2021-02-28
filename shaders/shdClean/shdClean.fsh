@@ -68,6 +68,6 @@ void main()
         derivatives = RectangleDerivatives(v_vPosition, v_vRectangleXY, 0.5*v_vRectangleWH, v_fRounding);
     }
     
-    gl_FragColor = v_vFillColour; //mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
+    gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
     gl_FragColor.a *= 1.0 - Feather(dist, derivatives, 0.0);
 }
