@@ -16,13 +16,13 @@ vertex_format_add_colour();
 vertex_format_add_texcoord();
 global.__cleanVertexFormatPolyline = vertex_format_end();
 
-vertex_format_begin();                                            //LINE:                CIRCLE:                     CONVEX:
-vertex_format_add_position_3d();                                  //XY, type             XY, type                    XY, type
-vertex_format_add_normal();                                       //x1, y1, x2           Circle X, Y, radius         First boundary
-vertex_format_add_colour();                                       //Colour               Fill colour                 Fill colour
-vertex_format_add_custom(vertex_type_float3, vertex_usage_color); //y2, x3, y3           Ring thickness, unused      Second boundary
-vertex_format_add_custom(vertex_type_float4, vertex_usage_color); //Thickness, unused    Border colour               Border colour
-vertex_format_add_texcoord();                                     //Cap, join            Unused, Border thickness    Rounding, border thickness
+vertex_format_begin();                                             //LINE:                CIRCLE:                       RECTANGLE:                    CONVEX:
+vertex_format_add_position_3d();                                   //XY, type             XY, type                      XY, type                      XY, type
+vertex_format_add_normal();                                        //x1, y1, x2           Circle XY, radius             Rect XY, unused               First boundary
+vertex_format_add_colour();                                        //Colour               Fill colour                   Fill colour                   Fill colour
+vertex_format_add_custom(vertex_type_float3, vertex_usage_color);  //y2, x3, y3           Ring thickness, unused        Rect WH, unused               Second boundary
+vertex_format_add_custom(vertex_type_float4, vertex_usage_color);  //Thickness, unused    Border colour                 Border colour                 Border colour
+vertex_format_add_texcoord();                                      //Cap, join            Rounding, border thickness    Rounding, border thickness    Rounding, border thickness
 global.__cleanVertexFormat = vertex_format_end();
 
 /// @param [value...]

@@ -35,15 +35,25 @@ CleanBatchStart();
 //.Rounding(10)
 //.Draw();
 
-//CleanRectangle(650, 400,   850, 700)
-//.Blend4(c_yellow, 1.0, c_aqua, 1.0, c_fuchsia, 1.0, c_white, 1.0)
+//CleanCapsule(x1, y1, x2, y2, true)
+//.Blend(0xCBC0FF, 1.0)
+//.Border(10, c_black, 1.0)
+//.Draw();
+
+CleanCapsuleVertical(x1, y1, x2, y2, false)
+.Blend(0xCBC0FF, 1.0)
+.Border(10, c_black, 1.0)
+.Draw();
+
+//CleanRectangle(x1, y1, x2, y2)
+//.Blend(0xCBC0FF, 1.0)
 //.Border(10, c_black, 1.0)
 //.Rounding(10)
 //.Draw();
 
-CleanCircle(mouse_x, mouse_y, 60)
-.Blend(0xCBC0FF, 1.0)
-.Border(4, c_white, 1.0)
-.Draw();
+//CleanCircle(mouse_x, mouse_y, 60)
+//.Blend(0xCBC0FF, 1.0)
+//.Border(10, c_white, 1.0)
+//.Draw();
 
 CleanBatchEnd();
