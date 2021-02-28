@@ -48,12 +48,17 @@ CleanBatchStart();
 CleanRectangle(x1, y1, x2, y2)
 .Blend(0xCBC0FF, 1.0)
 .Border(10, c_white, 1.0)
-.Rounding(30)
+.Rounding(40)
 .Draw();
 
-//CleanCircle(mouse_x, mouse_y, 60)
-//.Blend(0xCBC0FF, 1.0)
-//.Border(10, c_white, 1.0)
-//.Draw();
+CleanCircle(x3, y3, 80)
+.Blend(0xCBC0FF, 1.0)
+.Border(10, c_white, 1.0)
+.Draw();
+
+CleanCircle(x4, y4, 60)
+.Blend(0xCBC0FF, 1.0)
+.Border(10, c_white, 1.0)
+.Draw();
 
 CleanBatchEnd();

@@ -57,17 +57,24 @@ void main()
     float dist = 0.0;
     vec2  derivatives = vec2(0.0);
     
-    if (v_fMode == 1.0)
+    if (v_fMode <= 0.0)
     {
-        dist        = CircleDistance(   v_vPosition, v_vCircleXYR);
-        derivatives = CircleDerivatives(v_vPosition, v_vCircleXYR);
+        gl_FragColor = v_vFillColour;
     }
-    else if (v_fMode == 2.0)
+    else
     {
-        dist        = RectangleDistance(   v_vPosition, v_vRectangleXY, 0.5*v_vRectangleWH, v_fRounding);
-        derivatives = RectangleDerivatives(v_vPosition, v_vRectangleXY, 0.5*v_vRectangleWH, v_fRounding);
+        if (v_fMode == 1.0)
+        {
+            dist        = CircleDistance(   v_vPosition, v_vCircleXYR);
+            derivatives = CircleDerivatives(v_vPosition, v_vCircleXYR);
+        }
+        else if (v_fMode == 2.0)
+        {
+            dist        = RectangleDistance(   v_vPosition, v_vRectangleXY, 0.5*v_vRectangleWH, v_fRounding);
+            derivatives = RectangleDerivatives(v_vPosition, v_vRectangleXY, 0.5*v_vRectangleWH, v_fRounding);
+        }
+        
+        gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
+        gl_FragColor.a *= 1.0 - Feather(dist, derivatives, 0.0);
     }
-    
-    gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
-    gl_FragColor.a *= 1.0 - Feather(dist, derivatives, 0.0);
 }
