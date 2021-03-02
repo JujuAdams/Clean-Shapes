@@ -1,13 +1,13 @@
 {
   "resources": [
-    {"id":{"name":"shdCleanLineStrip","path":"shaders/shdCleanLineStrip/shdCleanLineStrip.yy",},"order":2,},
+    {"id":{"name":"shdCleanLineStrip","path":"shaders/shdCleanLineStrip/shdCleanLineStrip.yy",},"order":3,},
     {"id":{"name":"shdClean__OLD","path":"shaders/shdClean__OLD/shdClean__OLD.yy",},"order":6,},
     {"id":{"name":"CleanTriangle","path":"scripts/CleanTriangle/CleanTriangle.yy",},"order":7,},
     {"id":{"name":"CleanCircle","path":"scripts/CleanCircle/CleanCircle.yy",},"order":3,},
     {"id":{"name":"CleanSetSmoothness","path":"scripts/CleanSetSmoothness/CleanSetSmoothness.yy",},"order":11,},
     {"id":{"name":"CleanLine","path":"scripts/CleanLine/CleanLine.yy",},"order":1,},
     {"id":{"name":"__CleanConfig","path":"scripts/__CleanConfig/__CleanConfig.yy",},"order":0,},
-    {"id":{"name":"shdCleanLine","path":"shaders/shdCleanLine/shdCleanLine.yy",},"order":3,},
+    {"id":{"name":"shdCleanLine","path":"shaders/shdCleanLine/shdCleanLine.yy",},"order":2,},
     {"id":{"name":"CleanBatchEnd","path":"scripts/CleanBatchEnd/CleanBatchEnd.yy",},"order":10,},
     {"id":{"name":"Trinity","path":"scripts/Trinity/Trinity.yy",},"order":3,},
     {"id":{"name":"shdStripeTest","path":"shaders/shdStripeTest/shdStripeTest.yy",},"order":4,},

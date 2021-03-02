@@ -13,8 +13,15 @@ CleanBatchStart();
 //.Blend(c_yellow, 1.0)
 //.Draw();
 
-//CleanLine(x1, y1,   x2, y2)
-//.Thickness(3)
+CleanLine(x1, y1,   x2, y2)
+.Blend(c_white, 1.0)
+.Thickness(30)
+.Cap("none", "square")
+.Draw();
+
+//CleanLine(x3, y3,   x4, y4)
+//.Blend(c_lime, 0.5)
+//.Thickness(30)
 //.Draw();
 
 //CleanTriangle(400, 200,   400, 600,   200, 400)
@@ -45,20 +52,20 @@ CleanBatchStart();
 //.Border(10, c_black, 1.0)
 //.Draw();
 
-CleanRectangle(x1, y1, x2, y2)
-.Blend(0xCBC0FF, 1.0)
-.Border(10, c_white, 1.0)
-.Rounding(40)
-.Draw();
-
-CleanCircle(x3, y3, 80)
-.Blend(0xCBC0FF, 1.0)
-.Border(10, c_white, 1.0)
-.Draw();
-
-CleanCircle(x4, y4, 60)
-.Blend(0xCBC0FF, 1.0)
-.Border(10, c_white, 1.0)
-.Draw();
+//CleanRectangle(x1, y1, x2, y2)
+//.Blend(0xCBC0FF, 1.0)
+//.Border(10, c_white, 1.0)
+//.Rounding(40)
+//.Draw();
+//
+//CleanCircle(x3, y3, 80)
+//.Blend(0xCBC0FF, 1.0)
+//.Border(10, c_white, 1.0)
+//.Draw();
+//
+//CleanCircle(x4, y4, 60)
+//.Blend(0xCBC0FF, 1.0)
+//.Border(10, c_white, 1.0)
+//.Draw();
 
 CleanBatchEnd();
