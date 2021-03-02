@@ -8,16 +8,16 @@
 
 CleanBatchStart();
 
-//CleanLineStrip([200, 200,   x1, y1,   x2, y2,   600, 200])
-//.Thickness(10)
-//.Blend(c_yellow, 1.0)
-//.Draw();
-
-CleanLine(x1, y1,   x2, y2)
-.Blend(c_white, 1.0)
-.Thickness(30)
-.Cap("none", "square")
+CleanLineStrip([x1, y1,   x2, y2,   x3, y3,   x4, y4])
+.Thickness(10)
+.Blend(c_yellow, 1.0)
 .Draw();
+
+//CleanLine(x1, y1,   x2, y2)
+//.Blend(c_white, 1.0)
+//.Thickness(30)
+//.Cap("none", "square")
+//.Draw();
 
 //CleanLine(x3, y3,   x4, y4)
 //.Blend(c_lime, 0.5)
