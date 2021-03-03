@@ -1,10 +1,10 @@
-                                //LINE:                CIRCLE:                       RECTANGLE:                    LINE:                CONVEX:
-attribute vec3 in_Position;     //XY, type             XY, type                      XY, type                      XY, type             XY, type
-attribute vec3 in_Normal;       //x1, y1, x2           Circle XY, radius             Rect XY, unused               x1, y1, unused       First boundary
-attribute vec4 in_Colour1;      //Colour               Fill colour                   Fill colour                   Fill colour          Fill colour
-attribute vec3 in_Colour2;      //y2, x3, y3           Ring thickness, unused        Rect WH, unused               x1, x2, unused       Second boundary
-attribute vec4 in_Colour3;      //Thickness, unused    Border colour                 Border colour                 Unused               Border colour
-attribute vec2 in_TextureCoord; //Cap, join            Rounding, border thickness    Rounding, border thickness    Thickness, unused    Rounding, border thickness
+                                //CIRCLE:                     RECTANGLE:                    LINE:                CONVEX:
+attribute vec3 in_Position;     //XY, type                    XY, type                      XY, type             XY, type
+attribute vec3 in_Normal;       //Circle XY, radius           Rect XY, unused               x1, y1, unused       First boundary
+attribute vec4 in_Colour1;      //Fill colour                 Fill colour                   Fill colour          Fill colour
+attribute vec3 in_Colour2;      //unused                      Rect WH, unused               x1, x2, unused       Second boundary
+attribute vec4 in_Colour3;      //Border colour               Border colour                 Unused               Border colour
+attribute vec2 in_TextureCoord; //unused, border thickness    Rounding, border thickness    Thickness, unused    Rounding, border thickness
 
 //Shared
 varying vec2  v_vPosition;

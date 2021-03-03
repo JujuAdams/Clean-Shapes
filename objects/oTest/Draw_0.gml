@@ -8,12 +8,12 @@
 
 CleanBatchStart();
 
-CleanLineStrip([x1, y1,   x2, y2,   x3, y3,   x4, y4])
-.Thickness(10)
-.Blend(c_yellow, 1.0)
-.Draw();
+//CleanLineStrip([x1, y1,   x2, y2,   x3, y3,   x4, y4])
+//.Thickness(10)
+//.Blend(c_yellow, 1.0)
+//.Draw();
 
-//CleanLine(x1, y1,   x2, y2)
+//CleanLine(x1, y1, x2, y2)
 //.Blend(c_white, 1.0)
 //.Thickness(30)
 //.Cap("none", "square")
@@ -32,12 +32,6 @@ CleanLineStrip([x1, y1,   x2, y2,   x3, y3,   x4, y4])
 
 //CleanConvex([400, 200,   650, 100,   650, 700,   400, 600])
 //.BlendExt([c_yellow, 1.0, c_aqua, 1.0, c_white, 1.0, c_fuchsia, 1.0])
-//.Border(10, c_black, 1.0)
-//.Rounding(10)
-//.Draw();
-
-//CleanRectangle(650, 100,   850, 400)
-//.Blend4(c_yellow, 1.0, c_aqua, 1.0, c_fuchsia, 1.0, c_white, 1.0)
 //.Border(10, c_black, 1.0)
 //.Rounding(10)
 //.Draw();
