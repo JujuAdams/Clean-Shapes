@@ -108,6 +108,20 @@ vec2 LineSquareCapDerivatives(vec2 pos, vec2 posA, vec2 posB, float thickness)
                 LineSquareCapDistance(pos + vec2(0.0, u_vInvOutputScale.y), posA, posB, thickness));
 }
 
+float ConvexDistance(vec2 position, vec3 line1, vec3 line2, float rounding)
+{
+    vec2 delta = vec2(line1.z - dot(line1.xy, position),
+                      line2.z - dot(line2.xy, position)) + rounding;
+    return min(max(delta.x, delta.y), 0.0) + length(max(delta, 0.0)) - rounding;
+}
+
+vec2 ConvexDerivatives(vec2 pos, vec3 line1, vec3 line2, float rounding)
+{
+    //Emulates dFdx/dFdy
+    return vec2(ConvexDistance(pos + vec2(u_vInvOutputScale.x, 0.0), line1, line2, rounding),
+                ConvexDistance(pos + vec2(0.0, u_vInvOutputScale.y), line1, line2, rounding));
+}
+
 float Feather(float dist, vec2 derivatives, float threshold)
 {
     //Emulates fwidth
@@ -121,7 +135,7 @@ void main()
     float dist = 0.0;
     vec2  derivatives = vec2(0.0);
     
-    if ((v_fMode <= 0.0) || (v_fMode <= 6.0))
+    if (v_fMode <= 0.0)
     {
         gl_FragColor = v_vFillColour;
     }
@@ -156,6 +170,12 @@ void main()
             dist        = LineRoundCapDistance(   v_vPosition, v_vLineA, v_vLineB, v_fLineThickness);
             derivatives = LineRoundCapDerivatives(v_vPosition, v_vLineA, v_vLineB, v_fLineThickness);
             gl_FragColor = v_vFillColour;
+        }
+        else if (v_fMode == 6.0) //Triangle + Convex
+        {
+            dist        = ConvexDistance(   v_vPosition, v_vLine1, v_vLine2, v_fRounding);
+            derivatives = ConvexDerivatives(v_vPosition, v_vLine1, v_vLine2, v_fRounding);
+            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
         }
         
         gl_FragColor.a *= 1.0 - Feather(dist, derivatives, 0.0);

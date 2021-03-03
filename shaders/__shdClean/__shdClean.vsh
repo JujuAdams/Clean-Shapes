@@ -57,5 +57,4 @@ void main()
     v_vPosition        = in_Position.xy;
     v_vLine1           = in_Normal;
     v_vLine2           = in_Colour2;
-    //v_fRounding        = in_TextureCoord.x * tan(0.5*acos(dot(v_vLine1.xy, v_vLine2.xy)));
 }
