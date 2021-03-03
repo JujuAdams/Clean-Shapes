@@ -8,10 +8,11 @@
 
 CleanBatchStart();
 
-//CleanPolyline([x1, y1,   x2, y2,   x3, y3,   x4, y4])
-//.Thickness(10)
-//.Blend(c_yellow, 1.0)
-//.Draw();
+CleanPolyline([x1, y1,   x2, y2,   x3, y3,   x4, y4])
+.Thickness(30)
+.Blend(c_yellow, 1.0)
+.Cap("round", "round")
+.Draw();
 
 //CleanLine(x1, y1, x2, y2)
 //.Blend(c_white, 1.0)
@@ -29,12 +30,12 @@ CleanBatchStart();
 //.Border(5, c_black, 1.0)
 //.Rounding(10)
 //.Draw();
-
-CleanConvex([x1, y1,   x2, y2,   x3, y3,   x4, y4])
-.BlendExt([c_yellow, 1.0, c_aqua, 1.0, c_white, 1.0, c_fuchsia, 1.0])
-.Border(5, c_black, 1.0)
-.Rounding(5)
-.Draw();
+//
+//CleanConvex([x1, y1,   x2, y2,   x3, y3,   x4, y4])
+//.BlendExt([c_yellow, 1.0, c_aqua, 1.0, c_white, 1.0, c_fuchsia, 1.0])
+//.Border(5, c_black, 1.0)
+//.Rounding(5)
+//.Draw();
 
 //CleanCapsule(x1, y1, x2, y2, true)
 //.Blend(0xCBC0FF, 1.0)
@@ -63,3 +64,7 @@ CleanConvex([x1, y1,   x2, y2,   x3, y3,   x4, y4])
 //.Draw();
 
 CleanBatchEnd();
+
+draw_circle(x2, y2, 2, false);
+draw_circle(x3, y3, 2, false);
+draw_circle(x4, y4, 2, false);

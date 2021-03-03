@@ -28,6 +28,7 @@
 
 #macro CLEAN_DEFAULT_POLYLINE_COLOUR             draw_get_colour()
 #macro CLEAN_DEFAULT_POLYLINE_ALPHA              draw_get_alpha()
+#macro CLEAN_DEFAULT_POLYLINE_JOIN               "round"
 #macro CLEAN_DEFAULT_POLYLINE_START_CAP          "round"
 #macro CLEAN_DEFAULT_POLYLINE_END_CAP            "round"
 #macro CLEAN_DEFAULT_POLYLINE_THICKNESS          20

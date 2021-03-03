@@ -16,6 +16,7 @@ varying vec2 v_vRectangleWH;
 //Line
 varying vec2  v_vLineA;
 varying vec2  v_vLineB;
+varying vec2  v_vLineC;
 varying float v_fLineThickness;
 
 //Convex
@@ -122,6 +123,18 @@ vec2 ConvexDerivatives(vec2 pos, vec3 line1, vec3 line2, float rounding)
                 ConvexDistance(pos + vec2(0.0, u_vInvOutputScale.y), line1, line2, rounding));
 }
 
+float PolylineRoundJoinDistance(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
+{
+    return min(LineRoundCapDistance(position, posA, posB, thickness), LineRoundCapDistance(position, posC, posB, thickness));
+}
+
+vec2 PolylineRoundJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
+{
+    //Emulates dFdx/dFdy
+    return vec2(PolylineRoundJoinDistance(position + vec2(u_vInvOutputScale.x, 0.0), posA, posB, posC, thickness),
+                PolylineRoundJoinDistance(position + vec2(0.0, u_vInvOutputScale.y), posA, posB, posC, thickness));
+}
+
 float Feather(float dist, vec2 derivatives, float threshold)
 {
     //Emulates fwidth
@@ -176,6 +189,12 @@ void main()
             dist        = ConvexDistance(   v_vPosition, v_vLine1, v_vLine2, v_fRounding);
             derivatives = ConvexDerivatives(v_vPosition, v_vLine1, v_vLine2, v_fRounding);
             gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
+        }
+        else if (v_fMode == 9.0) //Polyline with round joint
+        {
+            dist        = PolylineRoundJoinDistance(   v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
+            derivatives = PolylineRoundJoinDerivatives(v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
+            gl_FragColor = v_vFillColour;
         }
         
         gl_FragColor.a *= 1.0 - Feather(dist, derivatives, 0.0);

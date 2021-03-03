@@ -3,6 +3,7 @@
     {"id":{"name":"__shdCleanPolyline","path":"shaders/__shdCleanPolyline/__shdCleanPolyline.yy",},"order":3,},
     {"id":{"name":"CleanTriangle","path":"scripts/CleanTriangle/CleanTriangle.yy",},"order":7,},
     {"id":{"name":"CleanCircle","path":"scripts/CleanCircle/CleanCircle.yy",},"order":3,},
+    {"id":{"name":"CleanPolyline__OLD","path":"scripts/CleanPolyline__OLD/CleanPolyline__OLD.yy",},"order":14,},
     {"id":{"name":"CleanSetSmoothness","path":"scripts/CleanSetSmoothness/CleanSetSmoothness.yy",},"order":11,},
     {"id":{"name":"CleanLine","path":"scripts/CleanLine/CleanLine.yy",},"order":1,},
     {"id":{"name":"__CleanConfig","path":"scripts/__CleanConfig/__CleanConfig.yy",},"order":0,},
