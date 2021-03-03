@@ -8,10 +8,10 @@
 
 CleanBatchStart();
 
-CleanPolyline([x1, y1,   x2, y2,   x3, y3,   x4, y4])
-.Thickness(10)
-.Blend(c_yellow, 1.0)
-.Draw();
+//CleanPolyline([x1, y1,   x2, y2,   x3, y3,   x4, y4])
+//.Thickness(10)
+//.Blend(c_yellow, 1.0)
+//.Draw();
 
 //CleanLine(x1, y1, x2, y2)
 //.Blend(c_white, 1.0)
@@ -24,13 +24,13 @@ CleanPolyline([x1, y1,   x2, y2,   x3, y3,   x4, y4])
 //.Thickness(30)
 //.Draw();
 
-//CleanTriangle(400, 200,   400, 600,   200, 400)
+//CleanTriangle(x1, y1,   x2, y2,   x3, y3)
 //.Blend3(c_yellow, 1.0, c_aqua, 1.0, c_fuchsia, 1.0)
 //.Border(10, c_black, 1.0)
 //.Rounding(30)
 //.Draw();
 
-//CleanConvex([400, 200,   650, 100,   650, 700,   400, 600])
+//CleanConvex([x1, y1,   x2, y2,   x3, y3,   x4, y4])
 //.BlendExt([c_yellow, 1.0, c_aqua, 1.0, c_white, 1.0, c_fuchsia, 1.0])
 //.Border(10, c_black, 1.0)
 //.Rounding(10)

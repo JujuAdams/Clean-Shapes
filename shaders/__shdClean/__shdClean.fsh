@@ -121,7 +121,7 @@ void main()
     float dist = 0.0;
     vec2  derivatives = vec2(0.0);
     
-    if (v_fMode <= 0.0)
+    if ((v_fMode <= 0.0) || (v_fMode <= 6.0))
     {
         gl_FragColor = v_vFillColour;
     }
