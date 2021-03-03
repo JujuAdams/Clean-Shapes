@@ -1,6 +1,6 @@
 {
   "resources": [
-    {"id":{"name":"shdCleanLineStrip","path":"shaders/shdCleanLineStrip/shdCleanLineStrip.yy",},"order":3,},
+    {"id":{"name":"__shdCleanPolyline","path":"shaders/__shdCleanPolyline/__shdCleanPolyline.yy",},"order":3,},
     {"id":{"name":"CleanTriangle","path":"scripts/CleanTriangle/CleanTriangle.yy",},"order":7,},
     {"id":{"name":"CleanCircle","path":"scripts/CleanCircle/CleanCircle.yy",},"order":3,},
     {"id":{"name":"CleanSetSmoothness","path":"scripts/CleanSetSmoothness/CleanSetSmoothness.yy",},"order":11,},
@@ -13,11 +13,11 @@
     {"id":{"name":"oTest","path":"objects/oTest/oTest.yy",},"order":1,},
     {"id":{"name":"CleanConvex","path":"scripts/CleanConvex/CleanConvex.yy",},"order":8,},
     {"id":{"name":"CleanBatchStart","path":"scripts/CleanBatchStart/CleanBatchStart.yy",},"order":9,},
-    {"id":{"name":"shdClean","path":"shaders/shdClean/shdClean.yy",},"order":1,},
+    {"id":{"name":"__shdClean","path":"shaders/__shdClean/__shdClean.yy",},"order":1,},
     {"id":{"name":"CleanCapsuleVertical","path":"scripts/CleanCapsuleVertical/CleanCapsuleVertical.yy",},"order":6,},
     {"id":{"name":"__CleanSystem","path":"scripts/__CleanSystem/__CleanSystem.yy",},"order":0,},
     {"id":{"name":"CleanCapsule","path":"scripts/CleanCapsule/CleanCapsule.yy",},"order":5,},
-    {"id":{"name":"CleanLineStrip","path":"scripts/CleanLineStrip/CleanLineStrip.yy",},"order":2,},
+    {"id":{"name":"CleanPolyline","path":"scripts/CleanPolyline/CleanPolyline.yy",},"order":2,},
     {"id":{"name":"rmMain","path":"rooms/rmMain/rmMain.yy",},"order":2,},
   ],
   "Options": [

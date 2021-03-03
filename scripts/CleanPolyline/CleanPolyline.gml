@@ -1,15 +1,15 @@
 /// @param pointArray
 
-function CleanLineStrip(_array)
+function CleanPolyline(_array)
 {
-    var _struct = new __CleanClassLineStrip(_array);
+    var _struct = new __CleanClassPolyline(_array);
     if (is_array(global.__cleanBatch)) array_push(global.__cleanBatch, _struct);
     return _struct;
 }
 
-function __CleanClassLineStrip(_array) constructor
+function __CleanClassPolyline(_array) constructor
 {
-    __shader = shdCleanLineStrip;
+    __shader = __shdCleanPolyline;
     __format = global.__cleanVertexFormat;
     
     __pointArray = _array;

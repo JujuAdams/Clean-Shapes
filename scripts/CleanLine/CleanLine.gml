@@ -12,7 +12,7 @@ function CleanLine(_x1, _y1, _x2, _y2)
 
 function __CleanClassLine(_x1, _y1, _x2, _y2) constructor
 {
-    __shader = shdClean;
+    __shader = __shdClean;
     __format = global.__cleanVertexFormat;
     
     __x1 = _x1;

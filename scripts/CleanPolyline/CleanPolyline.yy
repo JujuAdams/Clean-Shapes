@@ -6,7 +6,7 @@
     "path": "folders/Clean Shapes.yy",
   },
   "resourceVersion": "1.0",
-  "name": "CleanLineStrip",
+  "name": "CleanPolyline",
   "tags": [],
   "resourceType": "GMScript",
 }

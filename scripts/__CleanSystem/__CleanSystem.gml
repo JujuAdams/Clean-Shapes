@@ -6,8 +6,8 @@ __CleanTrace("Welcome to Clean Shapes by @jujuadams! This is version ", __CLEAN_
 global.__cleanBatch = undefined;
 global.__cleanSmoothness = CLEAN_DEFAULT_SMOOTHNESS;
 
-global.__clean_u_fSmoothness     = shader_get_uniform(shdClean, "u_fSmoothness");
-global.__clean_u_vInvOutputScale = shader_get_uniform(shdClean, "u_vInvOutputScale");
+global.__clean_u_fSmoothness     = shader_get_uniform(__shdClean, "u_fSmoothness");
+global.__clean_u_vInvOutputScale = shader_get_uniform(__shdClean, "u_vInvOutputScale");
 
 vertex_format_begin();
 vertex_format_add_position_3d();

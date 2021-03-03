@@ -9,7 +9,7 @@ function CleanConvex(_array)
 
 function __CleanClassConvex(_array) constructor
 {
-    __shader = shdClean;
+    __shader = __shdClean;
     __format = global.__cleanVertexFormat;
     
     __pointArray = _array;
