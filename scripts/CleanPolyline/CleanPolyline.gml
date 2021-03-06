@@ -49,6 +49,14 @@ function __CleanClassPolyline(_array) constructor
         return self;
     }
     
+    /// @param type
+    static Join = function(_join)
+    {
+        __join = _join;
+        
+        return self;
+    }
+    
     static Draw = function()
     {
         __CleanDraw();
@@ -68,46 +76,50 @@ function __CleanClassPolyline(_array) constructor
         if (__join == "mitre") _join = 7;
         if (__join == "bevel") _join = 8;
         
-        var _ix1 = undefined;
-        var _iy1 = undefined;
-        var _ix2 = _pointArray[0];
-        var _iy2 = _pointArray[1];
-        var _ix3 = _pointArray[2];
-        var _iy3 = _pointArray[3];
+        var _px1 = undefined;
+        var _py1 = undefined;
+        var _px2 = _pointArray[0];
+        var _py2 = _pointArray[1];
+        var _px3 = _pointArray[2];
+        var _py3 = _pointArray[3];
         
         //Calculate the size of the cap
         var _dx1 = undefined;
         var _dy1 = undefined;
-        var _dx2 = _ix3 - _ix2;
-        var _dy2 = _iy3 - _iy2;
-        var _d = 0.5 * _thickness / sqrt(_dx2*_dx2 + _dy2*_dy2);
-        _dx2 *= _d;
-        _dy2 *= _d;
+        var _dx2 = _px3 - _px2;
+        var _dy2 = _py3 - _py2;
+        var _inv_length = 1 / sqrt(_dx2*_dx2 + _dy2*_dy2);
+        var _nx1 = undefined;
+        var _ny1 = undefined;
+        var _nx2 = _dx2*_inv_length;
+        var _ny2 = _dy2*_inv_length;
+        _dx2 *= 0.5*_thickness*_inv_length;
+        _dy2 *= 0.5*_thickness*_inv_length;
         
         var _x1 = undefined;
         var _y1 = undefined;
         var _x2 = undefined;
         var _y2 = undefined;
-        var _x3 = _ix2 - _dx2 - _dy2;
-        var _y3 = _iy2 - _dy2 + _dx2;
-        var _x4 = _ix2 - _dx2 + _dy2;
-        var _y4 = _iy2 - _dy2 - _dx2;
-        var _x5 = 0.5*(_ix2 + _ix3) - _dy2;
-        var _y5 = 0.5*(_iy2 + _iy3) + _dx2;
-        var _x6 = 0.5*(_ix2 + _ix3) + _dy2;
-        var _y6 = 0.5*(_iy2 + _iy3) - _dx2;
+        var _x3 = _px2 - _dx2 - _dy2;
+        var _y3 = _py2 - _dy2 + _dx2;
+        var _x4 = _px2 - _dx2 + _dy2;
+        var _y4 = _py2 - _dy2 - _dx2;
+        var _x5 = 0.5*(_px2 + _px3) - _dy2;
+        var _y5 = 0.5*(_py2 + _py3) + _dx2;
+        var _x6 = 0.5*(_px2 + _px3) + _dy2;
+        var _y6 = 0.5*(_py2 + _py3) - _dx2;
         
         var _cap = 5; //Default to rounded lines
         if (__capStart == "none"  ) _cap = 3;
         if (__capStart == "square") _cap = 4;
         
-        vertex_position_3d(_vbuff, _x3, _y3, _cap); vertex_normal(_vbuff, _ix2, _iy2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix3, _iy3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x5, _y5, _cap); vertex_normal(_vbuff, _ix2, _iy2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix3, _iy3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x6, _y6, _cap); vertex_normal(_vbuff, _ix2, _iy2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix3, _iy3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        vertex_position_3d(_vbuff, _x3, _y3, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        vertex_position_3d(_vbuff, _x5, _y5, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        vertex_position_3d(_vbuff, _x6, _y6, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
         
-        vertex_position_3d(_vbuff, _x3, _y3, _cap); vertex_normal(_vbuff, _ix2, _iy2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix3, _iy3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x6, _y6, _cap); vertex_normal(_vbuff, _ix2, _iy2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix3, _iy3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x4, _y4, _cap); vertex_normal(_vbuff, _ix2, _iy2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix3, _iy3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        vertex_position_3d(_vbuff, _x3, _y3, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        vertex_position_3d(_vbuff, _x6, _y6, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        vertex_position_3d(_vbuff, _x4, _y4, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
         
         
         
@@ -116,65 +128,61 @@ function __CleanClassPolyline(_array) constructor
         var _i = 4;
         repeat((array_length(_pointArray) div 2) - 2)
         {
-            _ix1 = _ix2;
-            _iy1 = _iy2;
-            _ix2 = _ix3;
-            _iy2 = _iy3;
-            _ix3 = _pointArray[_i  ];
-            _iy3 = _pointArray[_i+1];
+            _px1 = _px2;
+            _py1 = _py2;
+            _px2 = _px3;
+            _py2 = _py3;
+            _px3 = _pointArray[_i  ];
+            _py3 = _pointArray[_i+1];
             
             _dx1 = _dx2;
             _dy1 = _dy2;
-            _dx2 = _ix3 - _ix2;
-            _dy2 = _iy3 - _iy2;
-            _d = 0.5 * _thickness / sqrt(_dx2*_dx2 + _dy2*_dy2);
-            _dx2 *= _d;
-            _dy2 *= _d;
+            _nx1 = _nx2;
+            _ny1 = _ny2;
             
-            //deltaAB = normalize(deltaAB);
-            //deltaBC = normalize(deltaBC);
-            //
-            //float ABcrossBC = deltaAB.x*deltaBC.y - deltaAB.y*deltaBC.x;
-            //float offset = 0.0;
-            //if (ABcrossBC != 0.0) offset = (dot(deltaAB, deltaBC) - 1.0) / ABcrossBC;
-            //
-            //normal = vec2(-deltaAB.y + offset*deltaAB.x, deltaAB.x + offset*deltaAB.y);
+            _dx2 = _px3 - _px2;
+            _dy2 = _py3 - _py2;
+            _inv_length = 1 / sqrt(_dx2*_dx2 + _dy2*_dy2);
+            _nx2 = _dx2*_inv_length;
+            _ny2 = _dy2*_inv_length;
+            _dx2 *= 0.5*_thickness*_inv_length;
+            _dy2 *= 0.5*_thickness*_inv_length;
+            
+            var _cross = _nx1*_ny2 - _ny1*_nx2;
+            var _sigma = (_cross == 0.0)? 0.0 : ((_nx1*_nx2 + _ny1*_ny2 - 1) / _cross);
+            var _dx3 = _sigma*_dx1;
+            var _dy3 = _sigma*_dy1;
             
             _x1 = _x5;
             _y1 = _y5;
             _x2 = _x6;
             _y2 = _y6;
-            _x3 = _ix2 - _dy1;
-            _y3 = _iy2 + _dx1;
-            _x4 = _ix2 + _dy1;
-            _y4 = _iy2 - _dx1;
-            _x5 = 0.5*(_ix2 + _ix3) - _dy2;
-            _y5 = 0.5*(_iy2 + _iy3) + _dx2;
-            _x6 = 0.5*(_ix2 + _ix3) + _dy2;
-            _y6 = 0.5*(_iy2 + _iy3) - _dx2;
+            _x3 = _px2 - _dy1 + _dx3;
+            _y3 = _py2 + _dx1 + _dy3;
+            _x4 = _px2 + _dy1 - _dx3;
+            _y4 = _py2 - _dx1 - _dy3;
+            _x5 = 0.5*(_px2 + _px3) - _dy2;
+            _y5 = 0.5*(_py2 + _py3) + _dx2;
+            _x6 = 0.5*(_px2 + _px3) + _dy2;
+            _y6 = 0.5*(_py2 + _py3) - _dx2;
             
             //AB midpoint to B
-            vertex_position_3d(_vbuff, _x1, _y1, _join); vertex_normal(_vbuff, _ix1, _iy1, _ix3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix2, _iy2, _iy3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-            vertex_position_3d(_vbuff, _x3, _y3, _join); vertex_normal(_vbuff, _ix1, _iy1, _ix3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix2, _iy2, _iy3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-            vertex_position_3d(_vbuff, _x4, _y4, _join); vertex_normal(_vbuff, _ix1, _iy1, _ix3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix2, _iy2, _iy3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x1, _y1, _join); vertex_normal(_vbuff, _px1, _py1, _px3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px2, _py2, _py3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x3, _y3, _join); vertex_normal(_vbuff, _px1, _py1, _px3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px2, _py2, _py3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x4, _y4, _join); vertex_normal(_vbuff, _px1, _py1, _px3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px2, _py2, _py3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
             
-            vertex_position_3d(_vbuff, _x1, _y1, _join); vertex_normal(_vbuff, _ix1, _iy1, _ix3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix2, _iy2, _iy3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-            vertex_position_3d(_vbuff, _x4, _y4, _join); vertex_normal(_vbuff, _ix1, _iy1, _ix3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix2, _iy2, _iy3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-            vertex_position_3d(_vbuff, _x2, _y2, _join); vertex_normal(_vbuff, _ix1, _iy1, _ix3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix2, _iy2, _iy3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-            
-            _x3 = _ix2 - _dy2;
-            _y3 = _iy2 + _dx2;
-            _x4 = _ix2 + _dy2;
-            _y4 = _iy2 - _dx2;
+            vertex_position_3d(_vbuff, _x1, _y1, _join); vertex_normal(_vbuff, _px1, _py1, _px3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px2, _py2, _py3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x4, _y4, _join); vertex_normal(_vbuff, _px1, _py1, _px3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px2, _py2, _py3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x2, _y2, _join); vertex_normal(_vbuff, _px1, _py1, _px3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px2, _py2, _py3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
             
             //B to BC midpoint
-            vertex_position_3d(_vbuff, _x3, _y3, _join); vertex_normal(_vbuff, _ix1, _iy1, _ix3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix2, _iy2, _iy3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-            vertex_position_3d(_vbuff, _x5, _y5, _join); vertex_normal(_vbuff, _ix1, _iy1, _ix3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix2, _iy2, _iy3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-            vertex_position_3d(_vbuff, _x6, _y6, _join); vertex_normal(_vbuff, _ix1, _iy1, _ix3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix2, _iy2, _iy3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x3, _y3, _join); vertex_normal(_vbuff, _px1, _py1, _px3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px2, _py2, _py3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x5, _y5, _join); vertex_normal(_vbuff, _px1, _py1, _px3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px2, _py2, _py3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x6, _y6, _join); vertex_normal(_vbuff, _px1, _py1, _px3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px2, _py2, _py3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
                                                          
-            vertex_position_3d(_vbuff, _x3, _y3, _join); vertex_normal(_vbuff, _ix1, _iy1, _ix3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix2, _iy2, _iy3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-            vertex_position_3d(_vbuff, _x6, _y6, _join); vertex_normal(_vbuff, _ix1, _iy1, _ix3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix2, _iy2, _iy3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-            vertex_position_3d(_vbuff, _x4, _y4, _join); vertex_normal(_vbuff, _ix1, _iy1, _ix3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix2, _iy2, _iy3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x3, _y3, _join); vertex_normal(_vbuff, _px1, _py1, _px3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px2, _py2, _py3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x6, _y6, _join); vertex_normal(_vbuff, _px1, _py1, _px3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px2, _py2, _py3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x4, _y4, _join); vertex_normal(_vbuff, _px1, _py1, _px3); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px2, _py2, _py3); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
             
             _i += 2;
         }
@@ -183,32 +191,32 @@ function __CleanClassPolyline(_array) constructor
         
         
         //Calculate the size of the cap
-        var _dx = _ix3 - _ix2;
-        var _dy = _iy3 - _iy2;
-        var _d  = 0.5 * _thickness / sqrt(_dx*_dx + _dy*_dy);
-        _dx *= _d;
-        _dy *= _d;
+        var _dx2 = _px3 - _px2;
+        var _dy2 = _py3 - _py2;
+        var _inv_length = 1 / sqrt(_dx2*_dx2 + _dy2*_dy2);
+        _dx2 *= 0.5*_thickness*_inv_length;
+        _dy2 *= 0.5*_thickness*_inv_length;
         
         var _x1 = _x5;
         var _y1 = _y5;
         var _x2 = _x6;
         var _y2 = _y6;
-        var _x3 = _ix3 + _dx - _dy;
-        var _y3 = _iy3 + _dy + _dx;
-        var _x4 = _ix3 + _dx + _dy;
-        var _y4 = _iy3 + _dy - _dx;
+        var _x3 = _px3 + _dx2 - _dy2;
+        var _y3 = _py3 + _dy2 + _dx2;
+        var _x4 = _px3 + _dx2 + _dy2;
+        var _y4 = _py3 + _dy2 - _dx2;
         
         var _cap = 5; //Default to rounded lines
         if (__capEnd == "none"  ) _cap = 3;
         if (__capEnd == "square") _cap = 4;
         
-        vertex_position_3d(_vbuff, _x1, _y1, _cap); vertex_normal(_vbuff, _ix2, _iy2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix3, _iy3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x3, _y3, _cap); vertex_normal(_vbuff, _ix2, _iy2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix3, _iy3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x4, _y4, _cap); vertex_normal(_vbuff, _ix2, _iy2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix3, _iy3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        vertex_position_3d(_vbuff, _x1, _y1, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        vertex_position_3d(_vbuff, _x3, _y3, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        vertex_position_3d(_vbuff, _x4, _y4, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
         
-        vertex_position_3d(_vbuff, _x1, _y1, _cap); vertex_normal(_vbuff, _ix2, _iy2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix3, _iy3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x4, _y4, _cap); vertex_normal(_vbuff, _ix2, _iy2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix3, _iy3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x2, _y2, _cap); vertex_normal(_vbuff, _ix2, _iy2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _ix3, _iy3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        vertex_position_3d(_vbuff, _x1, _y1, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        vertex_position_3d(_vbuff, _x4, _y4, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        vertex_position_3d(_vbuff, _x2, _y2, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
     }
     
     /*
