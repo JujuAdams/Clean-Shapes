@@ -3,11 +3,10 @@
 
 __CleanTrace("Welcome to Clean Shapes by @jujuadams! This is version ", __CLEAN_VERSION, ", ", __CLEAN_DATE);
 
-global.__cleanBatch = undefined;
-global.__cleanSmoothness = CLEAN_DEFAULT_SMOOTHNESS;
+global.__cleanBatch     = undefined;
+global.__cleanAntialias = CLEAN_DEFAULT_ANTIALIAS;
 
-global.__clean_u_fSmoothness     = shader_get_uniform(__shdClean, "u_fSmoothness");
-global.__clean_u_vInvOutputScale = shader_get_uniform(__shdClean, "u_vInvOutputScale");
+global.__clean_u_vInvOutputScale = shader_get_uniform(__shdCleanAntialias, "u_vInvOutputScale");
 
 vertex_format_begin();
 vertex_format_add_position_3d();
@@ -74,12 +73,20 @@ function __CleanDraw()
         _invScale[@ 1] = abs(1/_invScale[1]);
         
         var _vbuff = vertex_create_buffer();
-        vertex_begin(_vbuff, __format);
+        vertex_begin(_vbuff, global.__cleanVertexFormat);
         Build(_vbuff);
         vertex_end(_vbuff);
-        shader_set(__shader);
-        shader_set_uniform_f(global.__clean_u_fSmoothness, global.__cleanSmoothness);
-        shader_set_uniform_f(global.__clean_u_vInvOutputScale, _invScale[0], _invScale[1]);
+        
+        if (global.__cleanAntialias)
+        {
+            shader_set(__shdCleanAntialias);
+            shader_set_uniform_f(global.__clean_u_vInvOutputScale, _invScale[0], _invScale[1]);
+        }
+        else
+        {
+            shader_set(__shdCleanJaggies);
+        }
+        
         vertex_submit(_vbuff, pr_trianglelist, -1);
         shader_reset();
         vertex_delete_buffer(_vbuff);

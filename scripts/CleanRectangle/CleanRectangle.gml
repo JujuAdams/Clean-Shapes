@@ -12,9 +12,6 @@ function CleanRectangle(_left, _top, _right, _bottom)
 
 function __CleanClassRectangle(_left, _top, _right, _bottom) constructor
 {
-    __shader = __shdClean;
-    __format = global.__cleanVertexFormat;
-    
     __left   = _left;
     __top    = _top;
     __right  = _right;

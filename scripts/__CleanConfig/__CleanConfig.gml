@@ -1,4 +1,4 @@
-#macro CLEAN_DEFAULT_SMOOTHNESS                  1.4142
+#macro CLEAN_DEFAULT_ANTIALIAS                   true
 
 #macro CLEAN_DEFAULT_LINE_COLOUR                 draw_get_colour()
 #macro CLEAN_DEFAULT_LINE_ALPHA                  draw_get_alpha()

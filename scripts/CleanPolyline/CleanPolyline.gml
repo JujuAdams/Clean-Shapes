@@ -9,9 +9,6 @@ function CleanPolyline(_array)
 
 function __CleanClassPolyline(_array) constructor
 {
-    __shader = __shdClean;
-    __format = global.__cleanVertexFormat;
-    
     __pointArray = _array;
     __colour     = CLEAN_DEFAULT_POLYLINE_COLOUR;
     __alpha      = CLEAN_DEFAULT_POLYLINE_ALPHA;

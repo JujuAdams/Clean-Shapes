@@ -11,9 +11,6 @@ function CleanCircle(_x, _y, _radius)
 
 function __CleanClassCircle(_x, _y, _radius) constructor
 {
-    __shader = __shdClean;
-    __format = global.__cleanVertexFormat;
-    
     __x      = _x;
     __y      = _y;
     __radius = _radius;

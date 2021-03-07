@@ -1,16 +1,8 @@
-//var _scale = TargetCurrentProjectionScale();
-//
-//shader_set(shdCleanCircle);
-//shader_set_uniform_f(shader_get_uniform(shdCleanCircle, "u_fSmoothness"), CleanGetSmoothness());
-//shader_set_uniform_f(shader_get_uniform(shdCleanCircle, "u_vInvOutputScale"), 1/_scale[0], 1/_scale[1]);
-//draw_rectangle(0, 0, room_width, room_height, false);
-//shader_reset();
-
 CleanBatchStart();
 
 CleanPolyline([x1, y1,   x2, y2,   x3, y3,   x4, y4])
 .Thickness(8)
-.Blend(c_white, 0.5)
+.Blend(c_white, 1.0)
 .Cap("round", "round")
 .Join("round")
 .Draw();

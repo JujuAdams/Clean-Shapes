@@ -14,9 +14,6 @@ function CleanTriangle(_x1, _y1, _x2, _y2, _x3, _y3)
 
 function __CleanClassTriangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor
 {
-    __shader = __shdClean;
-    __format = global.__cleanVertexFormat;
-    
     __x1 = _x1;
     __y1 = _y1;
     __x2 = _x2;

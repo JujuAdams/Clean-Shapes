@@ -8,9 +8,12 @@ function CleanBatchEnd()
         exit;
     }
     
-    var _shader = undefined;
-    var _format = undefined;
-    var _vbuff  = undefined;
+    //Don't bother doing anything if our batch is empty
+    if (array_length(_batchArray) <= 0)
+    {
+        global.__cleanBatch = undefined;
+        exit;
+    }
     
     //Find the inverse scale of our output surface
     //These values are passed in our shader and are used for resolution independent rendering
@@ -30,60 +33,31 @@ function CleanBatchEnd()
     _invScale[@ 0] = abs(1/_invScale[0]);
     _invScale[@ 1] = abs(1/_invScale[1]);
     
+    var _vbuff = vertex_create_buffer();
+    vertex_begin(_vbuff, global.__cleanVertexFormat);
+    
     var _i = 0;
     repeat(array_length(_batchArray))
     {
-        var _struct = _batchArray[_i];
-        
-        //If our shader/format aren't defined then set those straight away
-        if (_shader == undefined) _shader = _struct.__shader;
-        if (_format == undefined) _format = _struct.__format;
-        
-        //If our shader/format has changed versus what they were then submit this vertex buffer
-        if ((_shader != _struct.__shader) || (_format != _struct.__format))
-        {
-            if (_shader == undefined) shader_reset() else shader_set(_shader);
-            vertex_end(_vbuff);
-            shader_set_uniform_f(global.__clean_u_fSmoothness, global.__cleanSmoothness);
-            shader_set_uniform_f(global.__clean_u_vInvOutputScale, _invScale[0], _invScale[1]);
-            vertex_submit(_vbuff, pr_trianglelist, -1);
-            vertex_delete_buffer(_vbuff);
-            _vbuff = undefined;
-            
-            _shader = _struct.__shader;
-            _format = _struct.__format;
-        }
-        
-        //If we have no current vertex buffer, create a new one
-        if (_vbuff == undefined)
-        {
-            _vbuff = vertex_create_buffer();
-            vertex_begin(_vbuff, _format);
-        }
-        
-        _struct.Build(_vbuff);
-        
+        _batchArray[_i].Build(_vbuff);
         ++_i;
     }
     
-    //If we have a vertex buffer that still needs to be submitted, do that now
-    if (_vbuff != undefined)
+    vertex_end(_vbuff);
+    
+    if (global.__cleanAntialias)
     {
-        if (_shader == undefined) shader_reset() else shader_set(_shader);
-        vertex_end(_vbuff);
-        shader_set_uniform_f(global.__clean_u_fSmoothness, global.__cleanSmoothness);
+        shader_set(__shdCleanAntialias);
         shader_set_uniform_f(global.__clean_u_vInvOutputScale, _invScale[0], _invScale[1]);
-        vertex_submit(_vbuff, pr_trianglelist, -1);
-        vertex_delete_buffer(_vbuff);
-        _vbuff = undefined;
+    }
+    else
+    {
+        shader_set(__shdCleanJaggies);
     }
     
-    //If we have a shader set, unset it!
-    if (_shader != undefined)
-    {
-        shader_reset();
-        _shader = undefined;
-    }
+    vertex_submit(_vbuff, pr_trianglelist, -1);
+    shader_reset();
+    vertex_delete_buffer(_vbuff);
     
     global.__cleanBatch = undefined;
 }

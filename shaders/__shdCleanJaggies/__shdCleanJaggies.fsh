@@ -23,10 +23,9 @@ varying float v_fLineThickness;
 varying vec3 v_vLine1;
 varying vec3 v_vLine2;
 
-uniform float u_fSmoothness;
 uniform vec2  u_vInvOutputScale;
 
-
+const float SMOOTHNESS = 0.0;
 
 float CircleDistance(vec2 pos, vec3 circleXYR)
 {
@@ -221,7 +220,7 @@ float Feather(float dist, vec2 derivatives, float threshold)
     //Emulates fwidth
     float fw = abs(dist - derivatives.x) + abs(dist - derivatives.y);
     
-    return smoothstep(threshold - u_fSmoothness*fw, threshold, dist);
+    return smoothstep(threshold - SMOOTHNESS*fw, threshold, dist);
 }
 
 

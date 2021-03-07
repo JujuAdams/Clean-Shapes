@@ -9,9 +9,6 @@ function CleanConvex(_array)
 
 function __CleanClassConvex(_array) constructor
 {
-    __shader = __shdClean;
-    __format = global.__cleanVertexFormat;
-    
     __pointArray = _array;
     __colour     = CLEAN_DEFAULT_CONVEX_COLOUR;
     __alpha      = CLEAN_DEFAULT_CONVEX_ALPHA;
