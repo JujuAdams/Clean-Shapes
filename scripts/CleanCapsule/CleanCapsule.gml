@@ -8,7 +8,7 @@ function CleanCapsule(_left, _top, _right, _bottom, _include)
 {
     var _rounding = 0.5*(_bottom - _top);
     
-    if (_include)
+    if (!_include)
     {
         _left  -= _rounding;
         _right += _rounding;
