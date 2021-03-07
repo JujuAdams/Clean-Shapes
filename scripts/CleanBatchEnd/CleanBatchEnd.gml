@@ -27,7 +27,7 @@ function CleanBatchEnd()
     }
     
     var _invScale = matrix_transform_vertex(matrix_get(matrix_projection), 0.5*_surfaceWidth, -0.5*_surfaceHeight, 0);
-    _invScale[@ 0] = 1/_invScale[0];
+    _invScale[@ 0] = abs(1/_invScale[0]);
     _invScale[@ 1] = abs(1/_invScale[1]);
     
     var _i = 0;

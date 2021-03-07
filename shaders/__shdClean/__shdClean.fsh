@@ -123,10 +123,15 @@ vec2 LineSquareCapDerivatives(vec2 pos, vec2 posA, vec2 posB, float thickness)
 
 
 
-float ConvexDistance(vec2 position, vec3 line1, vec3 line2, float rounding)
+float BoundaryDistance(vec2 position, vec2 norm, float distanceFromOrigin)
 {
-    vec2 delta = vec2(line1.z - dot(line1.xy, position),
-                      line2.z - dot(line2.xy, position)) + rounding;
+    return (distanceFromOrigin - dot(norm, position));
+}
+
+float ConvexDistance(vec2 position, vec3 boundary1, vec3 boundary2, float rounding)
+{
+    vec2 delta = vec2(BoundaryDistance(position, boundary1.xy, boundary1.z),
+                      BoundaryDistance(position, boundary2.xy, boundary2.z)) + rounding;
     return min(max(delta.x, delta.y), 0.0) + length(max(delta, 0.0)) - rounding;
 }
 
@@ -149,7 +154,7 @@ float LineDistance(vec2 position, vec2 posA, vec2 posB)
 
 float PolylineMitreJoinDistance(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
 {
-    float dist = min(LineDistance(position, posA, posB), LineDistance(position, posB, posC)) - 0.5*thickness;;
+    float dist = min(LineDistance(position, posA, posB), LineDistance(position, posB, posC)) - 0.5*thickness;
     
     vec2 norm1 = normalize(posA - posB);
     vec2 norm2 = normalize(posB - posC);
@@ -170,6 +175,29 @@ vec2 PolylineMitreJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC
     //Emulates dFdx/dFdy
     return vec2(PolylineMitreJoinDistance(position + vec2(u_vInvOutputScale.x, 0.0), posA, posB, posC, thickness),
                 PolylineMitreJoinDistance(position + vec2(0.0, u_vInvOutputScale.y), posA, posB, posC, thickness));
+}
+
+
+
+float PolylineBevelJoinDistance(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
+{
+    float mitreDist = PolylineMitreJoinDistance(position, posA, posB, posC, thickness);
+    
+    vec2 norm = normalize(posB - posA) + normalize(posB - posC);
+    if (length(norm) < 0.0001) return mitreDist;
+    norm = normalize(norm);
+    
+    vec2 point = thickness*norm + posB;
+    float pointDot = dot(point, norm) - 0.5*thickness;
+    
+    return max(mitreDist, -BoundaryDistance(position, norm, pointDot));
+}
+
+vec2 PolylineBevelJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
+{
+    //Emulates dFdx/dFdy
+    return vec2(PolylineBevelJoinDistance(position + vec2(u_vInvOutputScale.x, 0.0), posA, posB, posC, thickness),
+                PolylineBevelJoinDistance(position + vec2(0.0, u_vInvOutputScale.y), posA, posB, posC, thickness));
 }
 
 
@@ -249,6 +277,12 @@ void main()
         {
             dist        = PolylineMitreJoinDistance(   v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
             derivatives = PolylineMitreJoinDerivatives(v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
+            gl_FragColor = v_vFillColour;
+        }
+        else if (v_fMode == 8.0) //Polyline with bevel joint
+        {
+            dist        = PolylineBevelJoinDistance(   v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
+            derivatives = PolylineBevelJoinDerivatives(v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
             gl_FragColor = v_vFillColour;
         }
         else if (v_fMode == 9.0) //Polyline with round joint

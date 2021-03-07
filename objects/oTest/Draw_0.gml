@@ -9,10 +9,10 @@
 CleanBatchStart();
 
 CleanPolyline([x1, y1,   x2, y2,   x3, y3,   x4, y4])
-.Thickness(30)
-.Blend(c_white, 1.0)
-.Cap("round", "round")
-.Join("mitre")
+.Thickness(8)
+.Blend(c_white, 0.5)
+.Cap("square", "round")
+.Join("bevel")
 .Draw();
 
 //CleanLine(x1, y1, x2, y2)
@@ -65,7 +65,3 @@ CleanPolyline([x1, y1,   x2, y2,   x3, y3,   x4, y4])
 //.Draw();
 
 CleanBatchEnd();
-
-draw_circle(x2, y2, 2, false);
-draw_circle(x3, y3, 2, false);
-draw_circle(x4, y4, 2, false);
