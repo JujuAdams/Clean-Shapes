@@ -52,7 +52,26 @@ function __CleanError()
 
 function __CleanDraw()
 {
-    if (!is_array(global.__cleanBatch)) //Ignore draw calls if we're in a batch
+    if (is_array(global.__cleanBatch)) //Ignore draw calls if we're in a batch
+    {
+        array_push(global.__cleanBatch, self);
+    }
+    else
+    {
+        var _vbuff = vertex_create_buffer();
+        vertex_begin(_vbuff, global.__cleanVertexFormat);
+        __Build(_vbuff);
+        vertex_end(_vbuff);
+        __CleanSubmit(_vbuff);
+        vertex_delete_buffer(_vbuff);
+    }
+    
+    return undefined;
+}
+
+function __CleanSubmit(_vbuff)
+{
+    if (global.__cleanAntialias)
     {
         //Find the inverse scale of our output surface
         //These values are passed in our shader and are used for resolution independent rendering
@@ -68,29 +87,18 @@ function __CleanDraw()
             var _surfaceHeight = window_get_height();
         }
         
-        var _invScale = matrix_transform_vertex(matrix_get(matrix_projection), 0.5*_surfaceWidth, -0.5*_surfaceHeight, 0);
-        _invScale[@ 0] = 1/_invScale[0];
+        var _invScale = matrix_transform_vertex(matrix_get(matrix_projection), 0.5*_surfaceWidth, 0.5*_surfaceHeight, 0);
+        _invScale[@ 0] = abs(1/_invScale[0]);
         _invScale[@ 1] = abs(1/_invScale[1]);
         
-        var _vbuff = vertex_create_buffer();
-        vertex_begin(_vbuff, global.__cleanVertexFormat);
-        __Build(_vbuff);
-        vertex_end(_vbuff);
-        
-        if (global.__cleanAntialias)
-        {
-            shader_set(__shdCleanAntialias);
-            shader_set_uniform_f(global.__clean_u_vInvOutputScale, _invScale[0], _invScale[1]);
-        }
-        else
-        {
-            shader_set(__shdCleanJaggies);
-        }
-        
-        vertex_submit(_vbuff, pr_trianglelist, -1);
-        shader_reset();
-        vertex_delete_buffer(_vbuff);
+        shader_set(__shdCleanAntialias);
+        shader_set_uniform_f(global.__clean_u_vInvOutputScale, _invScale[0], _invScale[1]);
+    }
+    else
+    {
+        shader_set(__shdCleanJaggies);
     }
     
-    return undefined;
+    vertex_submit(_vbuff, pr_trianglelist, -1);
+    shader_reset();
 }

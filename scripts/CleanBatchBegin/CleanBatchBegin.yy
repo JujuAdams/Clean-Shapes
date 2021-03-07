@@ -6,7 +6,7 @@
     "path": "folders/Clean Shapes.yy",
   },
   "resourceVersion": "1.0",
-  "name": "CleanBatchStart",
+  "name": "CleanBatchBegin",
   "tags": [],
   "resourceType": "GMScript",
 }
