@@ -43,6 +43,7 @@ vec2 CircleDerivatives(vec2 pos, vec3 circleXYR)
 
 float RectangleDistance(vec2 pos, vec2 rectCentre, vec2 rectSize, float radius)
 {
+    radius = max(0.0001, radius); //FIXME - Dumb workaround for a bug where many things break if the radius == 0
     return length(max(abs(pos - rectCentre) - rectSize + radius, 0.0)) - radius;
 }
 
