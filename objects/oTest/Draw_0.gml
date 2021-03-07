@@ -12,7 +12,7 @@ CleanPolyline([x1, y1,   x2, y2,   x3, y3,   x4, y4])
 .Thickness(8)
 .Blend(c_white, 0.5)
 .Cap("round", "round")
-.Join("bevel")
+.Join("round")
 .Draw();
 
 //CleanLine(x1, y1, x2, y2)
