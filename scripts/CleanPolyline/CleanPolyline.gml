@@ -112,28 +112,38 @@ function __CleanClassPolyline(_array) constructor
         var _cap = 5; //Default to rounded lines
         if (__capStart == "none"  ) _cap = 3;
         if (__capStart == "square") _cap = 4;
+        if ((__capStart == "closed") || (__capEnd == "closed")) _cap = undefined;
         
-        vertex_position_3d(_vbuff, _x3, _y3, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x5, _y5, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x6, _y6, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        
-        vertex_position_3d(_vbuff, _x3, _y3, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x6, _y6, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x4, _y4, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        if (_cap != undefined)
+        {
+            vertex_position_3d(_vbuff, _x3, _y3, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x5, _y5, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x6, _y6, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            
+            vertex_position_3d(_vbuff, _x3, _y3, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x6, _y6, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x4, _y4, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        }
         
         
         
         
         //Points along the line
+        var _arraySize = array_length(_pointArray);
+        var _count = _arraySize div 2;
+        if (_cap != undefined) _count -= 2;
+        
         var _i = 4;
-        repeat((array_length(_pointArray) div 2) - 2)
+        repeat(_count)
         {
+            var _j = _i mod _arraySize;
+            
             _px1 = _px2;
             _py1 = _py2;
             _px2 = _px3;
             _py2 = _py3;
-            _px3 = _pointArray[_i  ];
-            _py3 = _pointArray[_i+1];
+            _px3 = _pointArray[_j  ];
+            _py3 = _pointArray[_j+1];
             
             _dx1 = _dx2;
             _dy1 = _dy2;
@@ -148,6 +158,7 @@ function __CleanClassPolyline(_array) constructor
             _dx2 *= 0.5*_thickness*_inv_length;
             _dy2 *= 0.5*_thickness*_inv_length;
             
+            //TODO - Is there a smart way of doing this?
             var _cross = _nx1*_ny2 - _ny1*_nx2;
             var _sigma = (_cross == 0.0)? 0.0 : ((_nx1*_nx2 + _ny1*_ny2 - 1) / _cross);
             var _dx3 = _sigma*_dx1;
@@ -189,34 +200,36 @@ function __CleanClassPolyline(_array) constructor
         
         
         
-        
-        //Calculate the size of the cap
-        var _dx2 = _px3 - _px2;
-        var _dy2 = _py3 - _py2;
-        var _inv_length = 1 / sqrt(_dx2*_dx2 + _dy2*_dy2);
-        _dx2 *= 0.5*_thickness*_inv_length;
-        _dy2 *= 0.5*_thickness*_inv_length;
-        
-        var _x1 = _x5;
-        var _y1 = _y5;
-        var _x2 = _x6;
-        var _y2 = _y6;
-        var _x3 = _px3 + _dx2 - _dy2;
-        var _y3 = _py3 + _dy2 + _dx2;
-        var _x4 = _px3 + _dx2 + _dy2;
-        var _y4 = _py3 + _dy2 - _dx2;
-        
-        var _cap = 5; //Default to rounded lines
-        if (__capEnd == "none"  ) _cap = 3;
-        if (__capEnd == "square") _cap = 4;
-        
-        vertex_position_3d(_vbuff, _x1, _y1, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x3, _y3, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x4, _y4, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        
-        vertex_position_3d(_vbuff, _x1, _y1, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x4, _y4, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
-        vertex_position_3d(_vbuff, _x2, _y2, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        if (_cap != undefined)
+        {
+            //Calculate the size of the cap
+            var _dx2 = _px3 - _px2;
+            var _dy2 = _py3 - _py2;
+            var _inv_length = 1 / sqrt(_dx2*_dx2 + _dy2*_dy2);
+            _dx2 *= 0.5*_thickness*_inv_length;
+            _dy2 *= 0.5*_thickness*_inv_length;
+            
+            var _x1 = _x5;
+            var _y1 = _y5;
+            var _x2 = _x6;
+            var _y2 = _y6;
+            var _x3 = _px3 + _dx2 - _dy2;
+            var _y3 = _py3 + _dy2 + _dx2;
+            var _x4 = _px3 + _dx2 + _dy2;
+            var _y4 = _py3 + _dy2 - _dx2;
+            
+            var _cap = 5; //Default to rounded lines
+            if (__capEnd == "none"  ) _cap = 3;
+            if (__capEnd == "square") _cap = 4;
+            
+            vertex_position_3d(_vbuff, _x1, _y1, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x3, _y3, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x4, _y4, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            
+            vertex_position_3d(_vbuff, _x1, _y1, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x4, _y4, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+            vertex_position_3d(_vbuff, _x2, _y2, _cap); vertex_normal(_vbuff, _px2, _py2, 0); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _px3, _py3, 0); vertex_float4(_vbuff, 0, 0, 0, 0); vertex_texcoord(_vbuff, _thickness, 0);
+        }
     }
     
     /*

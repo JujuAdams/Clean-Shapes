@@ -11,7 +11,7 @@ CleanBatchStart();
 CleanPolyline([x1, y1,   x2, y2,   x3, y3,   x4, y4])
 .Thickness(8)
 .Blend(c_white, 0.5)
-.Cap("square", "round")
+.Cap("round", "round")
 .Join("bevel")
 .Draw();
 
