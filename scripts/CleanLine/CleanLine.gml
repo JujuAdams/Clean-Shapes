@@ -5,9 +5,7 @@
 
 function CleanLine(_x1, _y1, _x2, _y2)
 {
-    var _struct = new __CleanClassLine(_x1, _y1, _x2, _y2);
-    if (is_array(global.__cleanBatch)) array_push(global.__cleanBatch, _struct);
-    return _struct;
+    return new __CleanClassLine(_x1, _y1, _x2, _y2);
 }
 
 function __CleanClassLine(_x1, _y1, _x2, _y2) constructor

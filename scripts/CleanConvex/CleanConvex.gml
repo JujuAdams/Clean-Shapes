@@ -2,9 +2,7 @@
 
 function CleanConvex(_array)
 {
-    var _struct = new __CleanClassConvex(_array);
-    if (is_array(global.__cleanBatch)) array_push(global.__cleanBatch, _struct);
-    return _struct;
+    return new __CleanClassConvex(_array);
 }
 
 function __CleanClassConvex(_array) constructor

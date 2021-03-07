@@ -4,9 +4,7 @@
 
 function CleanCircle(_x, _y, _radius)
 {
-    var _struct = new __CleanClassCircle(_x, _y, _radius);
-    if (is_array(global.__cleanBatch)) array_push(global.__cleanBatch, _struct);
-    return _struct;
+    return new __CleanClassCircle(_x, _y, _radius);
 }
 
 function __CleanClassCircle(_x, _y, _radius) constructor

@@ -5,9 +5,7 @@
 
 function CleanRectangle(_left, _top, _right, _bottom)
 {
-    var _struct = new __CleanClassRectangle(_left, _top, _right, _bottom);
-    if (is_array(global.__cleanBatch)) array_push(global.__cleanBatch, _struct);
-    return _struct;
+    return new __CleanClassRectangle(_left, _top, _right, _bottom);
 }
 
 function __CleanClassRectangle(_left, _top, _right, _bottom) constructor

@@ -7,9 +7,7 @@
 
 function CleanTriangle(_x1, _y1, _x2, _y2, _x3, _y3)
 {
-    var _struct = new __CleanClassTriangle(_x1, _y1, _x2, _y2, _x3, _y3);
-    if (is_array(global.__cleanBatch)) array_push(global.__cleanBatch, _struct);
-    return _struct;
+    return new __CleanClassTriangle(_x1, _y1, _x2, _y2, _x3, _y3);
 }
 
 function __CleanClassTriangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor

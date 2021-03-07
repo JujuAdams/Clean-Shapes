@@ -2,9 +2,7 @@
 
 function CleanPolyline(_array)
 {
-    var _struct = new __CleanClassPolyline(_array);
-    if (is_array(global.__cleanBatch)) array_push(global.__cleanBatch, _struct);
-    return _struct;
+    return new __CleanClassPolyline(_array);
 }
 
 function __CleanClassPolyline(_array) constructor
