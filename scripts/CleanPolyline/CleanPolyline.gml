@@ -61,7 +61,7 @@ function __CleanClassPolyline(_array) constructor
     }
     
     /// @param vertexBuffer
-    static Build = function(_vbuff)
+    static __Build = function(_vbuff)
     {
         var _colour     = __colour;
         var _alpha      = __alpha;

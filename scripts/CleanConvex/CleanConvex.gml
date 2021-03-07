@@ -60,7 +60,7 @@ function __CleanClassConvex(_array) constructor
     }
     
     /// @param vertexBuffer
-    static Build = function(_vbuff)
+    static __Build = function(_vbuff)
     {
         var _pointArray      = __pointArray;
         var _blendArray      = __blendArray;

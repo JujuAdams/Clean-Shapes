@@ -90,7 +90,7 @@ function __CleanClassTriangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor
     }
     
     /// @param vertexBuffer
-    static Build = function(_vbuff)
+    static __Build = function(_vbuff)
     {
         var _x1 = __x1;
         var _y1 = __y1;

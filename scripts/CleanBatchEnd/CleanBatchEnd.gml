@@ -39,7 +39,7 @@ function CleanBatchEnd()
     var _i = 0;
     repeat(array_length(_batchArray))
     {
-        _batchArray[_i].Build(_vbuff);
+        _batchArray[_i].__Build(_vbuff);
         ++_i;
     }
     

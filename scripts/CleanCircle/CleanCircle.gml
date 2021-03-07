@@ -51,7 +51,7 @@ function __CleanClassCircle(_x, _y, _radius) constructor
     }
     
     /// @param vertexBuffer
-    static Build = function(_vbuff)
+    static __Build = function(_vbuff)
     {
         var _x      = __x;
         var _y      = __y;

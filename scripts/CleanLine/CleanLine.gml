@@ -61,7 +61,7 @@ function __CleanClassLine(_x1, _y1, _x2, _y2) constructor
     }
     
     /// @param vertexBuffer
-    static Build = function(_vbuff)
+    static __Build = function(_vbuff)
     {
         var _colour    = __colour;
         var _alpha     = __alpha;

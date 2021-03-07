@@ -74,7 +74,7 @@ function __CleanDraw()
         
         var _vbuff = vertex_create_buffer();
         vertex_begin(_vbuff, global.__cleanVertexFormat);
-        Build(_vbuff);
+        __Build(_vbuff);
         vertex_end(_vbuff);
         
         if (global.__cleanAntialias)
