@@ -1,16 +1,16 @@
 CleanBatchStart();
 
-CleanPolyline([x1, y1,   x2, y2,   x3, y3,   x4, y4])
-.Thickness(8)
-.Blend(c_white, 1.0)
-.Cap("round", "round")
-.Join("round")
-.Draw();
+//CleanPolyline([x1, y1,   x2, y2,   x3, y3,   x4, y4])
+//.Thickness(8)
+//.Blend(c_white, 1.0)
+//.Cap("round", "round")
+//.Join("round")
+//.Draw();
 
 //CleanLine(x1, y1, x2, y2)
 //.Blend(c_white, 1.0)
 //.Thickness(30)
-//.Cap("none", "square")
+//.Cap("round", "square")
 //.Draw();
 
 //CleanLine(x3, y3,   x4, y4)
@@ -23,7 +23,7 @@ CleanPolyline([x1, y1,   x2, y2,   x3, y3,   x4, y4])
 //.Border(5, c_black, 1.0)
 //.Rounding(10)
 //.Draw();
-//
+
 //CleanConvex([x1, y1,   x2, y2,   x3, y3,   x4, y4])
 //.BlendExt([c_yellow, 1.0, c_aqua, 1.0, c_white, 1.0, c_fuchsia, 1.0])
 //.Border(5, c_black, 1.0)
@@ -45,12 +45,12 @@ CleanPolyline([x1, y1,   x2, y2,   x3, y3,   x4, y4])
 //.Border(10, c_white, 1.0)
 //.Rounding(40)
 //.Draw();
-//
+
 //CleanCircle(x3, y3, 80)
 //.Blend(0xCBC0FF, 1.0)
 //.Border(10, c_white, 1.0)
 //.Draw();
-//
+
 //CleanCircle(x4, y4, 60)
 //.Blend(0xCBC0FF, 1.0)
 //.Border(10, c_white, 1.0)
