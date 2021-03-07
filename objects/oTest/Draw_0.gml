@@ -1,3 +1,4 @@
+//Shapes can be drawn by themselves
 CleanRectangle(30, 30, 610, 330)
 .Blend4(c_white, 1.0, c_white, 0.5, c_white, 1.0, c_white, 0.5)
 .Rounding(15)
@@ -5,6 +6,7 @@ CleanRectangle(30, 30, 610, 330)
 
 
 
+//If you're drawing lots of shapes, batching is way faster
 CleanBatchBegin();
 
 CleanPolyline([590, 50,   570, 130,   490, 70,   510, 150])
