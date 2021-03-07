@@ -1,1 +1,0 @@
-Please note that **Clean Shapes in only supported for Windows and consoles** due to bugs in GameMaker's handling of GLSL shader compilation on Mac, iOS, and HTML5. Android might work as well but I haven't tested it.
