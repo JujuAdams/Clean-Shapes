@@ -150,7 +150,7 @@ void main()
         }
         else if (v_fMode == 2.0) //Rectangle + Capsule
         {
-            dist = RectangleDistance(v_vPosition, v_vRectangleXY, 0.5*v_vRectangleWH, v_fRounding);
+            dist = RectangleDistance(v_vPosition, v_vRectangleXY, v_vRectangleWH, v_fRounding);
             gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, v_fBorderThickness));
         }
         else if (v_fMode == 3.0) //Line with no cap
