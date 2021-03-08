@@ -43,8 +43,8 @@ vec2 CircleDerivatives(vec2 pos, vec3 circleXYR)
 
 float RectangleDistance(vec2 pos, vec2 rectCentre, vec2 rectSize, float radius)
 {
-    radius = max(0.0001, radius); //FIXME - Dumb workaround for a bug where many things break if the radius == 0
-    return length(max(abs(pos - rectCentre) - rectSize + radius, 0.0)) - radius;
+    vec2 vector = abs(pos - rectCentre) - 0.5*rectSize + radius;
+    return length(max(vector, 0.0)) + min(max(vector.x, vector.y), 0.0) - radius;
 }
 
 vec2 RectangleDerivatives(vec2 pos, vec2 rectCentre, vec2 rectSize, float radius)
@@ -52,18 +52,6 @@ vec2 RectangleDerivatives(vec2 pos, vec2 rectCentre, vec2 rectSize, float radius
     //Emulates dFdx/dFdy
     return vec2(RectangleDistance(pos + vec2(u_vInvOutputScale.x, 0.0), rectCentre, rectSize, radius),
                 RectangleDistance(pos + vec2(0.0, u_vInvOutputScale.y), rectCentre, rectSize, radius));
-}
-
-
-
-float SquareLength(vec2 vector)
-{
-    return max(abs(vector.x), abs(vector.y));
-}
-
-float PointLength(vec2 vector)
-{
-    return abs(vector.x) + abs(vector.y);
 }
 
 
@@ -245,8 +233,8 @@ void main()
         }
         else if (v_fMode == 2.0) //Rectangle + Capsule
         {
-            dist        = RectangleDistance(   v_vPosition, v_vRectangleXY, 0.5*v_vRectangleWH, v_fRounding);
-            derivatives = RectangleDerivatives(v_vPosition, v_vRectangleXY, 0.5*v_vRectangleWH, v_fRounding);
+            dist        = RectangleDistance(   v_vPosition, v_vRectangleXY, v_vRectangleWH, v_fRounding);
+            derivatives = RectangleDerivatives(v_vPosition, v_vRectangleXY, v_vRectangleWH, v_fRounding);
             gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
         }
         else if (v_fMode == 3.0) //Line with no cap

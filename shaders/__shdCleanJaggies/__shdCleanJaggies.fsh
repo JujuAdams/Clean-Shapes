@@ -34,7 +34,8 @@ float CircleDistance(vec2 pos, vec3 circleXYR)
 
 float RectangleDistance(vec2 pos, vec2 rectCentre, vec2 rectSize, float radius)
 {
-    return length(max(abs(pos - rectCentre) - rectSize + radius, 0.0)) - radius;
+    vec2 vector = abs(pos - rectCentre) - 0.5*rectSize + radius;
+    return length(max(vector, 0.0)) + min(max(vector.x, vector.y), 0.0) - radius;
 }
 
 float LineNoCapDistance( in vec2 p, in vec2 a, in vec2 b, float th )
