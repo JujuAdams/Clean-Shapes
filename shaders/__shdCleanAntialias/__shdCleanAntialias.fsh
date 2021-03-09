@@ -1,4 +1,5 @@
 //Shared
+varying vec2  v_vOutputTexel;
 varying vec2  v_vPosition;
 varying float v_fMode;
 varying vec4  v_vFillColour;
@@ -23,8 +24,6 @@ varying float v_fLineThickness;
 varying vec3 v_vLine1;
 varying vec3 v_vLine2;
 
-uniform vec2  u_vInvOutputScale;
-
 const float SMOOTHNESS = 1.41421356237;
 
 float CircleDistance(vec2 pos, vec3 circleXYR)
@@ -35,8 +34,8 @@ float CircleDistance(vec2 pos, vec3 circleXYR)
 vec2 CircleDerivatives(vec2 pos, vec3 circleXYR)
 {
     //Emulates dFdx/dFdy
-    return vec2(CircleDistance(pos + vec2(u_vInvOutputScale.x, 0.0), circleXYR),
-                CircleDistance(pos + vec2(0.0, u_vInvOutputScale.y), circleXYR));
+    return vec2(CircleDistance(pos + vec2(v_vOutputTexel.x, 0.0), circleXYR),
+                CircleDistance(pos + vec2(0.0, v_vOutputTexel.y), circleXYR));
 }
 
 
@@ -50,8 +49,8 @@ float RectangleDistance(vec2 pos, vec2 rectCentre, vec2 rectSize, float radius)
 vec2 RectangleDerivatives(vec2 pos, vec2 rectCentre, vec2 rectSize, float radius)
 {
     //Emulates dFdx/dFdy
-    return vec2(RectangleDistance(pos + vec2(u_vInvOutputScale.x, 0.0), rectCentre, rectSize, radius),
-                RectangleDistance(pos + vec2(0.0, u_vInvOutputScale.y), rectCentre, rectSize, radius));
+    return vec2(RectangleDistance(pos + vec2(v_vOutputTexel.x, 0.0), rectCentre, rectSize, radius),
+                RectangleDistance(pos + vec2(0.0, v_vOutputTexel.y), rectCentre, rectSize, radius));
 }
 
 
@@ -69,8 +68,8 @@ float LineNoCapDistance( in vec2 p, in vec2 a, in vec2 b, float th )
 vec2 LineNoCapDerivatives(vec2 pos, vec2 posA, vec2 posB, float thickness)
 {
     //Emulates dFdx/dFdy
-    return vec2(LineNoCapDistance(pos + vec2(u_vInvOutputScale.x, 0.0), posA, posB, thickness),
-                LineNoCapDistance(pos + vec2(0.0, u_vInvOutputScale.y), posA, posB, thickness));
+    return vec2(LineNoCapDistance(pos + vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
+                LineNoCapDistance(pos + vec2(0.0, v_vOutputTexel.y), posA, posB, thickness));
 }
 
 
@@ -86,8 +85,8 @@ float LineRoundCapDistance(vec2 position, vec2 posA, vec2 posB, float thickness)
 vec2 LineRoundCapDerivatives(vec2 pos, vec2 posA, vec2 posB, float thickness)
 {
     //Emulates dFdx/dFdy
-    return vec2(LineRoundCapDistance(pos + vec2(u_vInvOutputScale.x, 0.0), posA, posB, thickness),
-                LineRoundCapDistance(pos + vec2(0.0, u_vInvOutputScale.y), posA, posB, thickness));
+    return vec2(LineRoundCapDistance(pos + vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
+                LineRoundCapDistance(pos + vec2(0.0, v_vOutputTexel.y), posA, posB, thickness));
 }
 
 
@@ -105,8 +104,8 @@ float LineSquareCapDistance( in vec2 p, in vec2 a, in vec2 b, float th )
 vec2 LineSquareCapDerivatives(vec2 pos, vec2 posA, vec2 posB, float thickness)
 {
     //Emulates dFdx/dFdy
-    return vec2(LineSquareCapDistance(pos + vec2(u_vInvOutputScale.x, 0.0), posA, posB, thickness),
-                LineSquareCapDistance(pos + vec2(0.0, u_vInvOutputScale.y), posA, posB, thickness));
+    return vec2(LineSquareCapDistance(pos + vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
+                LineSquareCapDistance(pos + vec2(0.0, v_vOutputTexel.y), posA, posB, thickness));
 }
 
 
@@ -126,8 +125,8 @@ float ConvexDistance(vec2 position, vec3 boundary1, vec3 boundary2, float roundi
 vec2 ConvexDerivatives(vec2 pos, vec3 line1, vec3 line2, float rounding)
 {
     //Emulates dFdx/dFdy
-    return vec2(ConvexDistance(pos + vec2(u_vInvOutputScale.x, 0.0), line1, line2, rounding),
-                ConvexDistance(pos + vec2(0.0, u_vInvOutputScale.y), line1, line2, rounding));
+    return vec2(ConvexDistance(pos + vec2(v_vOutputTexel.x, 0.0), line1, line2, rounding),
+                ConvexDistance(pos + vec2(0.0, v_vOutputTexel.y), line1, line2, rounding));
 }
 
 
@@ -161,8 +160,8 @@ float PolylineMitreJoinDistance(vec2 position, vec2 posA, vec2 posB, vec2 posC, 
 vec2 PolylineMitreJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
 {
     //Emulates dFdx/dFdy
-    return vec2(PolylineMitreJoinDistance(position + vec2(u_vInvOutputScale.x, 0.0), posA, posB, posC, thickness),
-                PolylineMitreJoinDistance(position + vec2(0.0, u_vInvOutputScale.y), posA, posB, posC, thickness));
+    return vec2(PolylineMitreJoinDistance(position + vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
+                PolylineMitreJoinDistance(position + vec2(0.0, v_vOutputTexel.y), posA, posB, posC, thickness));
 }
 
 
@@ -184,8 +183,8 @@ float PolylineBevelJoinDistance(vec2 position, vec2 posA, vec2 posB, vec2 posC, 
 vec2 PolylineBevelJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
 {
     //Emulates dFdx/dFdy
-    return vec2(PolylineBevelJoinDistance(position + vec2(u_vInvOutputScale.x, 0.0), posA, posB, posC, thickness),
-                PolylineBevelJoinDistance(position + vec2(0.0, u_vInvOutputScale.y), posA, posB, posC, thickness));
+    return vec2(PolylineBevelJoinDistance(position + vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
+                PolylineBevelJoinDistance(position + vec2(0.0, v_vOutputTexel.y), posA, posB, posC, thickness));
 }
 
 
@@ -198,8 +197,8 @@ float PolylineRoundJoinDistance(vec2 position, vec2 posA, vec2 posB, vec2 posC, 
 vec2 PolylineRoundJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
 {
     //Emulates dFdx/dFdy
-    return vec2(PolylineRoundJoinDistance(position + vec2(u_vInvOutputScale.x, 0.0), posA, posB, posC, thickness),
-                PolylineRoundJoinDistance(position + vec2(0.0, u_vInvOutputScale.y), posA, posB, posC, thickness));
+    return vec2(PolylineRoundJoinDistance(position + vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
+                PolylineRoundJoinDistance(position + vec2(0.0, v_vOutputTexel.y), posA, posB, posC, thickness));
 }
 
 

@@ -7,6 +7,7 @@ attribute vec4 in_Colour3;      //Border colour               Border colour     
 attribute vec2 in_TextureCoord; //unused, border thickness    Rounding, border thickness    Thickness, unused    Rounding, border thickness    Thickness, unused
 
 //Shared
+varying vec2  v_vOutputTexel;
 varying vec2  v_vPosition;
 varying float v_fMode;
 varying vec4  v_vFillColour;
@@ -31,9 +32,16 @@ varying float v_fLineThickness;
 varying vec3 v_vLine1;
 varying vec3 v_vLine2;
 
+uniform vec2 u_vOutputSize;
+
 void main()
 {
     gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION]*vec4(in_Position.xyz, 1.0);
+    
+    mat4 wvpMatrix = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION];
+    v_vOutputTexel = 1.0 / vec2(length(vec3(wvpMatrix[0][0], wvpMatrix[0][1], wvpMatrix[0][2])),
+                                length(vec3(wvpMatrix[1][0], wvpMatrix[1][1], wvpMatrix[1][2])));
+    v_vOutputTexel /= 0.5*u_vOutputSize;
     
     //Shared
     v_fMode            = in_Position.z;

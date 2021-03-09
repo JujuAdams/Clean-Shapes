@@ -1,3 +1,5 @@
+matrix_set(matrix_world, matrix_build(0,0,0,   0,0,0,   2,2,1));
+
 //Shapes can be drawn by themselves
 CleanRectangle(20, 20, 610, 330)
 .Blend4(c_white, 1.0, c_white, 0.5, c_white, 1.0, c_white, 0.5)
@@ -64,3 +66,5 @@ CleanCircle(470, 260, 50)
 .Draw();
 
 CleanBatchEnd();
+
+matrix_set(matrix_world, matrix_build_identity());

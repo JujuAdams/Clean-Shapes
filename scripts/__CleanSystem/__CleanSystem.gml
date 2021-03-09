@@ -6,7 +6,7 @@ __CleanTrace("Welcome to Clean Shapes by @jujuadams! This is version ", __CLEAN_
 global.__cleanBatch     = undefined;
 global.__cleanAntialias = CLEAN_DEFAULT_ANTIALIAS;
 
-global.__clean_u_vInvOutputScale = shader_get_uniform(__shdCleanAntialias, "u_vInvOutputScale");
+global.__clean_u_vOutputSize = shader_get_uniform(__shdCleanAntialias, "u_vOutputSize");
 
 vertex_format_begin();
 vertex_format_add_position_3d();
@@ -87,12 +87,8 @@ function __CleanSubmit(_vbuff)
             var _surfaceHeight = window_get_height();
         }
         
-        var _invScale = matrix_transform_vertex(matrix_get(matrix_projection), 0.5*_surfaceWidth, 0.5*_surfaceHeight, 0);
-        _invScale[@ 0] = abs(1/_invScale[0]);
-        _invScale[@ 1] = abs(1/_invScale[1]);
-        
         shader_set(__shdCleanAntialias);
-        shader_set_uniform_f(global.__clean_u_vInvOutputScale, _invScale[0], _invScale[1]);
+        shader_set_uniform_f(global.__clean_u_vOutputSize, _surfaceWidth, _surfaceHeight);
     }
     else
     {
