@@ -8,7 +8,6 @@
     {"id":{"name":"CleanBatchEnd","path":"scripts/CleanBatchEnd/CleanBatchEnd.yy",},"order":11,},
     {"id":{"name":"oMatrixTest","path":"objects/oMatrixTest/oMatrixTest.yy",},"order":2,},
     {"id":{"name":"rmMatrixTest","path":"rooms/rmMatrixTest/rmMatrixTest.yy",},"order":4,},
-    {"id":{"name":"Trinity","path":"scripts/Trinity/Trinity.yy",},"order":5,},
     {"id":{"name":"CleanRectangle","path":"scripts/CleanRectangle/CleanRectangle.yy",},"order":4,},
     {"id":{"name":"CleanAntialiasGet","path":"scripts/CleanAntialiasGet/CleanAntialiasGet.yy",},"order":13,},
     {"id":{"name":"oTest","path":"objects/oTest/oTest.yy",},"order":1,},
