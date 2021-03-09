@@ -6,7 +6,9 @@
     {"id":{"name":"CleanLine","path":"scripts/CleanLine/CleanLine.yy",},"order":1,},
     {"id":{"name":"__CleanConfig","path":"scripts/__CleanConfig/__CleanConfig.yy",},"order":0,},
     {"id":{"name":"CleanBatchEnd","path":"scripts/CleanBatchEnd/CleanBatchEnd.yy",},"order":11,},
-    {"id":{"name":"Trinity","path":"scripts/Trinity/Trinity.yy",},"order":3,},
+    {"id":{"name":"oMatrixTest","path":"objects/oMatrixTest/oMatrixTest.yy",},"order":2,},
+    {"id":{"name":"rmMatrixTest","path":"rooms/rmMatrixTest/rmMatrixTest.yy",},"order":4,},
+    {"id":{"name":"Trinity","path":"scripts/Trinity/Trinity.yy",},"order":5,},
     {"id":{"name":"CleanRectangle","path":"scripts/CleanRectangle/CleanRectangle.yy",},"order":4,},
     {"id":{"name":"CleanAntialiasGet","path":"scripts/CleanAntialiasGet/CleanAntialiasGet.yy",},"order":13,},
     {"id":{"name":"oTest","path":"objects/oTest/oTest.yy",},"order":1,},
@@ -18,7 +20,7 @@
     {"id":{"name":"CleanCapsule","path":"scripts/CleanCapsule/CleanCapsule.yy",},"order":5,},
     {"id":{"name":"CleanPolyline","path":"scripts/CleanPolyline/CleanPolyline.yy",},"order":2,},
     {"id":{"name":"__shdCleanJaggies","path":"shaders/__shdCleanJaggies/__shdCleanJaggies.yy",},"order":2,},
-    {"id":{"name":"rmMain","path":"rooms/rmMain/rmMain.yy",},"order":2,},
+    {"id":{"name":"rmTest","path":"rooms/rmTest/rmTest.yy",},"order":3,},
   ],
   "Options": [
     {"name":"Amazon Fire","path":"options/amazonfire/options_amazonfire.yy",},
@@ -43,7 +45,8 @@
     "children": [],
   },
   "RoomOrderNodes": [
-    {"roomId":{"name":"rmMain","path":"rooms/rmMain/rmMain.yy",},},
+    {"roomId":{"name":"rmTest","path":"rooms/rmTest/rmTest.yy",},},
+    {"roomId":{"name":"rmMatrixTest","path":"rooms/rmMatrixTest/rmMatrixTest.yy",},},
   ],
   "Folders": [
     {"folderPath":"folders/Clean Shapes.yy","order":0,"resourceVersion":"1.0","name":"Clean Shapes","tags":[],"resourceType":"GMFolder",},
