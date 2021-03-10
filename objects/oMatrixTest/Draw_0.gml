@@ -1,4 +1,6 @@
-matrix_set(matrix_world, matrix_build(0,0,0,   0,0,0,   2,2,1));
+var _scale = 6*mouse_x / room_width;
+
+matrix_set(matrix_world, matrix_build(0,0,0,   0,0,0,   _scale,_scale,1));
 
 //Shapes can be drawn by themselves
 CleanRectangle(20, 20, 610, 330)

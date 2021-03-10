@@ -46,8 +46,8 @@
     "children": [],
   },
   "RoomOrderNodes": [
-    {"roomId":{"name":"rmTest","path":"rooms/rmTest/rmTest.yy",},},
     {"roomId":{"name":"rmMatrixTest","path":"rooms/rmMatrixTest/rmMatrixTest.yy",},},
+    {"roomId":{"name":"rmTest","path":"rooms/rmTest/rmTest.yy",},},
   ],
   "Folders": [
     {"folderPath":"folders/Clean Shapes.yy","order":0,"resourceVersion":"1.0","name":"Clean Shapes","tags":[],"resourceType":"GMFolder",},
