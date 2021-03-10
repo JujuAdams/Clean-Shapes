@@ -1,14 +1,16 @@
 {
   "resources": [
+    {"id":{"name":"rmPolylineTest","path":"rooms/rmPolylineTest/rmPolylineTest.yy",},"order":6,},
     {"id":{"name":"CleanTriangle","path":"scripts/CleanTriangle/CleanTriangle.yy",},"order":9,},
     {"id":{"name":"CleanCircle","path":"scripts/CleanCircle/CleanCircle.yy",},"order":5,},
     {"id":{"name":"CleanAntialiasSet","path":"scripts/CleanAntialiasSet/CleanAntialiasSet.yy",},"order":1,},
     {"id":{"name":"CleanLine","path":"scripts/CleanLine/CleanLine.yy",},"order":3,},
     {"id":{"name":"__CleanConfig","path":"scripts/__CleanConfig/__CleanConfig.yy",},"order":0,},
     {"id":{"name":"CleanBatchEndDraw","path":"scripts/CleanBatchEndDraw/CleanBatchEndDraw.yy",},"order":12,},
-    {"id":{"name":"oMatrixTest","path":"objects/oMatrixTest/oMatrixTest.yy",},"order":2,},
+    {"id":{"name":"oMatrixTest","path":"objects/oMatrixTest/oMatrixTest.yy",},"order":3,},
     {"id":{"name":"CleanBatchDrawVertexBuffer","path":"scripts/CleanBatchDrawVertexBuffer/CleanBatchDrawVertexBuffer.yy",},"order":14,},
     {"id":{"name":"rmMatrixTest","path":"rooms/rmMatrixTest/rmMatrixTest.yy",},"order":4,},
+    {"id":{"name":"oPolylineTest","path":"objects/oPolylineTest/oPolylineTest.yy",},"order":5,},
     {"id":{"name":"CleanRectangle","path":"scripts/CleanRectangle/CleanRectangle.yy",},"order":6,},
     {"id":{"name":"CleanAntialiasGet","path":"scripts/CleanAntialiasGet/CleanAntialiasGet.yy",},"order":2,},
     {"id":{"name":"oTest","path":"objects/oTest/oTest.yy",},"order":1,},
@@ -21,7 +23,7 @@
     {"id":{"name":"CleanCapsule","path":"scripts/CleanCapsule/CleanCapsule.yy",},"order":7,},
     {"id":{"name":"CleanPolyline","path":"scripts/CleanPolyline/CleanPolyline.yy",},"order":4,},
     {"id":{"name":"__shdCleanJaggies","path":"shaders/__shdCleanJaggies/__shdCleanJaggies.yy",},"order":2,},
-    {"id":{"name":"rmTest","path":"rooms/rmTest/rmTest.yy",},"order":3,},
+    {"id":{"name":"rmTest","path":"rooms/rmTest/rmTest.yy",},"order":2,},
   ],
   "Options": [
     {"name":"Amazon Fire","path":"options/amazonfire/options_amazonfire.yy",},
@@ -46,8 +48,9 @@
     "children": [],
   },
   "RoomOrderNodes": [
-    {"roomId":{"name":"rmMatrixTest","path":"rooms/rmMatrixTest/rmMatrixTest.yy",},},
     {"roomId":{"name":"rmTest","path":"rooms/rmTest/rmTest.yy",},},
+    {"roomId":{"name":"rmMatrixTest","path":"rooms/rmMatrixTest/rmMatrixTest.yy",},},
+    {"roomId":{"name":"rmPolylineTest","path":"rooms/rmPolylineTest/rmPolylineTest.yy",},},
   ],
   "Folders": [
     {"folderPath":"folders/Clean Shapes.yy","order":0,"resourceVersion":"1.0","name":"Clean Shapes","tags":[],"resourceType":"GMFolder",},

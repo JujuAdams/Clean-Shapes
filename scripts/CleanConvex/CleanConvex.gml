@@ -40,6 +40,7 @@ function __CleanClassConvex(_array) constructor
         __colour     = undefined;
         __alpha      = undefined;
         __blendArray = _array;
+        
         return self;
     }
     
