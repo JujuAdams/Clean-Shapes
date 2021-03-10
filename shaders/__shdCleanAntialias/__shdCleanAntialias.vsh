@@ -45,28 +45,28 @@ void main()
     v_vOutputTexel /= 0.5*u_vOutputSize;
     
     //Shared
-    v_fMode            = in_Position.z;
-    v_vFillColour      = in_Colour1;
-    v_vBorderColour    = in_Colour3;
-    v_fBorderThickness = in_TextureCoord.y;
+    v_fMode              = in_Position.z;
+    v_vFillColour        = in_Colour1;
+    v_vBorderColour      = in_Colour3;
+    v_fBorderThickness   = in_TextureCoord.y;
     
     //Circle
     v_vCircleXYR         = in_Normal;
     v_vCircleInnerColour = vec4(in_Colour2, in_TextureCoord.x);
     
     //Rectangle
-    v_vRectangleXY     = in_Normal.xy;
-    v_vRectangleWH     = in_Colour2.xy;
-    v_fRounding        = in_TextureCoord.x;
+    v_vRectangleXY       = in_Normal.xy;
+    v_vRectangleWH       = in_Colour2.xy;
+    v_fRounding          = in_TextureCoord.x;
     
     //Line + Polyline
-    v_vLineA           = in_Normal.xy;
-    v_vLineB           = in_Colour2.xy;
-    v_vLineC           = vec2(in_Normal.z, in_Colour2.z);
-    v_fLineThickness   = in_TextureCoord.x;
+    v_vLineA             = in_Normal.xy;
+    v_vLineB             = in_Colour2.xy;
+    v_vLineC             = vec2(in_Normal.z, in_Colour2.z);
+    v_fLineThickness     = in_TextureCoord.x;
     
     //Polygon
-    v_vPosition        = in_Position.xy;
-    v_vLine1           = in_Normal;
-    v_vLine2           = in_Colour2;
+    v_vPosition          = in_Position.xy;
+    v_vLine1             = in_Normal;
+    v_vLine2             = in_Colour2;
 }
