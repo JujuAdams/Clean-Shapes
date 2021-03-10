@@ -7,6 +7,9 @@ function CleanConvex(_array)
 
 function __CleanClassConvex(_array) constructor
 {
+    if (!is_array(_array)) __CleanError("Invalid datatype given for argument0 (", typeof(_array), "), was expecting an array");
+    if ((array_length(_array) mod 2) != 0) __CleanError("Points array must have an even number of elements (x/y pairs)");
+    
     __pointArray = _array;
     __colour     = CLEAN_DEFAULT_CONVEX_COLOUR;
     __alpha      = CLEAN_DEFAULT_CONVEX_ALPHA;
@@ -31,6 +34,9 @@ function __CleanClassConvex(_array) constructor
     /// @param blendArray
     static BlendExt = function(_array)
     {
+        if (!is_array(_array)) __CleanError("Invalid datatype given for argument0 (", typeof(_array), "), was expecting an array");
+        if ((array_length(_array) mod 2) != 0) __CleanError("Blend array must have an even number of elements (RGB/alpha pairs)");
+        
         __colour     = undefined;
         __alpha      = undefined;
         __blendArray = _array;
