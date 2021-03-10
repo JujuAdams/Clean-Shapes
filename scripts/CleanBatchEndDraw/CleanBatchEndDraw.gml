@@ -1,4 +1,4 @@
-function CleanBatchEnd()
+function CleanBatchEndDraw()
 {
     var _batchArray = global.__cleanBatch;
     
@@ -26,8 +26,8 @@ function CleanBatchEnd()
     }
     
     vertex_end(_vbuff);
-    __CleanSubmit(_vbuff);
-    vertex_delete_buffer(_vbuff);
+    
+    CleanBatchDrawVertexBuffer(_vbuff, true);
     
     global.__cleanBatch = undefined;
 }

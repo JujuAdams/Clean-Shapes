@@ -6,7 +6,7 @@
     "path": "folders/Clean Shapes.yy",
   },
   "resourceVersion": "1.0",
-  "name": "CleanBatchEnd",
+  "name": "CleanBatchEndReturnVertexBuffer",
   "tags": [],
   "resourceType": "GMScript",
 }

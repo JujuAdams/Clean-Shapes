@@ -32,8 +32,7 @@ CleanTriangle(50, 100,   150, 150,   60, 200)
 .Draw();
 
 CleanConvex([160, 100,   250, 130,   260, 170,   170, 200])
-//.BlendExt([c_yellow, 1.0, c_aqua, 1.0, c_white, 1.0, c_fuchsia, 1.0])
-.Blend(c_white, 1.0)
+.BlendExt([c_yellow, 1.0, c_aqua, 1.0, c_white, 1.0, c_fuchsia, 1.0])
 .Border(5, c_black, 0.75)
 .Rounding(15)
 .Draw();
@@ -60,11 +59,15 @@ CleanCapsuleVertical(320, 220, 350, 310, true)
 .Border(10, c_white, 1.0)
 .Draw();
 
-CleanCircle(470, 260, 50)
+CleanCircle(450, 260, 50)
 .Blend(c_dkgray, 1.0)
 .Border(10, 0xCBC0FF, 1.0)
 .Draw();
 
-CleanBatchEnd();
+CleanCircle(510, 260, 50)
+.BlendRadial(c_white, 0.3, c_black, 1.0)
+.Draw();
+
+CleanBatchEndDraw();
 
 matrix_set(matrix_world, matrix_build_identity());

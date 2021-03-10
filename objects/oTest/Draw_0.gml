@@ -66,4 +66,4 @@ CleanCircle(510, 260, 50)
 .BlendRadial(c_white, 0.3, c_black, 1.0)
 .Draw();
 
-CleanBatchEnd();
+CleanBatchEndDraw();
