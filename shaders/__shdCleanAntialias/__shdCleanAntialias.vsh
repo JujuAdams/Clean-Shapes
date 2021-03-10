@@ -1,10 +1,10 @@
-                                //CIRCLE:                     RECTANGLE:                    LINE:                CONVEX:                       POLYLINE:     
-attribute vec3 in_Position;     //XY, type                    XY, type                      XY, type             XY, type                      XY, type  
-attribute vec3 in_Normal;       //Circle XY, radius           Rect XY, unused               x1, y1, unused       First boundary                x1, y1, x3
-attribute vec4 in_Colour1;      //Fill colour                 Fill colour                   Fill colour          Fill colour                   Fill colour    
-attribute vec3 in_Colour2;      //unused                      Rect WH, unused               x2, y2, unused       Second boundary               x2. y2, y3
-attribute vec4 in_Colour3;      //Border colour               Border colour                 Unused               Border colour                 Unused
-attribute vec2 in_TextureCoord; //unused, border thickness    Rounding, border thickness    Thickness, unused    Rounding, border thickness    Thickness, unused
+                                //CIRCLE:                           RECTANGLE:                    LINE:                CONVEX:                       POLYLINE:     
+attribute vec3 in_Position;     //XY, type                          XY, type                      XY, type             XY, type                      XY, type  
+attribute vec3 in_Normal;       //Circle XY, radius                 Rect XY, unused               x1, y1, unused       First boundary                x1, y1, x3
+attribute vec4 in_Colour1;      //Outer fill RGBA                   Fill colour                   Fill colour          Fill colour                   Fill colour    
+attribute vec3 in_Colour2;      //Inner fill RGB                    Rect WH, unused               x2, y2, unused       Second boundary               x2. y2, y3
+attribute vec4 in_Colour3;      //Border colour                     Border colour                 Unused               Border colour                 Unused
+attribute vec2 in_TextureCoord; //Inner fill A, border thickness    Rounding, border thickness    Thickness, unused    Rounding, border thickness    Thickness, unused
 
 //Shared
 varying vec2  v_vOutputTexel;
@@ -17,6 +17,7 @@ varying float v_fRounding;
 
 //Circle
 varying vec3 v_vCircleXYR;
+varying vec4 v_vCircleInnerColour;
 
 //Rectangle
 varying vec2 v_vRectangleXY;
@@ -50,7 +51,8 @@ void main()
     v_fBorderThickness = in_TextureCoord.y;
     
     //Circle
-    v_vCircleXYR       = in_Normal;
+    v_vCircleXYR         = in_Normal;
+    v_vCircleInnerColour = vec4(in_Colour2, in_TextureCoord.x);
     
     //Rectangle
     v_vRectangleXY     = in_Normal.xy;

@@ -9,6 +9,7 @@ varying float v_fRounding;
 
 //Circle
 varying vec3 v_vCircleXYR;
+varying vec4 v_vCircleInnerColour;
 
 //Rectangle
 varying vec2 v_vRectangleXY;
@@ -228,7 +229,9 @@ void main()
         {
             dist        = CircleDistance(   v_vPosition, v_vCircleXYR);
             derivatives = CircleDerivatives(v_vPosition, v_vCircleXYR);
-            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
+            
+            vec4 fillColour = mix(v_vFillColour, v_vCircleInnerColour, -dist / v_vCircleXYR.z);
+            gl_FragColor = mix(v_vBorderColour, fillColour, Feather(-dist, -derivatives, v_fBorderThickness));
         }
         else if (v_fMode == 2.0) //Rectangle + Capsule
         {

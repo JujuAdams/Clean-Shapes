@@ -57,9 +57,13 @@ CleanCapsuleVertical(320, 220, 350, 310, true)
 .Border(10, c_white, 1.0)
 .Draw();
 
-CleanCircle(470, 260, 50)
+CleanCircle(450, 260, 50)
 .Blend(c_dkgray, 1.0)
 .Border(10, 0xCBC0FF, 1.0)
+.Draw();
+
+CleanCircle(510, 260, 50)
+.BlendRadial(c_white, 0.3, c_black, 1.0)
 .Draw();
 
 CleanBatchEnd();
