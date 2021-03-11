@@ -1,7 +1,7 @@
 /// @param x
 /// @param y
 
-function CleanTransformMove(_x, _y)
+function CleanTransformAddMove(_x, _y)
 {
     global.__cleanMatrixIdentity = false;
     

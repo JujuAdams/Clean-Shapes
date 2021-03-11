@@ -1,8 +1,8 @@
 CleanTransformOriginSet(room_width/4, room_height/4);
 var _scale = 6*mouse_x / room_width;
-CleanTransformScale(_scale, _scale);
+CleanTransformAddScale(_scale, _scale);
 var _angle = mouse_y;
-CleanTransformRotate(_angle);
+CleanTransformAddRotate(_angle);
 
 //Shapes can be drawn by themselves
 CleanRectangle(20, 20, 610, 330)

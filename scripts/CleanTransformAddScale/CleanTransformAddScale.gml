@@ -1,7 +1,7 @@
 /// @param xScale
 /// @param yScale
 
-function CleanTransformScale(_xScale, _yScale)
+function CleanTransformAddScale(_xScale, _yScale)
 {
     global.__cleanMatrixIdentity = false;
     

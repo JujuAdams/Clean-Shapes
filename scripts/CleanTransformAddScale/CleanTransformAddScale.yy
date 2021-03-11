@@ -6,7 +6,7 @@
     "path": "folders/Clean Shapes/Transform.yy",
   },
   "resourceVersion": "1.0",
-  "name": "CleanTransformMove",
+  "name": "CleanTransformAddScale",
   "tags": [],
   "resourceType": "GMScript",
 }

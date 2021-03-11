@@ -1,6 +1,6 @@
 /// @param angle
 
-function CleanTransformRotate(_angle)
+function CleanTransformAddRotate(_angle)
 {
     global.__cleanMatrixIdentity = false;
     

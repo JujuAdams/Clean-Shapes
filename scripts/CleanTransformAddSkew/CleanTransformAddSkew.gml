@@ -1,7 +1,7 @@
 /// @param xFactor
 /// @param yFactor
 
-function CleanTransformSkew(_x, _y)
+function CleanTransformAddSkew(_x, _y)
 {
     global.__cleanMatrixIdentity = false;
     
