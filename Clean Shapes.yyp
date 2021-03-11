@@ -11,8 +11,9 @@
     {"id":{"name":"CleanTransformOriginSet","path":"scripts/CleanTransformOriginSet/CleanTransformOriginSet.yy",},"order":0,},
     {"id":{"name":"CleanTransformRotate","path":"scripts/CleanTransformRotate/CleanTransformRotate.yy",},"order":3,},
     {"id":{"name":"oClockwiseTest","path":"objects/oClockwiseTest/oClockwiseTest.yy",},"order":8,},
-    {"id":{"name":"CleanTransformReset","path":"scripts/CleanTransformReset/CleanTransformReset.yy",},"order":5,},
+    {"id":{"name":"CleanTransformReset","path":"scripts/CleanTransformReset/CleanTransformReset.yy",},"order":7,},
     {"id":{"name":"CleanRectangleXYWH","path":"scripts/CleanRectangleXYWH/CleanRectangleXYWH.yy",},"order":4,},
+    {"id":{"name":"CleanTransformSkew","path":"scripts/CleanTransformSkew/CleanTransformSkew.yy",},"order":5,},
     {"id":{"name":"CleanBatchEndDraw","path":"scripts/CleanBatchEndDraw/CleanBatchEndDraw.yy",},"order":1,},
     {"id":{"name":"oMatrixTest","path":"objects/oMatrixTest/oMatrixTest.yy",},"order":4,},
     {"id":{"name":"CleanTransformOriginGet","path":"scripts/CleanTransformOriginGet/CleanTransformOriginGet.yy",},"order":1,},
@@ -57,9 +58,9 @@
     "children": [],
   },
   "RoomOrderNodes": [
+    {"roomId":{"name":"rmMatrixTest","path":"rooms/rmMatrixTest/rmMatrixTest.yy",},},
     {"roomId":{"name":"rmTest","path":"rooms/rmTest/rmTest.yy",},},
     {"roomId":{"name":"rmClockwiseTest","path":"rooms/rmClockwiseTest/rmClockwiseTest.yy",},},
-    {"roomId":{"name":"rmMatrixTest","path":"rooms/rmMatrixTest/rmMatrixTest.yy",},},
     {"roomId":{"name":"rmPolylineTest","path":"rooms/rmPolylineTest/rmPolylineTest.yy",},},
   ],
   "Folders": [
