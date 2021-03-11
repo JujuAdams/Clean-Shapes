@@ -73,3 +73,8 @@ function __CleanDraw()
     
     return undefined;
 }
+
+function __CleanIsClockwise(_x1, _y1, _x2, _y2, _x3, _y3)
+{
+    return (((_x2 - _x1)*(_y3 - _y1) + (_y1 - _y2)*(_x3 - _x1)) > 0);    
+}

@@ -90,12 +90,44 @@ function __CleanClassTriangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor
     /// @param vertexBuffer
     static __Build = function(_vbuff)
     {
-        var _x1 = __x1;
-        var _y1 = __y1;
-        var _x2 = __x2;
-        var _y2 = __y2;
-        var _x3 = __x3;
-        var _y3 = __y3;
+        if ((CLEAN_TRIANGLE_FIX_COUNTERCLOCKWISE_POINTS || CLEAN_TRIANGLE_ERROR_COUNTERCLOCKWISE_POINTS)
+        &&  !__CleanIsClockwise(__x1, __y1, __x2, __y2, __x3, __y3))
+        {
+            if (CLEAN_TRIANGLE_ERROR_COUNTERCLOCKWISE_POINTS)
+            {
+                __CleanError("Triangle defined with counter-clockwise coordinates\nTriangles should be defined using clockwise coodinates\n(Set CLEAN_TRIANGLE_ERROR_COUNTERCLOCKWISE_POINTS to <false> to turn off this error)\n(Set CLEAN_TRIANGLE_FIX_COUNTERCLOCKWISE_POINTS to <true> to *slowly* fix point ordering automatically)\n \n{", __x1, ",", __y1, ",  ", __x2, ",", __y2, ",  ", __x3, ",", __y3, "}");
+            }
+            
+            var _x1 = __x1;
+            var _y1 = __y1;
+            var _x2 = __x3;
+            var _y2 = __y3;
+            var _x3 = __x2;
+            var _y3 = __y2;
+            
+            var _c1 = __colour1;
+            var _a1 = __alpha1;
+            var _c2 = __colour3;
+            var _a2 = __alpha3;
+            var _c3 = __colour2;
+            var _a3 = __alpha2;
+        }
+        else
+        {
+            var _x1 = __x1;
+            var _y1 = __y1;
+            var _x2 = __x2;
+            var _y2 = __y2;
+            var _x3 = __x3;
+            var _y3 = __y3;
+            
+            var _c1 = __colour1;
+            var _c2 = __colour2;
+            var _c3 = __colour3;
+            var _a1 = __alpha1;
+            var _a2 = __alpha2;
+            var _a3 = __alpha3;
+        }
         
         var _rounding        = __rounding;
         var _borderThickness = __borderThickness;
@@ -105,20 +137,14 @@ function __CleanClassTriangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor
         var _border_b = colour_get_blue( __borderColour)/255;
         var _border_a = __borderAlpha;
         
-        var _cx = 0.3333*(__x1 + __x2 + __x3);
-        var _cy = 0.3333*(__y1 + __y2 + __y3);
+        var _cx = 0.3333*(_x1 + _x2 + _x3);
+        var _cy = 0.3333*(_y1 + _y2 + _y3);
         
-        var _cc = make_colour_rgb(0.3333*(colour_get_red(  __colour1) + colour_get_red(  __colour2) + colour_get_red(  __colour3)),
-                                  0.3333*(colour_get_green(__colour1) + colour_get_green(__colour2) + colour_get_green(__colour3)),
-                                  0.3333*(colour_get_blue( __colour1) + colour_get_blue( __colour2) + colour_get_blue( __colour3)));
-        var _ac = 0.3333*(__alpha1 + __alpha2 + __alpha3);
+        var _cc = make_colour_rgb(0.3333*(colour_get_red(  _c1) + colour_get_red(  _c2) + colour_get_red(  _c3)),
+                                  0.3333*(colour_get_green(_c1) + colour_get_green(_c2) + colour_get_green(_c3)),
+                                  0.3333*(colour_get_blue( _c1) + colour_get_blue( _c2) + colour_get_blue( _c3)));
+        var _ac = 0.3333*(_a1 + _a2 + _a3);
         
-        var _c1 = __colour1;
-        var _c2 = __colour2;
-        var _c3 = __colour3;
-        var _a1 = __alpha1;
-        var _a2 = __alpha2;
-        var _a3 = __alpha3;
         
         var _c12 = merge_colour(_c1, _c2, 0.5);
         var _c23 = merge_colour(_c2, _c3, 0.5);

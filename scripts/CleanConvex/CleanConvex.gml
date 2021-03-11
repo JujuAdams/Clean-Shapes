@@ -8,7 +8,9 @@ function CleanConvex(_array)
 function __CleanClassConvex(_array) constructor
 {
     if (!is_array(_array)) __CleanError("Invalid datatype given for argument0 (", typeof(_array), "), was expecting an array");
-    if ((array_length(_array) mod 2) != 0) __CleanError("Points array must have an even number of elements (x/y pairs)");
+    
+    var _size = array_length(_array);
+    if ((_size mod 2) != 0) __CleanError("Points array must have an even number of elements (x/y pairs)");
     
     __pointArray = _array;
     __colour     = CLEAN_DEFAULT_CONVEX_COLOUR;
@@ -67,8 +69,40 @@ function __CleanClassConvex(_array) constructor
     /// @param vertexBuffer
     static __Build = function(_vbuff)
     {
-        var _pointArray      = __pointArray;
-        var _blendArray      = __blendArray;
+        var _pointArray = __pointArray;
+        var _blendArray = __blendArray;
+        
+        if ((CLEAN_CONVEX_FIX_COUNTERCLOCKWISE_POINTS || CLEAN_CONVEX_ERROR_COUNTERCLOCKWISE_POINTS)
+        &&  !__CleanIsClockwise(_pointArray[0], _pointArray[1], _pointArray[2], _pointArray[3], _pointArray[4], _pointArray[5]))
+        {
+            if (CLEAN_CONVEX_ERROR_COUNTERCLOCKWISE_POINTS)
+            {
+                __CleanError("Convex polygon defined with counter-clockwise coordinates\nConvex polygons should be defined using clockwise coodinates\n(Set CLEAN_CONVEX_ERROR_COUNTERCLOCKWISE_POINTS to <false> to turn off this error)\n(Set CLEAN_CONVEX_FIX_COUNTERCLOCKWISE_POINTS to <true> to *slowly* fix point ordering automatically)\n \n", _pointArray);
+            }
+            
+            var _size = array_length(_pointArray);
+            
+            var _oldPointArray = _pointArray;
+            _pointArray = array_create(_size);
+            
+            var _oldBlendArray = _blendArray;
+            _blendArray = array_create(_size);
+            
+            var _i = 0;
+            var _j = _size - 2;
+            repeat(_size div 2)
+            {
+                _pointArray[@ _j  ] = _oldPointArray[_i  ];
+                _pointArray[@ _j+1] = _oldPointArray[_i+1];
+                
+                _blendArray[@ _j  ] = _oldBlendArray[_i  ];
+                _blendArray[@ _j+1] = _oldBlendArray[_i+1];
+                
+                _i += 2;
+                _j -= 2;
+            }
+        }
+        
         var _rounding        = __rounding;
         var _borderThickness = __borderThickness;
         
