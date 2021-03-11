@@ -57,8 +57,8 @@
     "children": [],
   },
   "RoomOrderNodes": [
-    {"roomId":{"name":"rmClockwiseTest","path":"rooms/rmClockwiseTest/rmClockwiseTest.yy",},},
     {"roomId":{"name":"rmTest","path":"rooms/rmTest/rmTest.yy",},},
+    {"roomId":{"name":"rmClockwiseTest","path":"rooms/rmClockwiseTest/rmClockwiseTest.yy",},},
     {"roomId":{"name":"rmMatrixTest","path":"rooms/rmMatrixTest/rmMatrixTest.yy",},},
     {"roomId":{"name":"rmPolylineTest","path":"rooms/rmPolylineTest/rmPolylineTest.yy",},},
   ],

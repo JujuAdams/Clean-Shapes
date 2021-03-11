@@ -50,7 +50,7 @@ CleanConvex([380, 100,   470, 100,   480, 200,   390, 200])
 CleanCapsule(100, 220, 300, 270, true)
 .Blend(c_white, 0.0)
 .Border(10, c_black, 1.0)
-.Rotate(current_time/20)
+.Rotate(20)
 .Draw();
 
 CleanCapsuleVertical(320, 220, 350, 310, true)
