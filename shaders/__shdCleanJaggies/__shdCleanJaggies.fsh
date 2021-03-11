@@ -15,7 +15,7 @@ varying vec2  v_vRectangleXY;
 varying float v_vRectangleAngle;
 varying vec2  v_vRectangleWH;
 
-//Line
+//Line + Polyline
 varying vec2  v_vLineA;
 varying vec2  v_vLineB;
 varying vec2  v_vLineC;
@@ -34,9 +34,14 @@ float CircleDistance(vec2 pos, vec3 circleXYR)
     return length(pos - circleXYR.xy) - circleXYR.z;
 }
 
-float RectangleDistance(vec2 pos, vec2 rectCentre, vec2 rectSize, float radius)
+float RectangleDistance(vec2 pos, vec2 rectCentre, vec2 rectSize, float angle, float radius)
 {
-    vec2 vector = abs(pos - rectCentre) - 0.5*rectSize + radius;
+    angle = radians(angle);
+    
+    pos -= rectCentre;
+    pos = mat2(cos(-angle), -sin(-angle), sin(-angle), cos(-angle)) * pos;
+    
+    vec2 vector = abs(pos) - 0.5*rectSize + radius;
     return length(max(vector, 0.0)) + min(max(vector.x, vector.y), 0.0) - radius;
 }
 
@@ -153,7 +158,7 @@ void main()
         }
         else if (v_fMode == 2.0) //Rectangle + Capsule
         {
-            dist = RectangleDistance(v_vPosition, v_vRectangleXY, v_vRectangleWH, v_fRounding);
+            dist = RectangleDistance(v_vPosition, v_vRectangleXY, v_vRectangleWH, v_vRectangleAngle, v_fRounding);
             gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, v_fBorderThickness));
         }
         else if (v_fMode == 3.0) //Line with no cap

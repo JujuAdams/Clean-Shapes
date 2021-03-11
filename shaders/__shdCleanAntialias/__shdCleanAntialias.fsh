@@ -42,12 +42,6 @@ vec2 CircleDerivatives(vec2 pos, vec3 circleXYR)
 
 
 
-//float RectangleDistance(vec2 pos, vec2 rectCentre, vec2 rectSize, float radius)
-//{
-//    vec2 vector = abs(pos - rectCentre) - 0.5*rectSize + radius;
-//    return length(max(vector, 0.0)) + min(max(vector.x, vector.y), 0.0) - radius;
-//}
-
 float RectangleDistance(vec2 pos, vec2 rectCentre, vec2 rectSize, float angle, float radius)
 {
     angle = radians(angle);
