@@ -11,8 +11,9 @@ varying vec3 v_vCircleXYR;
 varying vec4 v_vCircleInnerColour;
 
 //Rectangle
-varying vec2 v_vRectangleXY;
-varying vec2 v_vRectangleWH;
+varying vec2  v_vRectangleXY;
+varying float v_vRectangleAngle;
+varying vec2  v_vRectangleWH;
 
 //Line
 varying vec2  v_vLineA;

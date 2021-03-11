@@ -1,6 +1,6 @@
                                 //CIRCLE:                           RECTANGLE:                    LINE:                CONVEX:                       POLYLINE:     
 attribute vec3 in_Position;     //XY, type                          XY, type                      XY, type             XY, type                      XY, type  
-attribute vec3 in_Normal;       //Circle XY, radius                 Rect XY, unused               x1, y1, unused       First boundary                x1, y1, x3
+attribute vec3 in_Normal;       //Circle XY, radius                 Rect XY, rotation             x1, y1, unused       First boundary                x1, y1, x3
 attribute vec4 in_Colour1;      //Outer fill RGBA                   Fill colour                   Fill colour          Fill colour                   Fill colour    
 attribute vec3 in_Colour2;      //Inner fill RGB                    Rect WH, unused               x2, y2, unused       Second boundary               x2. y2, y3
 attribute vec4 in_Colour3;      //Border colour                     Border colour                 Unused               Border colour                 Unused
@@ -20,8 +20,9 @@ varying vec3 v_vCircleXYR;
 varying vec4 v_vCircleInnerColour;
 
 //Rectangle
-varying vec2 v_vRectangleXY;
-varying vec2 v_vRectangleWH;
+varying vec2  v_vRectangleXY;
+varying float v_vRectangleAngle;
+varying vec2  v_vRectangleWH;
 
 //Line + Polyline
 varying vec2  v_vLineA;
@@ -56,6 +57,7 @@ void main()
     
     //Rectangle
     v_vRectangleXY       = in_Normal.xy;
+    v_vRectangleAngle    = in_Normal.z;
     v_vRectangleWH       = in_Colour2.xy;
     v_fRounding          = in_TextureCoord.x;
     
