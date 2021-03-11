@@ -78,3 +78,28 @@ function __CleanIsClockwise(_x1, _y1, _x2, _y2, _x3, _y3)
 {
     return (((_x2 - _x1)*(_y3 - _y1) + (_y1 - _y2)*(_x3 - _x1)) > 0);    
 }
+
+//Easter Egg!
+function draw_cool_s(_x, _y, _size)
+{
+    CleanTransformOriginSet(2.5, 2.5);
+    CleanTransformScale(_size/5, _size/5);
+    CleanTransformMove(_x, _y);
+    CleanBatchBegin();
+    
+    CleanPolyline([2.5, 4,   2.5, 3,   0, 2,   0, 1,   2.5, 0,   5, 1,   5, 2,   3.75, 2.5])
+    .Thickness(0.3)
+    .Join("miter")
+    .Cap("none", "none")
+    .Draw();
+    
+    CleanPolyline([2.5, 1,   2.5, 2,   5, 3,   5, 4,   2.5, 5,   0, 4,   0, 3,   1.25, 2.5])
+    .Thickness(0.3)
+    .Join("miter")
+    .Cap("none", "none")
+    .Draw();
+    
+    CleanBatchEndDraw();
+    CleanTransformOriginSet(0, 0);
+    CleanTransformReset();
+}
