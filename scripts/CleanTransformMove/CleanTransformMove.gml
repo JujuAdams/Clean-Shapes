@@ -1,9 +1,9 @@
-/// @param xOffset
-/// @param yOfFset
+/// @param x
+/// @param y
 
-function CleanTransformMove(_xOffset, _yOffset)
+function CleanTransformMove(_x, _y)
 {
     global.__cleanMatrixIdentity = false;
     
-    global.__cleanMatrix = matrix_multiply(global.__cleanMatrix, matrix_build(_xOffset, _yOffset, 0,   0,0,0,   1,1,1));
+    global.__cleanMatrix = matrix_multiply(global.__cleanMatrix, matrix_build(_x, _y, 0,   0,0,0,   1,1,1));
 }
