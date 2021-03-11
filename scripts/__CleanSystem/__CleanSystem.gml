@@ -6,6 +6,11 @@ __CleanTrace("Welcome to Clean Shapes by @jujuadams! This is version ", __CLEAN_
 global.__cleanBatch     = undefined;
 global.__cleanAntialias = CLEAN_DEFAULT_ANTIALIAS;
 
+global.__cleanMatrixIdentity = false;
+global.__cleanMatrix         = matrix_build_identity();
+global.__cleanMatrixOriginX  = 0;
+global.__cleanMatrixOriginY  = 0;
+
 global.__clean_u_vOutputSize = shader_get_uniform(__shdCleanAntialias, "u_vOutputSize");
 
 vertex_format_begin();

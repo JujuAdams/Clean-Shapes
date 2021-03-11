@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Shapes",
-    "path": "folders/Clean Shapes/Shapes.yy",
+    "name": "Transform",
+    "path": "folders/Clean Shapes/Transform.yy",
   },
   "resourceVersion": "1.0",
-  "name": "CleanCapsuleVertical",
+  "name": "CleanTransformRotate",
   "tags": [],
   "resourceType": "GMScript",
 }

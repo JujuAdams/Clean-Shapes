@@ -1,6 +1,8 @@
+CleanTransformOriginSet(room_width/4, room_height/4);
 var _scale = 6*mouse_x / room_width;
-
-matrix_set(matrix_world, matrix_build(0,0,0,   0,0,0,   _scale,_scale,1));
+CleanTransformScale(_scale, _scale);
+var _angle = mouse_y;
+CleanTransformRotate(_angle);
 
 //Shapes can be drawn by themselves
 CleanRectangle(20, 20, 610, 330)
@@ -72,4 +74,4 @@ CleanCircle(510, 260, 50)
 
 CleanBatchEndDraw();
 
-matrix_set(matrix_world, matrix_build_identity());
+CleanTransformReset();
