@@ -25,6 +25,12 @@ varying float v_fLineThickness;
 varying vec3 v_vLine1;
 varying vec3 v_vLine2;
 
+//N-gon
+varying vec3  v_vNgonXYR;
+varying float v_fNgonSides;
+varying float v_fNgonStarFactor;
+varying float v_fNgonAngle;
+
 
 
 
@@ -130,6 +136,28 @@ float PolylineRoundJoinDistance(vec2 position, vec2 posA, vec2 posB, vec2 posC, 
     return min(LineRoundCapDistance(position, posA, posB, thickness), LineRoundCapDistance(position, posC, posB, thickness));
 }
 
+float NgonDistance(vec2 pos, vec2 ngonXY, float radius, float sides, float angleDivisor, float angle, float rounding)
+{
+    angle = radians(angle);
+    
+    pos -= ngonXY;
+    pos = mat2(cos(-angle), -sin(-angle), sin(-angle), cos(-angle)) * pos;
+    
+    radius -= rounding;
+    
+    // next 4 lines can be precomputed for a given shape
+    float an = 3.141593/sides;
+    float en = 3.141593/angleDivisor;  // m is between 2 and n
+    vec2  acs = vec2(cos(an),sin(an));
+    vec2  ecs = vec2(cos(en),sin(en)); // ecs=vec2(0,1) for regular polygon
+
+    float bn = mod(atan(pos.x, pos.y), 2.0*an) - an;
+    pos = length(pos)*vec2(cos(bn), abs(sin(bn)));
+    pos -= radius*acs;
+    pos += ecs*clamp(-dot(pos, ecs), 0.0, radius*acs.y/ecs.y);
+    return length(pos)*sign(pos.x) - rounding;
+}
+
 float Feather(float dist, float threshold)
 {
     return step(threshold, dist);
@@ -195,6 +223,11 @@ void main()
         {
             dist = PolylineRoundJoinDistance(v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
             gl_FragColor = v_vFillColour;
+        }
+        else if (v_fMode == 10.0) //N-gon
+        {
+            dist = NgonDistance(v_vPosition, v_vNgonXYR.xy, v_vNgonXYR.z, v_fNgonSides, v_fNgonStarFactor, v_fNgonAngle, v_fRounding);
+            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, v_fBorderThickness));
         }
         
         gl_FragColor.a *= 1.0 - Feather(dist, 0.0);

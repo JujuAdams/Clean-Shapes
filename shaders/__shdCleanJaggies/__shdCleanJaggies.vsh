@@ -6,6 +6,8 @@ attribute vec3 in_Colour2;      //Inner fill RGB                    Rect WH, unu
 attribute vec4 in_Colour3;      //Border colour                     Border colour                 Unused               Border colour                 Unused
 attribute vec2 in_TextureCoord; //Inner fill A, border thickness    Rounding, border thickness    Thickness, unused    Rounding, border thickness    Thickness, unused
 
+
+
 //Shared
 varying vec2  v_vPosition;
 varying float v_fMode;
@@ -33,14 +35,24 @@ varying float v_fLineThickness;
 varying vec3 v_vLine1;
 varying vec3 v_vLine2;
 
+//N-gon
+varying vec3  v_vNgonXYR;
+varying float v_fNgonSides;
+varying float v_fNgonStarFactor;
+varying float v_fNgonAngle;
+
+
+
 void main()
 {
     gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION]*vec4(in_Position.xyz, 1.0);
     
     //Shared
+    v_vPosition          = in_Position.xy;
     v_fMode              = in_Position.z;
     v_vFillColour        = in_Colour1;
     v_vBorderColour      = in_Colour3;
+    v_fRounding          = in_TextureCoord.x;
     v_fBorderThickness   = in_TextureCoord.y;
     
     //Circle
@@ -51,7 +63,6 @@ void main()
     v_vRectangleXY       = in_Normal.xy;
     v_vRectangleAngle    = in_Normal.z;
     v_vRectangleWH       = in_Colour2.xy;
-    v_fRounding          = in_TextureCoord.x;
     
     //Line + Polyline
     v_vLineA             = in_Normal.xy;
@@ -60,7 +71,12 @@ void main()
     v_fLineThickness     = in_TextureCoord.x;
     
     //Polygon
-    v_vPosition          = in_Position.xy;
     v_vLine1             = in_Normal;
     v_vLine2             = in_Colour2;
+    
+    //N-gon
+    v_vNgonXYR           = in_Normal;
+    v_fNgonSides         = in_Colour2.x;
+    v_fNgonStarFactor    = in_Colour2.y;
+    v_fNgonAngle         = in_Colour2.z;
 }

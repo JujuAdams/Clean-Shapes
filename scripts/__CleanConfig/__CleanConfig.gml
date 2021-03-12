@@ -45,3 +45,11 @@
 #macro CLEAN_DEFAULT_CONVEX_ROUNDING                 0
 #macro CLEAN_CONVEX_FIX_COUNTERCLOCKWISE_POINTS      false
 #macro CLEAN_CONVEX_ERROR_COUNTERCLOCKWISE_POINTS    true
+
+#macro CLEAN_DEFAULT_NGON_COLOUR                     draw_get_colour()
+#macro CLEAN_DEFAULT_NGON_ALPHA                      draw_get_alpha()
+#macro CLEAN_DEFAULT_NGON_BORDER_THICKNESS           0
+#macro CLEAN_DEFAULT_NGON_BORDER_COLOUR              c_white
+#macro CLEAN_DEFAULT_NGON_BORDER_ALPHA               draw_get_alpha()
+#macro CLEAN_DEFAULT_NGON_ROUNDING                   0
+#macro CLEAN_DEFAULT_NGON_STAR_FACTOR                0

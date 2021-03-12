@@ -26,7 +26,15 @@ varying float v_fLineThickness;
 varying vec3 v_vLine1;
 varying vec3 v_vLine2;
 
+//N-gon
+varying vec3  v_vNgonXYR;
+varying float v_fNgonSides;
+varying float v_fNgonStarFactor;
+varying float v_fNgonAngle;
+
 const float SMOOTHNESS = 1.41421356237;
+
+
 
 float CircleDistance(vec2 pos, vec3 circleXYR)
 {
@@ -59,16 +67,6 @@ vec2 RectangleDerivatives(vec2 pos, vec2 rectCentre, vec2 rectSize, float angle,
     return vec2(RectangleDistance(pos + vec2(v_vOutputTexel.x, 0.0), rectCentre, rectSize, angle, radius),
                 RectangleDistance(pos + vec2(0.0, v_vOutputTexel.y), rectCentre, rectSize, angle, radius));
 }
-
-//float sdOrientedBox( in vec2 p, in vec2 a, in vec2 b, float th )
-//{
-//    float l = length(b-a);
-//    vec2  d = (b-a)/l;
-//    vec2  q = (p-(a+b)*0.5);
-//          q = mat2(d.x,-d.y,d.y,d.x)*q;
-//          q = abs(q)-vec2(l,th)*0.5;
-//    return length(max(q,0.0)) + min(max(q.x,q.y),0.0);    
-//}
 
 float LineNoCapDistance( in vec2 p, in vec2 a, in vec2 b, float th )
 {
@@ -218,12 +216,46 @@ vec2 PolylineRoundJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC
 
 
 
+float NgonDistance(vec2 pos, vec2 ngonXY, float radius, float sides, float angleDivisor, float angle, float rounding)
+{
+    angle = radians(angle);
+    
+    pos -= ngonXY;
+    pos = mat2(cos(-angle), -sin(-angle), sin(-angle), cos(-angle)) * pos;
+    
+    radius -= rounding;
+    
+    // next 4 lines can be precomputed for a given shape
+    float an = 3.141593/sides;
+    float en = 3.141593/angleDivisor;  // m is between 2 and n
+    vec2  acs = vec2(cos(an),sin(an));
+    vec2  ecs = vec2(cos(en),sin(en)); // ecs=vec2(0,1) for regular polygon
+
+    float bn = mod(atan(pos.x, pos.y), 2.0*an) - an;
+    pos = length(pos)*vec2(cos(bn), abs(sin(bn)));
+    pos -= radius*acs;
+    pos += ecs*clamp(-dot(pos, ecs), 0.0, radius*acs.y/ecs.y);
+    return length(pos)*sign(pos.x) - rounding;
+}
+
+vec2 NgonDerivatives(vec2 pos, vec2 ngonXY, float radius, float sides, float angleDivisor, float angle, float rounding)
+{
+    //Emulates dFdx/dFdy
+    return vec2(NgonDistance(pos + vec2(v_vOutputTexel.x, 0.0), ngonXY, radius, sides, angleDivisor, angle, rounding),
+                NgonDistance(pos + vec2(0.0, v_vOutputTexel.y), ngonXY, radius, sides, angleDivisor, angle, rounding));
+}
+
+
+
+float fwidthEmulation(vec2 value)
+{
+    return abs(value.x) + abs(value.y);
+    //return length(value);
+}
+
 float Feather(float dist, vec2 derivatives, float threshold)
 {
-    //Emulates fwidth
-    float fw = abs(dist - derivatives.x) + abs(dist - derivatives.y);
-    
-    return smoothstep(threshold - SMOOTHNESS*fw, threshold, dist);
+    return smoothstep(threshold - SMOOTHNESS*fwidthEmulation(dist - derivatives), threshold, dist);
 }
 
 
@@ -294,6 +326,12 @@ void main()
             dist        = PolylineRoundJoinDistance(   v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
             derivatives = PolylineRoundJoinDerivatives(v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
             gl_FragColor = v_vFillColour;
+        }
+        else if (v_fMode == 10.0) //N-gon
+        {
+            dist        = NgonDistance(   v_vPosition, v_vNgonXYR.xy, v_vNgonXYR.z, v_fNgonSides, v_fNgonStarFactor, v_fNgonAngle, v_fRounding);
+            derivatives = NgonDerivatives(v_vPosition, v_vNgonXYR.xy, v_vNgonXYR.z, v_fNgonSides, v_fNgonStarFactor, v_fNgonAngle, v_fRounding);
+            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
         }
         
         gl_FragColor.a *= 1.0 - Feather(dist, derivatives, 0.0);

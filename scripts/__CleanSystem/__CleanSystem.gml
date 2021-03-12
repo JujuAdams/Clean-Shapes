@@ -83,8 +83,8 @@ function __CleanIsClockwise(_x1, _y1, _x2, _y2, _x3, _y3)
 function draw_cool_s(_x, _y, _size)
 {
     CleanTransformOriginSet(2.5, 2.5);
-    CleanTransformScale(_size/5, _size/5);
-    CleanTransformMove(_x, _y);
+    CleanTransformAddScale(_size/5, _size/5);
+    CleanTransformAddMove(_x, _y);
     CleanBatchBegin();
     
     CleanPolyline([2.5, 4,   2.5, 3,   0, 2,   0, 1,   2.5, 0,   5, 1,   5, 2,   3.75, 2.5])
