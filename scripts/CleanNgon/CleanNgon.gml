@@ -30,10 +30,8 @@ function __CleanClassNgon(_x, _y, _radius, _sides) constructor
     /// @param alpha
     static Blend = function(_colour, _alpha)
     {
-        __colourOuter = _colour;
-        __alphaOuter  = _alpha;
-        __colourInner = _colour;
-        __alphaInner  = _alpha;
+        __colour = _colour;
+        __alpha  = _alpha;
         
         return self;
     }
