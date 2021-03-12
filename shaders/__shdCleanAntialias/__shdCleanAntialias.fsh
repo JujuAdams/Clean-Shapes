@@ -1,3 +1,5 @@
+const float SMOOTHNESS = 1.41421356237;
+
 //Shared
 varying vec2  v_vOutputTexel;
 varying vec2  v_vPosition;
@@ -32,7 +34,9 @@ varying float v_fNgonSides;
 varying float v_fNgonStarFactor;
 varying float v_fNgonAngle;
 
-const float SMOOTHNESS = 1.41421356237;
+//Segment
+varying vec3  v_vSegmentXYR;
+varying vec2  v_vSegmentTrigCoeffs;
 
 
 
@@ -247,6 +251,27 @@ vec2 NgonDerivatives(vec2 pos, vec2 ngonXY, float radius, float sides, float ang
 
 
 
+float SegmentDistance(vec2 pos, vec3 shapeXYR, vec2 trigCoeffs, float rounding)
+{
+    pos -= shapeXYR.xy;
+    shapeXYR -= rounding;
+    
+    pos.x = abs(pos.x);
+    float l = (length(pos) - shapeXYR.z);
+    float m = length(pos - trigCoeffs*clamp(dot(pos, trigCoeffs), 0.0, shapeXYR.z)); // c=sin/cos of aperture
+    
+    return max(l, m*sign(trigCoeffs.y*pos.x - trigCoeffs.x*pos.y)) - rounding;
+}
+
+vec2 SegmentDerivatives(vec2 pos, vec3 shapeXYR, vec2 trigCoeffs, float rounding)
+{
+    //Emulates dFdx/dFdy
+    return vec2(SegmentDistance(pos + vec2(v_vOutputTexel.x, 0.0), shapeXYR, trigCoeffs, rounding),
+                SegmentDistance(pos + vec2(0.0, v_vOutputTexel.y), shapeXYR, trigCoeffs, rounding));
+}
+
+
+
 float fwidthEmulation(vec2 value)
 {
     return abs(value.x) + abs(value.y);
@@ -333,6 +358,18 @@ void main()
             derivatives = NgonDerivatives(v_vPosition, v_vNgonXYR.xy, v_vNgonXYR.z, v_fNgonSides, v_fNgonStarFactor, v_fNgonAngle, v_fRounding);
             gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
         }
+        else if (v_fMode == 11.0) //Segment
+        {
+            dist        = SegmentDistance(   v_vPosition, v_vSegmentXYR, v_vSegmentTrigCoeffs, v_fRounding);
+            derivatives = SegmentDerivatives(v_vPosition, v_vSegmentXYR, v_vSegmentTrigCoeffs, v_fRounding);
+            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
+        }
+        //else if (v_fMode == 12.0) //Ring
+        //{
+        //    dist        = RingDistance(   v_vPosition, v_vNgonXYR.xy, v_vNgonXYR.z, v_fNgonSides, v_fNgonStarFactor, v_fNgonAngle, v_fRounding);
+        //    derivatives = RingDerivatives(v_vPosition, v_vNgonXYR.xy, v_vNgonXYR.z, v_fNgonSides, v_fNgonStarFactor, v_fNgonAngle, v_fRounding);
+        //    gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
+        //}
         
         gl_FragColor.a *= 1.0 - Feather(dist, derivatives, 0.0);
     }

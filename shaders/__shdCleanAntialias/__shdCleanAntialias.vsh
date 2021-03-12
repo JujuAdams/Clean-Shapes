@@ -1,17 +1,10 @@
-//CIRCLE:                           RECTANGLE:                    LINE:                CONVEX:                       POLYLINE:            N-GON
-//XY, type                          XY, type                      XY, type             XY, type                      XY, type             XY, type
-//Circle XY, radius                 Rect XY, rotation             x1, y1, unused       First boundary                x1, y1, x3           Centre XY, radius
-//Outer fill RGBA                   Fill colour                   Fill colour          Fill colour                   Fill colour          Fill RGBA
-//Inner fill RGB                    Rect WH, unused               x2, y2, unused       Second boundary               x2. y2, y3           Sides, star factor, rotation
-//Border colour                     Border colour                 Unused               Border colour                 Unused               Border colour
-//Inner fill A, border thickness    Rounding, border thickness    Thickness, unused    Rounding, border thickness    Thickness, unused    Rounding, border thickness
-
-attribute vec3 in_Position;
-attribute vec3 in_Normal;
-attribute vec4 in_Colour1;
-attribute vec3 in_Colour2;
-attribute vec4 in_Colour3;
-attribute vec2 in_TextureCoord;
+                                //CIRCLE:                           SEGMENT:                          RECTANGLE:                    LINE:                CONVEX:                       POLYLINE:            N-GON
+attribute vec3 in_Position;     //XY, type                          XY, type                          XY, type                      XY, type             XY, type                      XY, type             XY, type
+attribute vec3 in_Normal;       //Circle XY, radius                 Circle XY, radius                 Rect XY, rotation             x1, y1, unused       First boundary                x1, y1, x3           Centre XY, radius
+attribute vec4 in_Colour1;      //Outer fill RGBA                   Outer fill RGBA                   Fill colour                   Fill colour          Fill colour                   Fill colour          Fill RGBA
+attribute vec3 in_Colour2;      //Inner fill RGB                    Sine, cosine, unused              Rect WH, unused               x2, y2, unused       Second boundary               x2. y2, y3           Sides, star factor, rotation
+attribute vec4 in_Colour3;      //Border colour                     Border colour                     Border colour                 Unused               Border colour                 Unused               Border colour
+attribute vec2 in_TextureCoord; //Inner fill A, border thickness    Unused, border thickness          Rounding, border thickness    Thickness, unused    Rounding, border thickness    Thickness, unused    Rounding, border thickness
 
 //Shared
 varying vec2  v_vOutputTexel;
@@ -46,6 +39,10 @@ varying vec3  v_vNgonXYR;
 varying float v_fNgonSides;
 varying float v_fNgonStarFactor;
 varying float v_fNgonAngle;
+
+//Segment
+varying vec3  v_vSegmentXYR;
+varying vec2  v_vSegmentTrigCoeffs;
 
 uniform vec2 u_vOutputSize;
 
@@ -90,4 +87,8 @@ void main()
     v_fNgonSides         = in_Colour2.x;
     v_fNgonStarFactor    = in_Colour2.y;
     v_fNgonAngle         = in_Colour2.z;
+    
+    //Segment
+    v_vSegmentXYR        = in_Normal;
+    v_vSegmentTrigCoeffs = in_Colour2.xy;
 }
