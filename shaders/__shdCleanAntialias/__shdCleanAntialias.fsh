@@ -39,6 +39,13 @@ varying vec3  v_vSegmentXYR;
 varying float v_vSegmentAperatureCentre;
 varying float v_vSegmentAperatureSize;
 
+//Ring
+varying vec2  v_vRingCentre;
+varying float v_fRingAngleStart;
+varying float v_fRingAngleEnd;
+varying float v_fRingRadiusA;
+varying float v_fRingRadiusB;
+
 
 
 float CircleDistance(vec2 pos, vec3 circleXYR)
@@ -280,6 +287,36 @@ vec2 SegmentDerivatives(vec2 pos, vec3 shapeXYR, float aperatureCentre, float ap
 
 
 
+float RingDistance(vec2 position, vec2 centre, float angleStart, float angleEnd, float radiusA, float radiusB)
+{
+    angleStart = radians(angleStart);
+    angleEnd   = radians(angleEnd);
+    
+    vec2 sinCosA = vec2(sin(angleStart), cos(angleStart));
+    vec2 sinCosB = vec2(sin(angleEnd),   cos(angleEnd)  );
+    
+    position -= centre;
+    position *= mat2(sinCosA.x, sinCosA.y, -sinCosA.y, sinCosA.x);
+    position.x = abs(position.x);
+    
+    float k = (sinCosB.y*position.x > sinCosB.x*position.y)? dot(position, sinCosB) : length(position);
+    
+    return sqrt(dot(position, position) + radiusA*radiusA - 2.0*radiusA*k) - radiusB;
+}
+
+vec2 RingDerivatives(vec2 position, vec2 centre, float angleStart, float angleEnd, float radiusA, float radiusB)
+{
+    //Emulates dFdx/dFdy
+    return vec2(RingDistance(position + vec2(v_vOutputTexel.x, 0.0), centre, angleStart, angleEnd, radiusA, radiusB),
+                RingDistance(position + vec2(0.0, v_vOutputTexel.y), centre, angleStart, angleEnd, radiusA, radiusB));
+}
+
+
+
+
+
+
+
 float fwidthEmulation(vec2 value)
 {
     return abs(value.x) + abs(value.y);
@@ -372,12 +409,12 @@ void main()
             derivatives = SegmentDerivatives(v_vPosition, v_vSegmentXYR, v_vSegmentAperatureCentre, v_vSegmentAperatureSize, v_fRounding);
             gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
         }
-        //else if (v_fMode == 12.0) //Ring
-        //{
-        //    dist        = RingDistance(   v_vPosition, v_vNgonXYR.xy, v_vNgonXYR.z, v_fNgonSides, v_fNgonStarFactor, v_fNgonAngle, v_fRounding);
-        //    derivatives = RingDerivatives(v_vPosition, v_vNgonXYR.xy, v_vNgonXYR.z, v_fNgonSides, v_fNgonStarFactor, v_fNgonAngle, v_fRounding);
-        //    gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
-        //}
+        else if (v_fMode == 12.0) //Ring
+        {
+            dist        = RingDistance(   v_vPosition, v_vRingCentre, v_fRingAngleStart, v_fRingAngleEnd, 90.0, 10.0);
+            derivatives = RingDerivatives(v_vPosition, v_vRingCentre, v_fRingAngleStart, v_fRingAngleEnd, 90.0, 10.0);
+            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
+        }
         
         gl_FragColor.a *= 1.0 - Feather(dist, derivatives, 0.0);
     }

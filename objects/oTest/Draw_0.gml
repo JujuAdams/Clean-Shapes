@@ -1,7 +1,5 @@
-CleanSegment(100, 100, 100, 270, 120)
-.Blend(c_white, 0.0)
+CleanRing(100, 100, 90, 100, 90, 45)
 .Border(3, c_red, 1.0)
-.Rounding(4)
 .Draw();
 
 exit;
