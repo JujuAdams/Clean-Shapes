@@ -1,3 +1,13 @@
+CleanSegment(100, 100, 100, 270, 120)
+.Blend(c_white, 0.0)
+.Border(3, c_red, 1.0)
+.Rounding(4)
+.Draw();
+
+exit;
+
+
+
 //Shapes can be drawn by themselves
 CleanRectangle(20, 20, 610, 330)
 .Blend4(c_white, 1.0, c_white, 0.5, c_white, 1.0, c_white, 0.5)

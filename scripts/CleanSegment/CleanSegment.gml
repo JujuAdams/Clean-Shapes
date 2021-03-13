@@ -71,8 +71,19 @@ function __CleanClassSegment(_x, _y, _radius, _angleStart, _angleEnd) constructo
         var _angleStart = __angleStart;
         var _angleEnd   = __angleEnd;
         
-        var _sin = dsin(45);
-        var _cos = dcos(45);
+        _angleStart = (_angleStart >= 0)? (_angleStart mod 360) : (360 - ((-_angleStart) mod 360));
+        _angleEnd   = (_angleEnd   >= 0)? (_angleEnd   mod 360) : (360 - ((-_angleEnd)   mod 360));
+        
+        if (_angleStart <= _angleEnd)
+        {
+            var _wedgeSize = 0.5*(_angleEnd - _angleStart);
+        }
+        else
+        {
+            var _wedgeSize = 0.5*(360 + _angleEnd - _angleStart);
+        }
+        
+        var _wedgeCentre = _angleStart + 90 + _wedgeSize;
         
         var _colour = __colour;
         var _alpha  = __alpha;
@@ -85,13 +96,13 @@ function __CleanClassSegment(_x, _y, _radius, _angleStart, _angleEnd) constructo
         var _borderThickness = __borderThickness;
         var _rounding = __rounding;
         
-        vertex_position_3d(_vbuff, _x-_r, _y-_r, 11); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _sin, _cos, 0); vertex_float4(_vbuff, _borderR, _borderG, _borderB, _borderA); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff, _x+_r, _y-_r, 11); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _sin, _cos, 0); vertex_float4(_vbuff, _borderR, _borderG, _borderB, _borderA); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff, _x-_r, _y+_r, 11); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _sin, _cos, 0); vertex_float4(_vbuff, _borderR, _borderG, _borderB, _borderA); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff, _x-_r, _y-_r, 11); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _wedgeCentre, _wedgeSize, 0); vertex_float4(_vbuff, _borderR, _borderG, _borderB, _borderA); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff, _x+_r, _y-_r, 11); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _wedgeCentre, _wedgeSize, 0); vertex_float4(_vbuff, _borderR, _borderG, _borderB, _borderA); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff, _x-_r, _y+_r, 11); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _wedgeCentre, _wedgeSize, 0); vertex_float4(_vbuff, _borderR, _borderG, _borderB, _borderA); vertex_texcoord(_vbuff, _rounding, _borderThickness);
         
-        vertex_position_3d(_vbuff, _x+_r, _y-_r, 11); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _sin, _cos, 0); vertex_float4(_vbuff, _borderR, _borderG, _borderB, _borderA); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff, _x-_r, _y+_r, 11); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _sin, _cos, 0); vertex_float4(_vbuff, _borderR, _borderG, _borderB, _borderA); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff, _x+_r, _y+_r, 11); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _sin, _cos, 0); vertex_float4(_vbuff, _borderR, _borderG, _borderB, _borderA); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff, _x+_r, _y-_r, 11); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _wedgeCentre, _wedgeSize, 0); vertex_float4(_vbuff, _borderR, _borderG, _borderB, _borderA); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff, _x-_r, _y+_r, 11); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _wedgeCentre, _wedgeSize, 0); vertex_float4(_vbuff, _borderR, _borderG, _borderB, _borderA); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff, _x+_r, _y+_r, 11); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _wedgeCentre, _wedgeSize, 0); vertex_float4(_vbuff, _borderR, _borderG, _borderB, _borderA); vertex_texcoord(_vbuff, _rounding, _borderThickness);
         
         return undefined;
     }
