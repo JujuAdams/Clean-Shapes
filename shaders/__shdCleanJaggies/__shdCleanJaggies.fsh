@@ -52,8 +52,6 @@ float CircleDistance(vec2 pos, vec3 circleXYR)
 
 float RectangleDistance(vec2 pos, vec2 rectCentre, vec2 rectSize, float angle, float radius)
 {
-    angle = radians(angle);
-    
     pos -= rectCentre;
     pos = mat2(cos(-angle), -sin(-angle), sin(-angle), cos(-angle)) * pos;
     
@@ -148,8 +146,6 @@ float PolylineRoundJoinDistance(vec2 position, vec2 posA, vec2 posB, vec2 posC, 
 
 float NgonDistance(vec2 pos, vec2 ngonXY, float radius, float sides, float angleDivisor, float angle, float rounding)
 {
-    angle = radians(angle);
-    
     pos -= ngonXY;
     pos = mat2(cos(-angle), -sin(-angle), sin(-angle), cos(-angle)) * pos;
     
@@ -170,9 +166,6 @@ float NgonDistance(vec2 pos, vec2 ngonXY, float radius, float sides, float angle
 
 float SegmentDistance(vec2 pos, vec3 shapeXYR, float apertureCentre, float apertureSize, float rounding)
 {
-    apertureCentre = radians(apertureCentre);
-    apertureSize   = radians(apertureSize);
-    
     pos -= shapeXYR.xy;
     pos = mat2(cos(-apertureCentre), -sin(-apertureCentre), sin(-apertureCentre), cos(-apertureCentre)) * pos;
     
@@ -191,9 +184,6 @@ float RingDistance(vec2 position, vec2 centre, float apertureCentre, float apert
 {
     float thickness = outerRadius - innerRadius;
     outerRadius -= thickness;
-    
-    apertureCentre = radians(apertureCentre);
-    apertureSize   = radians(apertureSize);
     
     vec2 sinCosA = vec2(sin(apertureCentre), cos(apertureCentre));
     vec2 sinCosB = vec2(sin(apertureSize),   cos(apertureSize)  );

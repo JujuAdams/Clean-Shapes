@@ -97,7 +97,7 @@ function __CleanClassNgon(_x, _y, _radius, _sides) constructor
         
         var _rounding   = __rounding;
         var _starFactor = lerp(2, _sides, 0.9*__starFactor*__starFactor);
-        var _rotation   = __rotation;
+        var _rotation   = degtorad(__rotation);
         
         vertex_position_3d(_vbuff, _x-_r, _y-_r, 10); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _sides, _starFactor, _rotation); vertex_float4(_vbuff, _borderR, _borderG, _borderB, _borderA); vertex_texcoord(_vbuff, _rounding, _borderThickness);
         vertex_position_3d(_vbuff, _x+_r, _y-_r, 10); vertex_normal(_vbuff, _x, _y, _r); vertex_colour(_vbuff, _colour, _alpha); vertex_float3(_vbuff, _sides, _starFactor, _rotation); vertex_float4(_vbuff, _borderR, _borderG, _borderB, _borderA); vertex_texcoord(_vbuff, _rounding, _borderThickness);

@@ -69,14 +69,14 @@ function __CleanClassRing(_x, _y, _innerRadius, _outerRadius, _angleStart, _angl
         
         if (_angleStart < _angleEnd)
         {
-            var _wedgeSize = 0.5*(_angleEnd - _angleStart);
+            var _wedgeSize = degtorad(0.5*(_angleEnd - _angleStart));
         }
         else
         {
-            var _wedgeSize = 0.5*(360 + _angleEnd - _angleStart);
+            var _wedgeSize = degtorad(0.5*(360 + _angleEnd - _angleStart));
         }
         
-        var _wedgeCentre = _angleStart + 180 + _wedgeSize;
+        var _wedgeCentre = degtorad(_angleStart + 180) + _wedgeSize;
         
         var _colour = __colour;
         var _alpha  = __alpha;

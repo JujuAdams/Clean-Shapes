@@ -76,14 +76,14 @@ function __CleanClassSegment(_x, _y, _radius, _angleStart, _angleEnd) constructo
         
         if (_angleStart <= _angleEnd)
         {
-            var _wedgeSize = 0.5*(_angleEnd - _angleStart);
+            var _wedgeSize = degtorad(0.5*(_angleEnd - _angleStart));
         }
         else
         {
-            var _wedgeSize = 0.5*(360 + _angleEnd - _angleStart);
+            var _wedgeSize = degtorad(0.5*(360 + _angleEnd - _angleStart));
         }
         
-        var _wedgeCentre = _angleStart + 90 + _wedgeSize;
+        var _wedgeCentre = degtorad(_angleStart + 90) + _wedgeSize;
         
         var _colour = __colour;
         var _alpha  = __alpha;

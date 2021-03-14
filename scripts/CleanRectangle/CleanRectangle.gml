@@ -104,7 +104,7 @@ function __CleanClassRectangle(_left, _top, _right, _bottom) constructor
     static __Build = function(_vbuff)
     {
         var _rounding        = __rounding;
-        var _rotation        = __rotation;
+        var _rotation        = degtorad(__rotation);
         var _borderThickness = __borderThickness;
         
         var _border_r = colour_get_red(  __borderColour)/255;
