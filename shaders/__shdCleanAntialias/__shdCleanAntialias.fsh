@@ -320,7 +320,7 @@ float RingDistance(vec2 position, vec2 centre, float apertureCentre, float apert
     
     float k = (sinCosB.y*position.x > sinCosB.x*position.y)? dot(position, sinCosB) : length(position);
     
-    return sqrt(dot(position, position) + outerRadius*outerRadius - 2.0*outerRadius*k) - thickness;
+    return sqrt(max(0.0, dot(position, position) + outerRadius*outerRadius - 2.0*outerRadius*k)) - thickness;
 }
 
 vec4 RingDerivatives(vec2 position, vec2 centre, float apertureCentre, float apertureSize, float innerRadius, float outerRadius)
