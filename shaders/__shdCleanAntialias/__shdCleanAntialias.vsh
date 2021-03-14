@@ -78,10 +78,10 @@ varying float v_vSegmentAperatureSize;
 
 //Ring
 varying vec2  v_vRingCentre;
-varying float v_fRingAngleStart;
-varying float v_fRingAngleEnd;
-varying float v_fRingRadiusA;
-varying float v_fRingRadiusB;
+varying float v_fRingAperatureCentre;
+varying float v_fRingAperatureSize;
+varying float v_fRingInnerRadius;
+varying float v_fRingOuterRadius;
 
 uniform vec2 u_vOutputSize;
 
@@ -133,9 +133,9 @@ void main()
     v_vSegmentAperatureSize   = in_Colour2.y;
     
     //Ring
-    v_vRingCentre     = in_Normal.xy;
-    v_fRingAngleStart = in_Colour2.y;
-    v_fRingAngleEnd   = in_Colour2.z;
-    v_fRingRadiusA    = in_Normal.z;
-    v_fRingRadiusB    = in_Colour2.x;
+    v_vRingCentre          = in_Normal.xy;
+    v_fRingAperatureCentre = in_Colour2.y;
+    v_fRingAperatureSize   = in_Colour2.z;
+    v_fRingInnerRadius     = in_Normal.z;
+    v_fRingOuterRadius     = in_Colour2.x;
 }

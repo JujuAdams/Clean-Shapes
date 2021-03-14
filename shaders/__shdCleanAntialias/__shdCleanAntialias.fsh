@@ -41,10 +41,10 @@ varying float v_vSegmentAperatureSize;
 
 //Ring
 varying vec2  v_vRingCentre;
-varying float v_fRingAngleStart;
-varying float v_fRingAngleEnd;
-varying float v_fRingRadiusA;
-varying float v_fRingRadiusB;
+varying float v_fRingAperatureCentre;
+varying float v_fRingAperatureSize;
+varying float v_fRingInnerRadius;
+varying float v_fRingOuterRadius;
 
 
 
@@ -53,10 +53,12 @@ float CircleDistance(vec2 pos, vec3 circleXYR)
     return length(pos - circleXYR.xy) - circleXYR.z;
 }
 
-vec2 CircleDerivatives(vec2 pos, vec3 circleXYR)
+vec4 CircleDerivatives(vec2 pos, vec3 circleXYR)
 {
     //Emulates dFdx/dFdy
-    return vec2(CircleDistance(pos + vec2(v_vOutputTexel.x, 0.0), circleXYR),
+    return vec4(CircleDistance(pos - vec2(v_vOutputTexel.x, 0.0), circleXYR),
+                CircleDistance(pos - vec2(0.0, v_vOutputTexel.y), circleXYR),
+                CircleDistance(pos + vec2(v_vOutputTexel.x, 0.0), circleXYR),
                 CircleDistance(pos + vec2(0.0, v_vOutputTexel.y), circleXYR));
 }
 
@@ -73,10 +75,12 @@ float RectangleDistance(vec2 pos, vec2 rectCentre, vec2 rectSize, float angle, f
     return length(max(vector, 0.0)) + min(max(vector.x, vector.y), 0.0) - radius;
 }
 
-vec2 RectangleDerivatives(vec2 pos, vec2 rectCentre, vec2 rectSize, float angle, float radius)
+vec4 RectangleDerivatives(vec2 pos, vec2 rectCentre, vec2 rectSize, float angle, float radius)
 {
     //Emulates dFdx/dFdy
-    return vec2(RectangleDistance(pos + vec2(v_vOutputTexel.x, 0.0), rectCentre, rectSize, angle, radius),
+    return vec4(RectangleDistance(pos - vec2(v_vOutputTexel.x, 0.0), rectCentre, rectSize, angle, radius),
+                RectangleDistance(pos - vec2(0.0, v_vOutputTexel.y), rectCentre, rectSize, angle, radius),
+                RectangleDistance(pos + vec2(v_vOutputTexel.x, 0.0), rectCentre, rectSize, angle, radius),
                 RectangleDistance(pos + vec2(0.0, v_vOutputTexel.y), rectCentre, rectSize, angle, radius));
 }
 
@@ -90,10 +94,12 @@ float LineNoCapDistance( in vec2 p, in vec2 a, in vec2 b, float th )
     return length(max(q,0.0)) + min(max(q.x,q.y),0.0);    
 }
 
-vec2 LineNoCapDerivatives(vec2 pos, vec2 posA, vec2 posB, float thickness)
+vec4 LineNoCapDerivatives(vec2 pos, vec2 posA, vec2 posB, float thickness)
 {
     //Emulates dFdx/dFdy
-    return vec2(LineNoCapDistance(pos + vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
+    return vec4(LineNoCapDistance(pos - vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
+                LineNoCapDistance(pos - vec2(0.0, v_vOutputTexel.y), posA, posB, thickness),
+                LineNoCapDistance(pos + vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
                 LineNoCapDistance(pos + vec2(0.0, v_vOutputTexel.y), posA, posB, thickness));
 }
 
@@ -107,10 +113,12 @@ float LineRoundCapDistance(vec2 position, vec2 posA, vec2 posB, float thickness)
     return (length(pos - para*max(0.0, min(length(posB - posA), dot(pos, para)))) - 0.5*thickness);
 }
 
-vec2 LineRoundCapDerivatives(vec2 pos, vec2 posA, vec2 posB, float thickness)
+vec4 LineRoundCapDerivatives(vec2 pos, vec2 posA, vec2 posB, float thickness)
 {
     //Emulates dFdx/dFdy
-    return vec2(LineRoundCapDistance(pos + vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
+    return vec4(LineRoundCapDistance(pos - vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
+                LineRoundCapDistance(pos - vec2(0.0, v_vOutputTexel.y), posA, posB, thickness),
+                LineRoundCapDistance(pos + vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
                 LineRoundCapDistance(pos + vec2(0.0, v_vOutputTexel.y), posA, posB, thickness));
 }
 
@@ -126,10 +134,12 @@ float LineSquareCapDistance( in vec2 p, in vec2 a, in vec2 b, float th )
     return length(max(q,0.0)) + min(max(q.x,q.y),0.0);    
 }
 
-vec2 LineSquareCapDerivatives(vec2 pos, vec2 posA, vec2 posB, float thickness)
+vec4 LineSquareCapDerivatives(vec2 pos, vec2 posA, vec2 posB, float thickness)
 {
     //Emulates dFdx/dFdy
-    return vec2(LineSquareCapDistance(pos + vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
+    return vec4(LineSquareCapDistance(pos - vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
+                LineSquareCapDistance(pos - vec2(0.0, v_vOutputTexel.y), posA, posB, thickness),
+                LineSquareCapDistance(pos + vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
                 LineSquareCapDistance(pos + vec2(0.0, v_vOutputTexel.y), posA, posB, thickness));
 }
 
@@ -147,10 +157,12 @@ float ConvexDistance(vec2 position, vec3 boundary1, vec3 boundary2, float roundi
     return min(max(delta.x, delta.y), 0.0) + length(max(delta, 0.0)) - rounding;
 }
 
-vec2 ConvexDerivatives(vec2 pos, vec3 line1, vec3 line2, float rounding)
+vec4 ConvexDerivatives(vec2 pos, vec3 line1, vec3 line2, float rounding)
 {
     //Emulates dFdx/dFdy
-    return vec2(ConvexDistance(pos + vec2(v_vOutputTexel.x, 0.0), line1, line2, rounding),
+    return vec4(ConvexDistance(pos - vec2(v_vOutputTexel.x, 0.0), line1, line2, rounding),
+                ConvexDistance(pos - vec2(0.0, v_vOutputTexel.y), line1, line2, rounding),
+                ConvexDistance(pos + vec2(v_vOutputTexel.x, 0.0), line1, line2, rounding),
                 ConvexDistance(pos + vec2(0.0, v_vOutputTexel.y), line1, line2, rounding));
 }
 
@@ -182,10 +194,12 @@ float PolylineMitreJoinDistance(vec2 position, vec2 posA, vec2 posB, vec2 posC, 
     return max(dist, ConvexDistance(position, vec3(norm1, dot1), vec3(norm2, dot2), 0.0));
 }
 
-vec2 PolylineMitreJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
+vec4 PolylineMitreJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
 {
     //Emulates dFdx/dFdy
-    return vec2(PolylineMitreJoinDistance(position + vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
+    return vec4(PolylineMitreJoinDistance(position - vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
+                PolylineMitreJoinDistance(position - vec2(0.0, v_vOutputTexel.y), posA, posB, posC, thickness),
+                PolylineMitreJoinDistance(position + vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
                 PolylineMitreJoinDistance(position + vec2(0.0, v_vOutputTexel.y), posA, posB, posC, thickness));
 }
 
@@ -205,10 +219,12 @@ float PolylineBevelJoinDistance(vec2 position, vec2 posA, vec2 posB, vec2 posC, 
     return max(mitreDist, -BoundaryDistance(position, norm, pointDot));
 }
 
-vec2 PolylineBevelJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
+vec4 PolylineBevelJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
 {
     //Emulates dFdx/dFdy
-    return vec2(PolylineBevelJoinDistance(position + vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
+    return vec4(PolylineBevelJoinDistance(position - vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
+                PolylineBevelJoinDistance(position - vec2(0.0, v_vOutputTexel.y), posA, posB, posC, thickness),
+                PolylineBevelJoinDistance(position + vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
                 PolylineBevelJoinDistance(position + vec2(0.0, v_vOutputTexel.y), posA, posB, posC, thickness));
 }
 
@@ -219,10 +235,12 @@ float PolylineRoundJoinDistance(vec2 position, vec2 posA, vec2 posB, vec2 posC, 
     return min(LineRoundCapDistance(position, posA, posB, thickness), LineRoundCapDistance(position, posC, posB, thickness));
 }
 
-vec2 PolylineRoundJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
+vec4 PolylineRoundJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
 {
     //Emulates dFdx/dFdy
-    return vec2(PolylineRoundJoinDistance(position + vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
+    return vec4(PolylineRoundJoinDistance(position - vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
+                PolylineRoundJoinDistance(position - vec2(0.0, v_vOutputTexel.y), posA, posB, posC, thickness),
+                PolylineRoundJoinDistance(position + vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
                 PolylineRoundJoinDistance(position + vec2(0.0, v_vOutputTexel.y), posA, posB, posC, thickness));
 }
 
@@ -250,10 +268,12 @@ float NgonDistance(vec2 pos, vec2 ngonXY, float radius, float sides, float angle
     return length(pos)*sign(pos.x) - rounding;
 }
 
-vec2 NgonDerivatives(vec2 pos, vec2 ngonXY, float radius, float sides, float angleDivisor, float angle, float rounding)
+vec4 NgonDerivatives(vec2 pos, vec2 ngonXY, float radius, float sides, float angleDivisor, float angle, float rounding)
 {
     //Emulates dFdx/dFdy
-    return vec2(NgonDistance(pos + vec2(v_vOutputTexel.x, 0.0), ngonXY, radius, sides, angleDivisor, angle, rounding),
+    return vec4(NgonDistance(pos - vec2(v_vOutputTexel.x, 0.0), ngonXY, radius, sides, angleDivisor, angle, rounding),
+                NgonDistance(pos - vec2(0.0, v_vOutputTexel.y), ngonXY, radius, sides, angleDivisor, angle, rounding),
+                NgonDistance(pos + vec2(v_vOutputTexel.x, 0.0), ngonXY, radius, sides, angleDivisor, angle, rounding),
                 NgonDistance(pos + vec2(0.0, v_vOutputTexel.y), ngonXY, radius, sides, angleDivisor, angle, rounding));
 }
 
@@ -278,22 +298,27 @@ float SegmentDistance(vec2 pos, vec3 shapeXYR, float aperatureCentre, float aper
     return max(l, m*sign(trigCoeffs.y*pos.x - trigCoeffs.x*pos.y)) - rounding;
 }
 
-vec2 SegmentDerivatives(vec2 pos, vec3 shapeXYR, float aperatureCentre, float aperatureSize, float rounding)
+vec4 SegmentDerivatives(vec2 pos, vec3 shapeXYR, float aperatureCentre, float aperatureSize, float rounding)
 {
     //Emulates dFdx/dFdy
-    return vec2(SegmentDistance(pos + vec2(v_vOutputTexel.x, 0.0), shapeXYR, aperatureCentre, aperatureSize, rounding),
+    return vec4(SegmentDistance(pos - vec2(v_vOutputTexel.x, 0.0), shapeXYR, aperatureCentre, aperatureSize, rounding),
+                SegmentDistance(pos - vec2(0.0, v_vOutputTexel.y), shapeXYR, aperatureCentre, aperatureSize, rounding),
+                SegmentDistance(pos + vec2(v_vOutputTexel.x, 0.0), shapeXYR, aperatureCentre, aperatureSize, rounding),
                 SegmentDistance(pos + vec2(0.0, v_vOutputTexel.y), shapeXYR, aperatureCentre, aperatureSize, rounding));
 }
 
 
 
-float RingDistance(vec2 position, vec2 centre, float angleStart, float angleEnd, float radiusA, float radiusB)
+float RingDistance(vec2 position, vec2 centre, float aperatureCentre, float aperatureSize, float innerRadius, float outerRadius)
 {
-    angleStart = radians(angleStart);
-    angleEnd   = radians(angleEnd);
+    float thickness = outerRadius - innerRadius;
+    outerRadius -= thickness;
     
-    vec2 sinCosA = vec2(sin(angleStart), cos(angleStart));
-    vec2 sinCosB = vec2(sin(angleEnd),   cos(angleEnd)  );
+    aperatureCentre = radians(aperatureCentre);
+    aperatureSize   = radians(aperatureSize);
+    
+    vec2 sinCosA = vec2(sin(aperatureCentre), cos(aperatureCentre));
+    vec2 sinCosB = vec2(sin(aperatureSize),   cos(aperatureSize)  );
     
     position -= centre;
     position *= mat2(sinCosA.x, sinCosA.y, -sinCosA.y, sinCosA.x);
@@ -301,31 +326,29 @@ float RingDistance(vec2 position, vec2 centre, float angleStart, float angleEnd,
     
     float k = (sinCosB.y*position.x > sinCosB.x*position.y)? dot(position, sinCosB) : length(position);
     
-    return sqrt(dot(position, position) + radiusA*radiusA - 2.0*radiusA*k) - radiusB;
+    return sqrt(dot(position, position) + outerRadius*outerRadius - 2.0*outerRadius*k) - thickness;
 }
 
-vec2 RingDerivatives(vec2 position, vec2 centre, float angleStart, float angleEnd, float radiusA, float radiusB)
+vec4 RingDerivatives(vec2 position, vec2 centre, float aperatureCentre, float aperatureSize, float innerRadius, float outerRadius)
 {
     //Emulates dFdx/dFdy
-    return vec2(RingDistance(position + vec2(v_vOutputTexel.x, 0.0), centre, angleStart, angleEnd, radiusA, radiusB),
-                RingDistance(position + vec2(0.0, v_vOutputTexel.y), centre, angleStart, angleEnd, radiusA, radiusB));
+    return vec4(RingDistance(position - vec2(v_vOutputTexel.x, 0.0), centre, aperatureCentre, aperatureSize, innerRadius, outerRadius),
+                RingDistance(position - vec2(0.0, v_vOutputTexel.y), centre, aperatureCentre, aperatureSize, innerRadius, outerRadius),
+                RingDistance(position + vec2(v_vOutputTexel.x, 0.0), centre, aperatureCentre, aperatureSize, innerRadius, outerRadius),
+                RingDistance(position + vec2(0.0, v_vOutputTexel.y), centre, aperatureCentre, aperatureSize, innerRadius, outerRadius));
 }
 
 
 
 
-
-
-
-float fwidthEmulation(vec2 value)
+float GradientVec4(vec4 value)
 {
-    return abs(value.x) + abs(value.y);
-    //return length(value);
+    return 0.5*(abs(value.x) + abs(value.y) + abs(value.z) + abs(value.w));
 }
 
-float Feather(float dist, vec2 derivatives, float threshold)
+float Feather(float dist, vec4 derivatives, float threshold)
 {
-    return smoothstep(threshold - SMOOTHNESS*fwidthEmulation(dist - derivatives), threshold, dist);
+    return smoothstep(threshold - SMOOTHNESS*GradientVec4(dist - derivatives), threshold, dist);
 }
 
 
@@ -333,7 +356,7 @@ float Feather(float dist, vec2 derivatives, float threshold)
 void main()
 {
     float dist = 0.0;
-    vec2  derivatives = vec2(0.0);
+    vec4  derivatives = vec4(0.0);
     
     if (v_fMode <= 0.0)
     {
@@ -349,7 +372,7 @@ void main()
             vec4 fillColour = mix(v_vFillColour, v_vCircleInnerColour, -dist / v_vCircleXYR.z);
             gl_FragColor = mix(v_vBorderColour, fillColour, Feather(-dist, -derivatives, v_fBorderThickness));
         }
-        else if (v_fMode == 2.0) //Rectangle + Capsule
+        if (v_fMode == 2.0) //Rectangle + Capsule
         {
             dist        = RectangleDistance(   v_vPosition, v_vRectangleXY, v_vRectangleWH, v_vRectangleAngle, v_fRounding);
             derivatives = RectangleDerivatives(v_vPosition, v_vRectangleXY, v_vRectangleWH, v_vRectangleAngle, v_fRounding);
@@ -411,8 +434,8 @@ void main()
         }
         else if (v_fMode == 12.0) //Ring
         {
-            dist        = RingDistance(   v_vPosition, v_vRingCentre, v_fRingAngleStart, v_fRingAngleEnd, 90.0, 10.0);
-            derivatives = RingDerivatives(v_vPosition, v_vRingCentre, v_fRingAngleStart, v_fRingAngleEnd, 90.0, 10.0);
+            dist        = RingDistance(   v_vPosition, v_vRingCentre, v_fRingAperatureCentre, v_fRingAperatureSize, v_fRingInnerRadius, v_fRingOuterRadius);
+            derivatives = RingDerivatives(v_vPosition, v_vRingCentre, v_fRingAperatureCentre, v_fRingAperatureSize, v_fRingInnerRadius, v_fRingOuterRadius);
             gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
         }
         
