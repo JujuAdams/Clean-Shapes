@@ -73,13 +73,13 @@ varying float v_fNgonAngle;
 
 //Segment
 varying vec3  v_vSegmentXYR;
-varying float v_vSegmentAperatureCentre;
-varying float v_vSegmentAperatureSize;
+varying float v_vSegmentApertureCentre;
+varying float v_vSegmentApertureSize;
 
 //Ring
 varying vec2  v_vRingCentre;
-varying float v_fRingAperatureCentre;
-varying float v_fRingAperatureSize;
+varying float v_fRingApertureCentre;
+varying float v_fRingApertureSize;
 varying float v_fRingInnerRadius;
 varying float v_fRingOuterRadius;
 
@@ -129,13 +129,13 @@ void main()
     
     //Segment
     v_vSegmentXYR             = in_Normal;
-    v_vSegmentAperatureCentre = in_Colour2.x;
-    v_vSegmentAperatureSize   = in_Colour2.y;
+    v_vSegmentApertureCentre = in_Colour2.x;
+    v_vSegmentApertureSize   = in_Colour2.y;
     
     //Ring
     v_vRingCentre          = in_Normal.xy;
-    v_fRingAperatureCentre = in_Colour2.y;
-    v_fRingAperatureSize   = in_Colour2.z;
+    v_fRingApertureCentre = in_Colour2.y;
+    v_fRingApertureSize   = in_Colour2.z;
     v_fRingInnerRadius     = in_Normal.z;
     v_fRingOuterRadius     = in_Colour2.x;
 }

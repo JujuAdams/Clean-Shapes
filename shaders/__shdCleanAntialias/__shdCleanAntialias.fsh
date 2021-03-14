@@ -36,13 +36,13 @@ varying float v_fNgonAngle;
 
 //Segment
 varying vec3  v_vSegmentXYR;
-varying float v_vSegmentAperatureCentre;
-varying float v_vSegmentAperatureSize;
+varying float v_vSegmentApertureCentre;
+varying float v_vSegmentApertureSize;
 
 //Ring
 varying vec2  v_vRingCentre;
-varying float v_fRingAperatureCentre;
-varying float v_fRingAperatureSize;
+varying float v_fRingApertureCentre;
+varying float v_fRingApertureSize;
 varying float v_fRingInnerRadius;
 varying float v_fRingOuterRadius;
 
@@ -279,17 +279,17 @@ vec4 NgonDerivatives(vec2 pos, vec2 ngonXY, float radius, float sides, float ang
 
 
 
-float SegmentDistance(vec2 pos, vec3 shapeXYR, float aperatureCentre, float aperatureSize, float rounding)
+float SegmentDistance(vec2 pos, vec3 shapeXYR, float apertureCentre, float apertureSize, float rounding)
 {
-    aperatureCentre = radians(aperatureCentre);
-    aperatureSize = radians(aperatureSize);
+    apertureCentre = radians(apertureCentre);
+    apertureSize = radians(apertureSize);
     
     pos -= shapeXYR.xy;
-    pos = mat2(cos(-aperatureCentre), -sin(-aperatureCentre), sin(-aperatureCentre), cos(-aperatureCentre)) * pos;
+    pos = mat2(cos(-apertureCentre), -sin(-apertureCentre), sin(-apertureCentre), cos(-apertureCentre)) * pos;
     
     shapeXYR -= rounding;
     
-    vec2 trigCoeffs = vec2(sin(aperatureSize), cos(aperatureSize));
+    vec2 trigCoeffs = vec2(sin(apertureSize), cos(apertureSize));
     
     pos.x = abs(pos.x);
     float l = (length(pos) - shapeXYR.z);
@@ -298,27 +298,27 @@ float SegmentDistance(vec2 pos, vec3 shapeXYR, float aperatureCentre, float aper
     return max(l, m*sign(trigCoeffs.y*pos.x - trigCoeffs.x*pos.y)) - rounding;
 }
 
-vec4 SegmentDerivatives(vec2 pos, vec3 shapeXYR, float aperatureCentre, float aperatureSize, float rounding)
+vec4 SegmentDerivatives(vec2 pos, vec3 shapeXYR, float apertureCentre, float apertureSize, float rounding)
 {
     //Emulates dFdx/dFdy
-    return vec4(SegmentDistance(pos - vec2(v_vOutputTexel.x, 0.0), shapeXYR, aperatureCentre, aperatureSize, rounding),
-                SegmentDistance(pos - vec2(0.0, v_vOutputTexel.y), shapeXYR, aperatureCentre, aperatureSize, rounding),
-                SegmentDistance(pos + vec2(v_vOutputTexel.x, 0.0), shapeXYR, aperatureCentre, aperatureSize, rounding),
-                SegmentDistance(pos + vec2(0.0, v_vOutputTexel.y), shapeXYR, aperatureCentre, aperatureSize, rounding));
+    return vec4(SegmentDistance(pos - vec2(v_vOutputTexel.x, 0.0), shapeXYR, apertureCentre, apertureSize, rounding),
+                SegmentDistance(pos - vec2(0.0, v_vOutputTexel.y), shapeXYR, apertureCentre, apertureSize, rounding),
+                SegmentDistance(pos + vec2(v_vOutputTexel.x, 0.0), shapeXYR, apertureCentre, apertureSize, rounding),
+                SegmentDistance(pos + vec2(0.0, v_vOutputTexel.y), shapeXYR, apertureCentre, apertureSize, rounding));
 }
 
 
 
-float RingDistance(vec2 position, vec2 centre, float aperatureCentre, float aperatureSize, float innerRadius, float outerRadius)
+float RingDistance(vec2 position, vec2 centre, float apertureCentre, float apertureSize, float innerRadius, float outerRadius)
 {
     float thickness = outerRadius - innerRadius;
     outerRadius -= thickness;
     
-    aperatureCentre = radians(aperatureCentre);
-    aperatureSize   = radians(aperatureSize);
+    apertureCentre = radians(apertureCentre);
+    apertureSize   = radians(apertureSize);
     
-    vec2 sinCosA = vec2(sin(aperatureCentre), cos(aperatureCentre));
-    vec2 sinCosB = vec2(sin(aperatureSize),   cos(aperatureSize)  );
+    vec2 sinCosA = vec2(sin(apertureCentre), cos(apertureCentre));
+    vec2 sinCosB = vec2(sin(apertureSize),   cos(apertureSize)  );
     
     position -= centre;
     position *= mat2(sinCosA.x, sinCosA.y, -sinCosA.y, sinCosA.x);
@@ -329,13 +329,13 @@ float RingDistance(vec2 position, vec2 centre, float aperatureCentre, float aper
     return sqrt(dot(position, position) + outerRadius*outerRadius - 2.0*outerRadius*k) - thickness;
 }
 
-vec4 RingDerivatives(vec2 position, vec2 centre, float aperatureCentre, float aperatureSize, float innerRadius, float outerRadius)
+vec4 RingDerivatives(vec2 position, vec2 centre, float apertureCentre, float apertureSize, float innerRadius, float outerRadius)
 {
     //Emulates dFdx/dFdy
-    return vec4(RingDistance(position - vec2(v_vOutputTexel.x, 0.0), centre, aperatureCentre, aperatureSize, innerRadius, outerRadius),
-                RingDistance(position - vec2(0.0, v_vOutputTexel.y), centre, aperatureCentre, aperatureSize, innerRadius, outerRadius),
-                RingDistance(position + vec2(v_vOutputTexel.x, 0.0), centre, aperatureCentre, aperatureSize, innerRadius, outerRadius),
-                RingDistance(position + vec2(0.0, v_vOutputTexel.y), centre, aperatureCentre, aperatureSize, innerRadius, outerRadius));
+    return vec4(RingDistance(position - vec2(v_vOutputTexel.x, 0.0), centre, apertureCentre, apertureSize, innerRadius, outerRadius),
+                RingDistance(position - vec2(0.0, v_vOutputTexel.y), centre, apertureCentre, apertureSize, innerRadius, outerRadius),
+                RingDistance(position + vec2(v_vOutputTexel.x, 0.0), centre, apertureCentre, apertureSize, innerRadius, outerRadius),
+                RingDistance(position + vec2(0.0, v_vOutputTexel.y), centre, apertureCentre, apertureSize, innerRadius, outerRadius));
 }
 
 
@@ -428,14 +428,14 @@ void main()
         }
         else if (v_fMode == 11.0) //Segment
         {
-            dist        = SegmentDistance(   v_vPosition, v_vSegmentXYR, v_vSegmentAperatureCentre, v_vSegmentAperatureSize, v_fRounding);
-            derivatives = SegmentDerivatives(v_vPosition, v_vSegmentXYR, v_vSegmentAperatureCentre, v_vSegmentAperatureSize, v_fRounding);
+            dist        = SegmentDistance(   v_vPosition, v_vSegmentXYR, v_vSegmentApertureCentre, v_vSegmentApertureSize, v_fRounding);
+            derivatives = SegmentDerivatives(v_vPosition, v_vSegmentXYR, v_vSegmentApertureCentre, v_vSegmentApertureSize, v_fRounding);
             gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
         }
         else if (v_fMode == 12.0) //Ring
         {
-            dist        = RingDistance(   v_vPosition, v_vRingCentre, v_fRingAperatureCentre, v_fRingAperatureSize, v_fRingInnerRadius, v_fRingOuterRadius);
-            derivatives = RingDerivatives(v_vPosition, v_vRingCentre, v_fRingAperatureCentre, v_fRingAperatureSize, v_fRingInnerRadius, v_fRingOuterRadius);
+            dist        = RingDistance(   v_vPosition, v_vRingCentre, v_fRingApertureCentre, v_fRingApertureSize, v_fRingInnerRadius, v_fRingOuterRadius);
+            derivatives = RingDerivatives(v_vPosition, v_vRingCentre, v_fRingApertureCentre, v_fRingApertureSize, v_fRingInnerRadius, v_fRingOuterRadius);
             gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
         }
         
