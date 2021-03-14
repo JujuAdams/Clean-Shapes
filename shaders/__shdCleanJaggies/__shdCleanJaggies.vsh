@@ -1,10 +1,41 @@
-                                //CIRCLE:                           RECTANGLE:                    LINE:                CONVEX:                       POLYLINE:     
-attribute vec3 in_Position;     //XY, type                          XY, type                      XY, type             XY, type                      XY, type  
-attribute vec3 in_Normal;       //Circle XY, radius                 Rect XY, rotation             x1, y1, unused       First boundary                x1, y1, x3
-attribute vec4 in_Colour1;      //Outer fill RGBA                   Fill colour                   Fill colour          Fill colour                   Fill colour    
-attribute vec3 in_Colour2;      //Inner fill RGB                    Rect WH, unused               x2, y2, unused       Second boundary               x2. y2, y3
-attribute vec4 in_Colour3;      //Border colour                     Border colour                 Unused               Border colour                 Unused
-attribute vec2 in_TextureCoord; //Inner fill A, border thickness    Rounding, border thickness    Thickness, unused    Rounding, border thickness    Thickness, unused
+//                  CIRCLE:                          SEGMENT:
+//in_Position:      XY, type                         XY, type
+//in_Normal:        Circle XY, radius                Circle XY, radius
+//in_Colour1:       Outer fill RGBA                  Outer fill RGBA
+//in_Colour2:       Inner fill RGB                   Wedge centre, wedge size, unused
+//in_Colour3:       Border colour                    Border colour
+//in_TextureCoord:  Inner fill A, border thickness   Unused, border thickness
+//
+//                  RING:                            RECTANGLE:                
+//in_Position:      XY, type                         XY, type                  
+//in_Normal:        Shape XY, radius                 Rect XY, rotation         
+//in_Colour1:       Fill RGBA                        Fill colour               
+//in_Colour2:       Radius, angle, angle             Rect WH, unused           
+//in_Colour3:       Border colour                    Border colour             
+//in_TextureCoord:  Unused, border thickness         Rounding, border thickness
+//
+//                  LINE:                            CONVEX:
+//in_Position:      XY, type                         XY, type
+//in_Normal:        x1, y1, unused                   First boundary
+//in_Colour1:       Fill colour                      Fill colour
+//in_Colour2:       x2, y2, unused                   Second boundary
+//in_Colour3:       Unused                           Border colour
+//in_TextureCoord:  Thickness, unused                Rounding, border thickness
+//
+//                  POLYLINE:                        N-GON:
+//in_Position:      XY, type                         XY, type
+//in_Normal:        x1, y1, x3                       Centre XY, radius
+//in_Colour1:       Fill colour                      Fill RGBA
+//in_Colour2:       x2. y2, y3                       Sides, star factor, rotation
+//in_Colour3:       Unused                           Border colour
+//in_TextureCoord:  Thickness, unused                Rounding, border thickness
+
+attribute vec3 in_Position;
+attribute vec3 in_Normal;
+attribute vec4 in_Colour1;
+attribute vec3 in_Colour2;
+attribute vec4 in_Colour3;
+attribute vec2 in_TextureCoord;
 
 
 
@@ -40,6 +71,18 @@ varying vec3  v_vNgonXYR;
 varying float v_fNgonSides;
 varying float v_fNgonStarFactor;
 varying float v_fNgonAngle;
+
+//Segment
+varying vec3  v_vSegmentXYR;
+varying float v_vSegmentApertureCentre;
+varying float v_vSegmentApertureSize;
+
+//Ring
+varying vec2  v_vRingCentre;
+varying float v_fRingApertureCentre;
+varying float v_fRingApertureSize;
+varying float v_fRingInnerRadius;
+varying float v_fRingOuterRadius;
 
 
 
@@ -79,4 +122,16 @@ void main()
     v_fNgonSides         = in_Colour2.x;
     v_fNgonStarFactor    = in_Colour2.y;
     v_fNgonAngle         = in_Colour2.z;
+    
+    //Segment
+    v_vSegmentXYR             = in_Normal;
+    v_vSegmentApertureCentre = in_Colour2.x;
+    v_vSegmentApertureSize   = in_Colour2.y;
+    
+    //Ring
+    v_vRingCentre         = in_Normal.xy;
+    v_fRingApertureCentre = in_Colour2.y;
+    v_fRingApertureSize   = in_Colour2.z;
+    v_fRingInnerRadius    = in_Normal.z;
+    v_fRingOuterRadius    = in_Colour2.x;
 }

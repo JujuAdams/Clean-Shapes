@@ -31,7 +31,17 @@ varying float v_fNgonSides;
 varying float v_fNgonStarFactor;
 varying float v_fNgonAngle;
 
+//Segment
+varying vec3  v_vSegmentXYR;
+varying float v_vSegmentApertureCentre;
+varying float v_vSegmentApertureSize;
 
+//Ring
+varying vec2  v_vRingCentre;
+varying float v_fRingApertureCentre;
+varying float v_fRingApertureSize;
+varying float v_fRingInnerRadius;
+varying float v_fRingOuterRadius;
 
 
 
@@ -158,12 +168,49 @@ float NgonDistance(vec2 pos, vec2 ngonXY, float radius, float sides, float angle
     return length(pos)*sign(pos.x) - rounding;
 }
 
+float SegmentDistance(vec2 pos, vec3 shapeXYR, float apertureCentre, float apertureSize, float rounding)
+{
+    apertureCentre = radians(apertureCentre);
+    apertureSize   = radians(apertureSize);
+    
+    pos -= shapeXYR.xy;
+    pos = mat2(cos(-apertureCentre), -sin(-apertureCentre), sin(-apertureCentre), cos(-apertureCentre)) * pos;
+    
+    shapeXYR -= rounding;
+    
+    vec2 trigCoeffs = vec2(sin(apertureSize), cos(apertureSize));
+    
+    pos.x = abs(pos.x);
+    float l = (length(pos) - shapeXYR.z);
+    float m = length(pos - trigCoeffs*clamp(dot(pos, trigCoeffs), 0.0, shapeXYR.z)); // c=sin/cos of aperture
+    
+    return max(l, m*sign(trigCoeffs.y*pos.x - trigCoeffs.x*pos.y)) - rounding;
+}
+
+float RingDistance(vec2 position, vec2 centre, float apertureCentre, float apertureSize, float innerRadius, float outerRadius)
+{
+    float thickness = outerRadius - innerRadius;
+    outerRadius -= thickness;
+    
+    apertureCentre = radians(apertureCentre);
+    apertureSize   = radians(apertureSize);
+    
+    vec2 sinCosA = vec2(sin(apertureCentre), cos(apertureCentre));
+    vec2 sinCosB = vec2(sin(apertureSize),   cos(apertureSize)  );
+    
+    position -= centre;
+    position *= mat2(sinCosA.x, sinCosA.y, -sinCosA.y, sinCosA.x);
+    position.x = abs(position.x);
+    
+    float k = (sinCosB.y*position.x > sinCosB.x*position.y)? dot(position, sinCosB) : length(position);
+    
+    return sqrt(dot(position, position) + outerRadius*outerRadius - 2.0*outerRadius*k) - thickness;
+}
+
 float Feather(float dist, float threshold)
 {
     return step(threshold, dist);
 }
-
-
 
 
 
@@ -227,6 +274,16 @@ void main()
         else if (v_fMode == 10.0) //N-gon
         {
             dist = NgonDistance(v_vPosition, v_vNgonXYR.xy, v_vNgonXYR.z, v_fNgonSides, v_fNgonStarFactor, v_fNgonAngle, v_fRounding);
+            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, v_fBorderThickness));
+        }
+        else if (v_fMode == 11.0) //Segment
+        {
+            dist = SegmentDistance(v_vPosition, v_vSegmentXYR, v_vSegmentApertureCentre, v_vSegmentApertureSize, v_fRounding);
+            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, v_fBorderThickness));
+        }
+        else if (v_fMode == 12.0) //Ring
+        {
+            dist = RingDistance(v_vPosition, v_vRingCentre, v_fRingApertureCentre, v_fRingApertureSize, v_fRingInnerRadius, v_fRingOuterRadius);
             gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, v_fBorderThickness));
         }
         
