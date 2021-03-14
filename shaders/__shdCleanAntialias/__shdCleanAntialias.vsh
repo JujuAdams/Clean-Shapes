@@ -30,12 +30,16 @@
 //in_Colour3:       Unused                           Border colour
 //in_TextureCoord:  Thickness, unused                Rounding, border thickness
 
+
+
 attribute vec3 in_Position;
 attribute vec3 in_Normal;
 attribute vec4 in_Colour1;
 attribute vec3 in_Colour2;
 attribute vec4 in_Colour3;
 attribute vec2 in_TextureCoord;
+
+
 
 //Shared
 varying vec2  v_vOutputTexel;
@@ -84,6 +88,8 @@ varying float v_fRingInnerRadius;
 varying float v_fRingOuterRadius;
 
 uniform vec2 u_vOutputSize;
+
+
 
 void main()
 {

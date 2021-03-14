@@ -1,5 +1,7 @@
 const float SMOOTHNESS = 1.41421356237;
 
+
+
 //Shared
 varying vec2  v_vOutputTexel;
 varying vec2  v_vPosition;
@@ -304,7 +306,7 @@ vec4 SegmentDerivatives(vec2 pos, vec3 shapeXYR, float apertureCentre, float ape
 
 float RingDistance(vec2 position, vec2 centre, float apertureCentre, float apertureSize, float innerRadius, float outerRadius)
 {
-    float thickness = outerRadius - innerRadius;
+    float thickness = 0.5*(outerRadius - innerRadius);
     outerRadius -= thickness;
     
     vec2 sinCosA = vec2(sin(apertureCentre), cos(apertureCentre));
@@ -327,7 +329,6 @@ vec4 RingDerivatives(vec2 position, vec2 centre, float apertureCentre, float ape
                 RingDistance(position + vec2(v_vOutputTexel.x, 0.0), centre, apertureCentre, apertureSize, innerRadius, outerRadius),
                 RingDistance(position + vec2(0.0, v_vOutputTexel.y), centre, apertureCentre, apertureSize, innerRadius, outerRadius));
 }
-
 
 
 
