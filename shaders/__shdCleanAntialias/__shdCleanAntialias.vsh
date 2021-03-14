@@ -133,9 +133,9 @@ void main()
     v_vSegmentApertureSize   = in_Colour2.y;
     
     //Ring
-    v_vRingCentre          = in_Normal.xy;
+    v_vRingCentre         = in_Normal.xy;
     v_fRingApertureCentre = in_Colour2.y;
     v_fRingApertureSize   = in_Colour2.z;
-    v_fRingInnerRadius     = in_Normal.z;
-    v_fRingOuterRadius     = in_Colour2.x;
+    v_fRingInnerRadius    = in_Normal.z;
+    v_fRingOuterRadius    = in_Colour2.x;
 }
