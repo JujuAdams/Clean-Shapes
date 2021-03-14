@@ -1,11 +1,3 @@
-CleanRing(100, 100, 90, 100, 90, 45)
-.Border(3, c_red, 1.0)
-.Draw();
-
-exit;
-
-
-
 //Shapes can be drawn by themselves
 CleanRectangle(20, 20, 610, 330)
 .Blend4(c_white, 1.0, c_white, 0.5, c_white, 1.0, c_white, 0.5)
