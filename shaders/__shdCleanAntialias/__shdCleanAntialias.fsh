@@ -1,3 +1,5 @@
+precision highp float;
+
 const float SMOOTHNESS = 1.41421356237;
 
 

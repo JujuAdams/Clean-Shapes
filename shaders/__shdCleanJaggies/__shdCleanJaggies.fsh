@@ -1,3 +1,5 @@
+precision highp float;
+
 //Shared
 varying vec2  v_vPosition;
 varying float v_fMode;
@@ -182,7 +184,7 @@ float SegmentDistance(vec2 pos, vec3 shapeXYR, float apertureCentre, float apert
 
 float RingDistance(vec2 position, vec2 centre, float apertureCentre, float apertureSize, float innerRadius, float outerRadius)
 {
-    float thickness = outerRadius - innerRadius;
+    float thickness = 0.5*(outerRadius - innerRadius);
     outerRadius -= thickness;
     
     vec2 sinCosA = vec2(sin(apertureCentre), cos(apertureCentre));

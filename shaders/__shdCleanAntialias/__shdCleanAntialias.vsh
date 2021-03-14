@@ -1,3 +1,5 @@
+precision highp float;
+
 //                  CIRCLE:                          SEGMENT:
 //in_Position:      XY, type                         XY, type
 //in_Normal:        Circle XY, radius                Circle XY, radius
