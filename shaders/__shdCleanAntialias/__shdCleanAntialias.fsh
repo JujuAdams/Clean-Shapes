@@ -282,7 +282,7 @@ vec4 NgonDerivatives(vec2 pos, vec2 ngonXY, float radius, float sides, float ang
 float SegmentDistance(vec2 pos, vec3 shapeXYR, float apertureCentre, float apertureSize, float rounding)
 {
     apertureCentre = radians(apertureCentre);
-    apertureSize = radians(apertureSize);
+    apertureSize   = radians(apertureSize);
     
     pos -= shapeXYR.xy;
     pos = mat2(cos(-apertureCentre), -sin(-apertureCentre), sin(-apertureCentre), cos(-apertureCentre)) * pos;
