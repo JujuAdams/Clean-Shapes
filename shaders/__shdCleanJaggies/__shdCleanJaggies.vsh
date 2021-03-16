@@ -50,8 +50,9 @@ varying vec4  v_vBorderColour;
 varying float v_fRounding;
 
 //Circle
-varying vec3 v_vCircleXYR;
-varying vec4 v_vCircleInnerColour;
+varying vec2  v_vCircleRadius;
+varying vec2  v_vCircleCoord;
+varying vec4  v_vCircleInnerColour;
 
 //Rectangle
 varying vec2  v_vRectangleXY;
@@ -90,7 +91,7 @@ varying float v_fRingOuterRadius;
 
 void main()
 {
-    gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION]*vec4(in_Position.xyz, 1.0);
+    gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION]*vec4(in_Position.xy, 0.0, 1.0);
     
     //Shared
     v_vPosition          = in_Position.xy;
@@ -100,8 +101,15 @@ void main()
     v_fRounding          = in_TextureCoord.x;
     v_fBorderThickness   = in_TextureCoord.y;
     
+    //Extract flags
+    float flagA = 0.0;
+    float flagB = 0.0;
+    if (v_fMode >= 131072.0) { v_fMode -= 131072.0; flagB = 1.0; } // 2^17
+    if (v_fMode >=  65536.0) { v_fMode -=  65536.0; flagA = 1.0; } // 2^16
+    
     //Circle
-    v_vCircleXYR         = in_Normal;
+    v_vCircleRadius      = in_Normal.xy;
+    v_vCircleCoord       = 2.0*v_vCircleRadius*(vec2(flagA, flagB) - 0.5);
     v_vCircleInnerColour = vec4(in_Colour2, in_TextureCoord.x);
     
     //Rectangle

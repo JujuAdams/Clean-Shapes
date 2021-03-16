@@ -14,7 +14,7 @@ varying vec4  v_vBorderColour;
 varying float v_fRounding;
 
 //Circle
-varying float v_vCircleRadius;
+varying vec2  v_vCircleRadius;
 varying vec2  v_vCircleCoord;
 varying vec4  v_vCircleInnerColour;
 
@@ -53,18 +53,36 @@ varying float v_fRingOuterRadius;
 
 
 
-float CircleDistance(vec2 coord, float radius)
+float CircleDistance(vec2 p, vec2 ab)
 {
-    return radius*(length(2.0*coord - 1.0) - 1.0);
+    // symmetry
+    p = abs( p );
+    
+    // determine in/out and initial omega value
+    bool s = dot(p/ab,p/ab)>1.0;
+    float w = s ? atan(p.y*ab.x, p.x*ab.y) : 
+                  ((ab.x*(p.x-ab.x)<ab.y*(p.y-ab.y))? 1.5707963 : 0.0);
+    
+    // find root with Newton solver
+    for( int i=0; i<4; i++ )
+    {
+        vec2 cs = vec2(cos(w),sin(w));
+        vec2 u = ab*vec2( cs.x,cs.y);
+        vec2 v = ab*vec2(-cs.y,cs.x);
+        w = w + dot(p-u,v)/(dot(p-u,u)+dot(v,v));
+    }
+    
+    // compute final point and distance
+    return length(p-ab*vec2(cos(w),sin(w))) * (s?1.0:-1.0);
 }
 
-vec4 CircleDerivatives(vec2 coord, float radius)
+vec4 CircleDerivatives(vec2 coord, vec2 radius)
 {
     //Emulates dFdx/dFdy
-    return vec4(CircleDistance(coord - vec2(v_vOutputTexel.x, 0.0) / (2.0*radius), radius),
-                CircleDistance(coord - vec2(0.0, v_vOutputTexel.y) / (2.0*radius), radius),
-                CircleDistance(coord + vec2(v_vOutputTexel.x, 0.0) / (2.0*radius), radius),
-                CircleDistance(coord + vec2(0.0, v_vOutputTexel.y) / (2.0*radius), radius));
+    return vec4(CircleDistance(coord - vec2(v_vOutputTexel.x, 0.0), radius),
+                CircleDistance(coord - vec2(0.0, v_vOutputTexel.y), radius),
+                CircleDistance(coord + vec2(v_vOutputTexel.x, 0.0), radius),
+                CircleDistance(coord + vec2(0.0, v_vOutputTexel.y), radius));
 }
 
 
@@ -363,7 +381,7 @@ void main()
             dist        = CircleDistance(   v_vCircleCoord, v_vCircleRadius);
             derivatives = CircleDerivatives(v_vCircleCoord, v_vCircleRadius);
             
-            vec4 fillColour = mix(v_vFillColour, v_vCircleInnerColour, -dist / v_vCircleRadius);
+            vec4 fillColour = mix(v_vCircleInnerColour, v_vFillColour, length(v_vCircleCoord/v_vCircleRadius));
             gl_FragColor = mix(v_vBorderColour, fillColour, Feather(-dist, -derivatives, v_fBorderThickness));
         }
         if (v_fMode == 2.0) //Rectangle + Capsule

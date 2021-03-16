@@ -2,7 +2,7 @@ precision highp float;
 
 //                  CIRCLE:                          SEGMENT:
 //in_Position:      XY, type                         XY, type
-//in_Normal:        Circle XY, radius                Circle XY, radius
+//in_Normal:        Radius X, radius Y               Circle XY, radius
 //in_Colour1:       Outer fill RGBA                  Outer fill RGBA
 //in_Colour2:       Inner fill RGB                   Wedge centre, wedge size, unused
 //in_Colour3:       Border colour                    Border colour
@@ -53,9 +53,9 @@ varying vec4  v_vBorderColour;
 varying float v_fRounding;
 
 //Circle
-varying float v_vCircleRadius;
-varying vec2  v_vCircleCoord;
-varying vec4  v_vCircleInnerColour;
+varying vec2 v_vCircleRadius;
+varying vec2 v_vCircleCoord;
+varying vec4 v_vCircleInnerColour;
 
 //Rectangle
 varying vec2  v_vRectangleXY;
@@ -104,8 +104,8 @@ void main()
     v_vOutputTexel /= 0.5*u_vOutputSize;
     
     //Shared
-    v_fMode            = in_Position.z;
     v_vPosition        = in_Position.xy;
+    v_fMode            = in_Position.z;
     v_vFillColour      = in_Colour1;
     v_vBorderColour    = in_Colour3;
     v_fRounding        = in_TextureCoord.x;
@@ -118,8 +118,8 @@ void main()
     if (v_fMode >=  65536.0) { v_fMode -=  65536.0; flagA = 1.0; } // 2^16
     
     //Circle
-    v_vCircleRadius      = in_Normal.x;
-    v_vCircleCoord       = vec2(flagA, flagB);
+    v_vCircleRadius      = in_Normal.xy;
+    v_vCircleCoord       = 2.0*v_vCircleRadius*(vec2(flagA, flagB) - 0.5);
     v_vCircleInnerColour = vec4(in_Colour2, in_TextureCoord.x);
     
     //Rectangle

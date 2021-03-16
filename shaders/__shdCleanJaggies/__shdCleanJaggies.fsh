@@ -9,8 +9,9 @@ varying vec4  v_vBorderColour;
 varying float v_fRounding;
 
 //Circle
-varying vec3 v_vCircleXYR;
-varying vec4 v_vCircleInnerColour;
+varying vec2  v_vCircleRadius;
+varying vec2  v_vCircleCoord;
+varying vec4  v_vCircleInnerColour;
 
 //Rectangle
 varying vec2  v_vRectangleXY;
@@ -47,9 +48,27 @@ varying float v_fRingOuterRadius;
 
 
 
-float CircleDistance(vec2 pos, vec3 circleXYR)
+float CircleDistance(vec2 p, vec2 ab)
 {
-    return length(pos - circleXYR.xy) - circleXYR.z;
+    // symmetry
+    p = abs( p );
+    
+    // determine in/out and initial omega value
+    bool s = dot(p/ab,p/ab)>1.0;
+    float w = s ? atan(p.y*ab.x, p.x*ab.y) : 
+                  ((ab.x*(p.x-ab.x)<ab.y*(p.y-ab.y))? 1.5707963 : 0.0);
+    
+    // find root with Newton solver
+    for( int i=0; i<4; i++ )
+    {
+        vec2 cs = vec2(cos(w),sin(w));
+        vec2 u = ab*vec2( cs.x,cs.y);
+        vec2 v = ab*vec2(-cs.y,cs.x);
+        w = w + dot(p-u,v)/(dot(p-u,u)+dot(v,v));
+    }
+    
+    // compute final point and distance
+    return length(p-ab*vec2(cos(w),sin(w))) * (s?1.0:-1.0);
 }
 
 float RectangleDistance(vec2 pos, vec2 rectCentre, vec2 rectSize, float angle, float radius)
@@ -219,8 +238,8 @@ void main()
     {
         if (v_fMode == 1.0) //Circle
         {
-            dist = CircleDistance(v_vPosition, v_vCircleXYR);
-            vec4 fillColour = mix(v_vFillColour, v_vCircleInnerColour, -dist / v_vCircleXYR.z);
+            dist = CircleDistance(v_vCircleCoord, v_vCircleRadius);
+            vec4 fillColour = mix(v_vCircleInnerColour, v_vFillColour, length(v_vCircleCoord/v_vCircleRadius));
             gl_FragColor = mix(v_vBorderColour, fillColour, Feather(-dist, v_fBorderThickness));
         }
         else if (v_fMode == 2.0) //Rectangle + Capsule
