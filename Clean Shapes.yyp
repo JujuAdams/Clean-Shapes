@@ -11,6 +11,7 @@
     {"id":{"name":"CleanTransformAddMove","path":"scripts/CleanTransformAddMove/CleanTransformAddMove.yy",},"order":2,},
     {"id":{"name":"CleanTransformOriginSet","path":"scripts/CleanTransformOriginSet/CleanTransformOriginSet.yy",},"order":0,},
     {"id":{"name":"CleanTransformAddRotate","path":"scripts/CleanTransformAddRotate/CleanTransformAddRotate.yy",},"order":3,},
+    {"id":{"name":"rmTestCircle","path":"rooms/rmTestCircle/rmTestCircle.yy",},"order":13,},
     {"id":{"name":"rmTestSpline","path":"rooms/rmTestSpline/rmTestSpline.yy",},"order":9,},
     {"id":{"name":"CleanSpline","path":"scripts/CleanSpline/CleanSpline.yy",},"order":2,},
     {"id":{"name":"oClockwiseTest","path":"objects/oClockwiseTest/oClockwiseTest.yy",},"order":8,},
@@ -36,6 +37,7 @@
     {"id":{"name":"CleanBatchEndReturnVertexBuffer","path":"scripts/CleanBatchEndReturnVertexBuffer/CleanBatchEndReturnVertexBuffer.yy",},"order":2,},
     {"id":{"name":"__shdCleanAntialias","path":"shaders/__shdCleanAntialias/__shdCleanAntialias.yy",},"order":1,},
     {"id":{"name":"CleanCapsuleVertical","path":"scripts/CleanCapsuleVertical/CleanCapsuleVertical.yy",},"order":9,},
+    {"id":{"name":"oTestCircle","path":"objects/oTestCircle/oTestCircle.yy",},"order":14,},
     {"id":{"name":"__CleanSystem","path":"scripts/__CleanSystem/__CleanSystem.yy",},"order":0,},
     {"id":{"name":"CleanCapsule","path":"scripts/CleanCapsule/CleanCapsule.yy",},"order":8,},
     {"id":{"name":"CleanRing","path":"scripts/CleanRing/CleanRing.yy",},"order":5,},
@@ -66,6 +68,7 @@
     "children": [],
   },
   "RoomOrderNodes": [
+    {"roomId":{"name":"rmTestCircle","path":"rooms/rmTestCircle/rmTestCircle.yy",},},
     {"roomId":{"name":"rmTestPug","path":"rooms/rmTestPug/rmTestPug.yy",},},
     {"roomId":{"name":"rmTestSpline","path":"rooms/rmTestSpline/rmTestSpline.yy",},},
     {"roomId":{"name":"rmTest","path":"rooms/rmTest/rmTest.yy",},},

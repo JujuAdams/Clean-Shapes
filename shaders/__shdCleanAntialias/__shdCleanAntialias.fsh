@@ -14,8 +14,9 @@ varying vec4  v_vBorderColour;
 varying float v_fRounding;
 
 //Circle
-varying vec3 v_vCircleXYR;
-varying vec4 v_vCircleInnerColour;
+varying float v_vCircleRadius;
+varying vec2  v_vCircleCoord;
+varying vec4  v_vCircleInnerColour;
 
 //Rectangle
 varying vec2  v_vRectangleXY;
@@ -52,18 +53,18 @@ varying float v_fRingOuterRadius;
 
 
 
-float CircleDistance(vec2 pos, vec3 circleXYR)
+float CircleDistance(vec2 coord, float radius)
 {
-    return length(pos - circleXYR.xy) - circleXYR.z;
+    return radius*(length(2.0*coord - 1.0) - 1.0);
 }
 
-vec4 CircleDerivatives(vec2 pos, vec3 circleXYR)
+vec4 CircleDerivatives(vec2 coord, float radius)
 {
     //Emulates dFdx/dFdy
-    return vec4(CircleDistance(pos - vec2(v_vOutputTexel.x, 0.0), circleXYR),
-                CircleDistance(pos - vec2(0.0, v_vOutputTexel.y), circleXYR),
-                CircleDistance(pos + vec2(v_vOutputTexel.x, 0.0), circleXYR),
-                CircleDistance(pos + vec2(0.0, v_vOutputTexel.y), circleXYR));
+    return vec4(CircleDistance(coord - vec2(v_vOutputTexel.x, 0.0) / (2.0*radius), radius),
+                CircleDistance(coord - vec2(0.0, v_vOutputTexel.y) / (2.0*radius), radius),
+                CircleDistance(coord + vec2(v_vOutputTexel.x, 0.0) / (2.0*radius), radius),
+                CircleDistance(coord + vec2(0.0, v_vOutputTexel.y) / (2.0*radius), radius));
 }
 
 
@@ -359,10 +360,10 @@ void main()
     {
         if (v_fMode == 1.0) //Circle
         {
-            dist        = CircleDistance(   v_vPosition, v_vCircleXYR);
-            derivatives = CircleDerivatives(v_vPosition, v_vCircleXYR);
+            dist        = CircleDistance(   v_vCircleCoord, v_vCircleRadius);
+            derivatives = CircleDerivatives(v_vCircleCoord, v_vCircleRadius);
             
-            vec4 fillColour = mix(v_vFillColour, v_vCircleInnerColour, -dist / v_vCircleXYR.z);
+            vec4 fillColour = mix(v_vFillColour, v_vCircleInnerColour, -dist / v_vCircleRadius);
             gl_FragColor = mix(v_vBorderColour, fillColour, Feather(-dist, -derivatives, v_fBorderThickness));
         }
         if (v_fMode == 2.0) //Rectangle + Capsule

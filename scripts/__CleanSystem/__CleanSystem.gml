@@ -1,5 +1,8 @@
 #macro __CLEAN_VERSION  "1.0.6 alpha"
 #macro __CLEAN_DATE     "2021-03-15"
+#macro __CLEAN_FLAG_A   65536  // 2^16
+#macro __CLEAN_FLAG_B   131072 // 2^17
+#macro __CLEAN_FLAG_AB  196608 // 2^16 + 2^17
 
 __CleanTrace("Welcome to Clean Shapes by @jujuadams! This is version ", __CLEAN_VERSION, ", ", __CLEAN_DATE);
 
