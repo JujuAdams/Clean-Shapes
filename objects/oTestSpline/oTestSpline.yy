@@ -25,8 +25,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Clean Shapes",
-    "path": "Clean Shapes.yyp",
+    "name": "Tests",
+    "path": "folders/Tests.yy",
   },
   "resourceVersion": "1.0",
   "name": "oTestSpline",

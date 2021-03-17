@@ -18,16 +18,16 @@
   "physicsKinematic": false,
   "physicsShapePoints": [],
   "eventList": [
-    {"isDnD":false,"eventNum":0,"eventType":8,"collisionObjectId":null,"parent":{"name":"oMatrixTest","path":"objects/oMatrixTest/oMatrixTest.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+    {"isDnD":false,"eventNum":0,"eventType":8,"collisionObjectId":null,"parent":{"name":"oTestClockwise","path":"objects/oTestClockwise/oTestClockwise.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Clean Shapes",
-    "path": "Clean Shapes.yyp",
+    "name": "Tests",
+    "path": "folders/Tests.yy",
   },
   "resourceVersion": "1.0",
-  "name": "oMatrixTest",
+  "name": "oTestClockwise",
   "tags": [],
   "resourceType": "GMObject",
 }
