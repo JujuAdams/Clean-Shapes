@@ -2,7 +2,7 @@
 
 <p align="center">Antialiased primitives library for GameMaker Studio 2.3</p>
 
-<p align="center"><b>@jujuadams</b></p>
+<p align="center"><b>@jujuadams</b></p> with substantial help from <a href="https://www.iquilezles.org/">Inigo Quilez's </a><a href="https://www.iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm">2D SDF functions</a></p>
 
 <p align="center">Chat about Clean Shapes on the <a href="https://discord.gg/8krYCqr">Discord server</a></p>
 
