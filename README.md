@@ -8,7 +8,7 @@
 
 &nbsp;
 
-|[![FAQ](https://raw.githubusercontent.com/wiki/JujuAdams/scribble/images/faq.png)](https://github.com/JujuAdams/Clean-Shapes/wiki/FAQ)|[![Function Index](https://raw.githubusercontent.com/wiki/JujuAdams/scribble/images/code.png)](https://github.com/JujuAdams/Clean-Shapes/wiki/Function-Index)|
-|----------------------|----------------------|
-|<p align="center">[FAQ](https://github.com/JujuAdams/Clean-Shapes/wiki/FAQ)</p>|<p align="center">[Function Index](https://github.com/JujuAdams/Clean-Shapes/wiki/Function-Index)</p>|
-|Commonly asked questions about Clean Shapes|All of Clean Shapes' drawing functions|
+|[![FAQ](https://raw.githubusercontent.com/wiki/JujuAdams/scribble/images/faq.png)](https://github.com/JujuAdams/Clean-Shapes/wiki/FAQ)|[![Shapes](https://raw.githubusercontent.com/wiki/JujuAdams/scribble/images/features.png)](https://github.com/JujuAdams/Clean-Shapes/wiki/Shapes)|[![Function Index](https://raw.githubusercontent.com/wiki/JujuAdams/scribble/images/code.png)](https://github.com/JujuAdams/Clean-Shapes/wiki/Function-Index)|
+|----------------------|----------------------|----------------------|
+|<p align="center">[FAQ](https://github.com/JujuAdams/Clean-Shapes/wiki/FAQ)</p>|<p align="center">[Shapes](https://github.com/JujuAdams/Clean-Shapes/wiki/Shapes)</p>|<p align="center">[Function Index](https://github.com/JujuAdams/Clean-Shapes/wiki/Function-Index)</p>|
+|Commonly asked questions about Clean Shapes|Examples of Clean Shapes' shapes|All of Clean Shapes' drawing functions|
