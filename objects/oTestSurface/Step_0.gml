@@ -1,3 +1,9 @@
+if (keyboard_check_pressed(ord("S")))
+{
+    surface_save(surface, "surface.png");
+    show_debug_message(string(current_time) + "    Saved!");
+}
+
 if (keyboard_check(ord("1")))
 {
     x1 = mouse_x;

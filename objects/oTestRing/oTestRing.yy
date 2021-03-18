@@ -18,7 +18,7 @@
   "physicsKinematic": false,
   "physicsShapePoints": [],
   "eventList": [
-    {"isDnD":false,"eventNum":0,"eventType":8,"collisionObjectId":null,"parent":{"name":"oTestRectangle","path":"objects/oTestRectangle/oTestRectangle.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+    {"isDnD":false,"eventNum":0,"eventType":8,"collisionObjectId":null,"parent":{"name":"oTestRing","path":"objects/oTestRing/oTestRing.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],
   "overriddenProperties": [],
@@ -27,7 +27,7 @@
     "path": "folders/Tests.yy",
   },
   "resourceVersion": "1.0",
-  "name": "oTestRectangle",
+  "name": "oTestRing",
   "tags": [],
   "resourceType": "GMObject",
 }
