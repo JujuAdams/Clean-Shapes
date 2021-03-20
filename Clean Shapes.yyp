@@ -79,8 +79,8 @@
     "children": [],
   },
   "RoomOrderNodes": [
-    {"roomId":{"name":"rmTestSurface","path":"rooms/rmTestSurface/rmTestSurface.yy",},},
     {"roomId":{"name":"rmExample","path":"rooms/rmExample/rmExample.yy",},},
+    {"roomId":{"name":"rmTestSurface","path":"rooms/rmTestSurface/rmTestSurface.yy",},},
     {"roomId":{"name":"rmTestRectangle","path":"rooms/rmTestRectangle/rmTestRectangle.yy",},},
     {"roomId":{"name":"rmTestMatrix","path":"rooms/rmTestMatrix/rmTestMatrix.yy",},},
     {"roomId":{"name":"rmTestRing","path":"rooms/rmTestRing/rmTestRing.yy",},},
