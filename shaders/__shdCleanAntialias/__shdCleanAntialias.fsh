@@ -14,14 +14,13 @@ varying vec4  v_vBorderColour;
 varying float v_fRounding;
 
 //Circle
-varying vec2  v_vCircleRadius;
-varying vec2  v_vCircleCoord;
-varying vec4  v_vCircleInnerColour;
+varying vec2 v_vCircleRadius;
+varying vec2 v_vCircleCoord;
+varying vec4 v_vCircleInnerColour;
 
 //Rectangle
-varying vec2  v_vRectangleXY;
-varying float v_vRectangleAngle;
-varying vec2  v_vRectangleWH;
+varying vec2 v_vRectangleXY;
+varying vec2 v_vRectangleWH;
 
 //Line
 varying vec2  v_vLineA;
@@ -87,22 +86,21 @@ vec4 CircleDerivatives(vec2 coord, vec2 radius)
 
 
 
-float RectangleDistance(vec2 pos, vec2 rectCentre, vec2 rectSize, float angle, float radius)
+float RectangleDistance(vec2 pos, vec2 rectCentre, vec2 rectSize, float radius)
 {
     pos -= rectCentre;
-    pos = mat2(cos(-angle), -sin(-angle), sin(-angle), cos(-angle)) * pos;
     
     vec2 vector = abs(pos) - 0.5*rectSize + radius;
     return length(max(vector, 0.0)) + min(max(vector.x, vector.y), 0.0) - radius;
 }
 
-vec4 RectangleDerivatives(vec2 pos, vec2 rectCentre, vec2 rectSize, float angle, float radius)
+vec4 RectangleDerivatives(vec2 pos, vec2 rectCentre, vec2 rectSize, float radius)
 {
     //Emulates dFdx/dFdy
-    return vec4(RectangleDistance(pos - vec2(v_vOutputTexel.x, 0.0), rectCentre, rectSize, angle, radius),
-                RectangleDistance(pos - vec2(0.0, v_vOutputTexel.y), rectCentre, rectSize, angle, radius),
-                RectangleDistance(pos + vec2(v_vOutputTexel.x, 0.0), rectCentre, rectSize, angle, radius),
-                RectangleDistance(pos + vec2(0.0, v_vOutputTexel.y), rectCentre, rectSize, angle, radius));
+    return vec4(RectangleDistance(pos - vec2(v_vOutputTexel.x, 0.0), rectCentre, rectSize, radius),
+                RectangleDistance(pos - vec2(0.0, v_vOutputTexel.y), rectCentre, rectSize, radius),
+                RectangleDistance(pos + vec2(v_vOutputTexel.x, 0.0), rectCentre, rectSize, radius),
+                RectangleDistance(pos + vec2(0.0, v_vOutputTexel.y), rectCentre, rectSize, radius));
 }
 
 float LineNoCapDistance( in vec2 p, in vec2 a, in vec2 b, float th )
@@ -386,8 +384,8 @@ void main()
         }
         if (v_fMode == 2.0) //Rectangle + Capsule
         {
-            dist        = RectangleDistance(   v_vPosition, v_vRectangleXY, v_vRectangleWH, v_vRectangleAngle, v_fRounding);
-            derivatives = RectangleDerivatives(v_vPosition, v_vRectangleXY, v_vRectangleWH, v_vRectangleAngle, v_fRounding);
+            dist        = RectangleDistance(   v_vPosition, v_vRectangleXY, v_vRectangleWH, v_fRounding);
+            derivatives = RectangleDerivatives(v_vPosition, v_vRectangleXY, v_vRectangleWH, v_fRounding);
             gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
         }
         else if (v_fMode == 3.0) //Line with no cap

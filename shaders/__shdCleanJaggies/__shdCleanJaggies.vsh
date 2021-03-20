@@ -2,7 +2,7 @@ precision highp float;
 
 //                  CIRCLE:                          SEGMENT:
 //in_Position:      XY, type                         XY, type
-//in_Normal:        Circle XY, radius                Circle XY, radius
+//in_Normal:        Radius X, radius Y               Circle XY, radius
 //in_Colour1:       Outer fill RGBA                  Outer fill RGBA
 //in_Colour2:       Inner fill RGB                   Wedge centre, wedge size, unused
 //in_Colour3:       Border colour                    Border colour
@@ -10,7 +10,7 @@ precision highp float;
 //
 //                  RING:                            RECTANGLE:                
 //in_Position:      XY, type                         XY, type                  
-//in_Normal:        Shape XY, radius                 Rect XY, rotation         
+//in_Normal:        Shape XY, radius                 Unused      
 //in_Colour1:       Fill RGBA                        Fill colour               
 //in_Colour2:       Radius, angle, angle             Rect WH, unused           
 //in_Colour3:       Border colour                    Border colour             
@@ -32,6 +32,8 @@ precision highp float;
 //in_Colour3:       Unused                           Border colour
 //in_TextureCoord:  Thickness, unused                Rounding, border thickness
 
+
+
 attribute vec3 in_Position;
 attribute vec3 in_Normal;
 attribute vec4 in_Colour1;
@@ -50,14 +52,13 @@ varying vec4  v_vBorderColour;
 varying float v_fRounding;
 
 //Circle
-varying vec2  v_vCircleRadius;
-varying vec2  v_vCircleCoord;
-varying vec4  v_vCircleInnerColour;
+varying vec2 v_vCircleRadius;
+varying vec2 v_vCircleCoord;
+varying vec4 v_vCircleInnerColour;
 
 //Rectangle
-varying vec2  v_vRectangleXY;
-varying float v_vRectangleAngle;
-varying vec2  v_vRectangleWH;
+varying vec2 v_vRectangleXY;
+varying vec2 v_vRectangleWH;
 
 //Line + Polyline
 varying vec2  v_vLineA;
@@ -94,12 +95,12 @@ void main()
     gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION]*vec4(in_Position.xy, 0.0, 1.0);
     
     //Shared
-    v_vPosition          = in_Position.xy;
-    v_fMode              = in_Position.z;
-    v_vFillColour        = in_Colour1;
-    v_vBorderColour      = in_Colour3;
-    v_fRounding          = in_TextureCoord.x;
-    v_fBorderThickness   = in_TextureCoord.y;
+    v_vPosition        = in_Position.xy;
+    v_fMode            = in_Position.z;
+    v_vFillColour      = in_Colour1;
+    v_vBorderColour    = in_Colour3;
+    v_fRounding        = in_TextureCoord.x;
+    v_fBorderThickness = in_TextureCoord.y;
     
     //Extract flags
     float flagA = 0.0;
@@ -113,25 +114,24 @@ void main()
     v_vCircleInnerColour = vec4(in_Colour2, in_TextureCoord.x);
     
     //Rectangle
-    v_vRectangleXY       = in_Normal.xy;
-    v_vRectangleAngle    = in_Normal.z;
-    v_vRectangleWH       = in_Colour2.xy;
+    v_vRectangleWH = in_Colour2.xy;
+    v_vRectangleXY = v_vPosition + v_vRectangleWH*(0.5 - vec2(flagA, flagB));
     
     //Line + Polyline
-    v_vLineA             = in_Normal.xy;
-    v_vLineB             = in_Colour2.xy;
-    v_vLineC             = vec2(in_Normal.z, in_Colour2.z);
-    v_fLineThickness     = in_TextureCoord.x;
+    v_vLineA         = in_Normal.xy;
+    v_vLineB         = in_Colour2.xy;
+    v_vLineC         = vec2(in_Normal.z, in_Colour2.z);
+    v_fLineThickness = in_TextureCoord.x;
     
     //Polygon
-    v_vLine1             = in_Normal;
-    v_vLine2             = in_Colour2;
+    v_vLine1 = in_Normal;
+    v_vLine2 = in_Colour2;
     
     //N-gon
-    v_vNgonXYR           = in_Normal;
-    v_fNgonSides         = in_Colour2.x;
-    v_fNgonStarFactor    = in_Colour2.y;
-    v_fNgonAngle         = in_Colour2.z;
+    v_vNgonXYR        = in_Normal;
+    v_fNgonSides      = in_Colour2.x;
+    v_fNgonStarFactor = in_Colour2.y;
+    v_fNgonAngle      = in_Colour2.z;
     
     //Segment
     v_vSegmentXYR             = in_Normal;
