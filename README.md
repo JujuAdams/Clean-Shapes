@@ -1,9 +1,10 @@
-<h1 align="center">Clean Shapes 1.0.7 (alpha)</h1>
+<h1 align="center">Clean Shapes 1.0.8 (beta)</h1>
 
 <p align="center">Antialiased primitives library for GameMaker Studio 2.3</p>
 
 <p align="center"><b>@jujuadams</b> with substantial help from <a href="https://www.iquilezles.org/">Inigo Quilez's</a> <a href="https://www.iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm">2D SDF functions</a></p>
 
+<p align="center"><a href="https://github.com/JujuAdams/scribble/releases/">Download the .yymps</a></p>
 <p align="center">Chat about Clean Shapes on the <a href="https://discord.gg/8krYCqr">Discord server</a></p>
 
 &nbsp;
