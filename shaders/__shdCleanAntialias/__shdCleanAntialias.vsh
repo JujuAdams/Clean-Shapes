@@ -10,7 +10,7 @@ precision highp float;
 //
 //                  RING:                            RECTANGLE:                
 //in_Position:      XY, type                         XY, type                  
-//in_Normal:        Shape XY, radius                 Rect XY, rotation         
+//in_Normal:        Shape XY, radius                 Unused      
 //in_Colour1:       Fill RGBA                        Fill colour               
 //in_Colour2:       Radius, angle, angle             Rect WH, unused           
 //in_Colour3:       Border colour                    Border colour             
@@ -58,9 +58,8 @@ varying vec2 v_vCircleCoord;
 varying vec4 v_vCircleInnerColour;
 
 //Rectangle
-varying vec2  v_vRectangleXY;
-varying float v_vRectangleAngle;
-varying vec2  v_vRectangleWH;
+varying vec2 v_vRectangleXY;
+varying vec2 v_vRectangleWH;
 
 //Line + Polyline
 varying vec2  v_vLineA;
@@ -123,9 +122,8 @@ void main()
     v_vCircleInnerColour = vec4(in_Colour2, in_TextureCoord.x);
     
     //Rectangle
-    v_vRectangleXY    = in_Normal.xy;
-    v_vRectangleAngle = in_Normal.z;
-    v_vRectangleWH    = in_Colour2.xy;
+    v_vRectangleWH = in_Colour2.xy;
+    v_vRectangleXY = v_vPosition + v_vRectangleWH*(0.5 - vec2(flagA, flagB));
     
     //Line + Polyline
     v_vLineA         = in_Normal.xy;
