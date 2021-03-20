@@ -1,6 +1,5 @@
 {
   "resources": [
-    {"id":{"name":"Sprite1","path":"sprites/Sprite1/Sprite1.yy",},"order":15,},
     {"id":{"name":"rmTestPolyline","path":"rooms/rmTestPolyline/rmTestPolyline.yy",},"order":10,},
     {"id":{"name":"CleanTriangle","path":"scripts/CleanTriangle/CleanTriangle.yy",},"order":11,},
     {"id":{"name":"rmTestClockwise","path":"rooms/rmTestClockwise/rmTestClockwise.yy",},"order":2,},
