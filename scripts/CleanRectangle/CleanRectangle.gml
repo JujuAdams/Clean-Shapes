@@ -148,15 +148,19 @@ function __CleanClassRectangle(_left, _top, _right, _bottom) constructor
             
             var _sin = sin(-_rotation);
             var _cos = cos(-_rotation);
+            var _w_sin = _hw*_sin;
+            var _w_cos = _hw*_cos;
+            var _h_sin = _hh*_sin;
+            var _h_cos = _hh*_cos;
             
-            var _ox1 = _cx - _hw*_cos + _hh*_sin;
-            var _oy1 = _cy - _hw*_sin - _hh*_cos;
-            var _ox2 = _cx + _hw*_cos + _hh*_sin;
-            var _oy2 = _cy + _hw*_sin - _hh*_cos;
-            var _ox3 = _cx - _hw*_cos - _hh*_sin;
-            var _oy3 = _cy - _hw*_sin + _hh*_cos;
-            var _ox4 = _cx + _hw*_cos - _hh*_sin;
-            var _oy4 = _cy + _hw*_sin + _hh*_cos;
+            var _ox1 = _cx - _w_cos + _h_sin;
+            var _oy1 = _cy - _w_sin - _h_cos;
+            var _ox2 = _cx + _w_cos + _h_sin;
+            var _oy2 = _cy + _w_sin - _h_cos;
+            var _ox3 = _cx - _w_cos - _h_sin;
+            var _oy3 = _cy - _w_sin + _h_cos;
+            var _ox4 = _cx + _w_cos - _h_sin;
+            var _oy4 = _cy + _w_sin + _h_cos;
             
             vertex_position_3d(_vbuff, _ox1, _oy1, 2); vertex_normal(_vbuff, _cx, _cy, _rotation); vertex_colour(_vbuff, _c1, _a1); vertex_float3(_vbuff, _w, _h, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
             vertex_position_3d(_vbuff, _ox2, _oy2, 2); vertex_normal(_vbuff, _cx, _cy, _rotation); vertex_colour(_vbuff, _c2, _a2); vertex_float3(_vbuff, _w, _h, 0); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
