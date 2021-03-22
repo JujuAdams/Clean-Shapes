@@ -1,7 +1,7 @@
 {
   "option_windows_display_name": "Clean Shapes",
   "option_windows_executable_name": "${project_name}.exe",
-  "option_windows_version": "1.0.8.0",
+  "option_windows_version": "1.0.9.0",
   "option_windows_company_info": "@jujuadams",
   "option_windows_product_info": "Clean Shapes",
   "option_windows_copyright_info": "@jujuadams 2021",
