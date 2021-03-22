@@ -3,10 +3,34 @@
 
 function CleanSpline(_controlArray, _segments)
 {
+    return new __CleanClassSpline(_controlArray, _segments);
+}
+
+function __CleanClassSpline(_controlArray, _segments) constructor
+{
+    if (!is_array(_controlArray)) __CleanError("Invalid datatype given for argument0 (", typeof(_controlArray), "), was expecting an array");
+    if ((array_length(_controlArray) mod 2) != 0) __CleanError("Points array must have an even number of elements (x/y pairs)");
+    
+    __pointArray = undefined;
+    __colour     = CLEAN_DEFAULT_SPLINE_COLOUR;
+    __alpha      = CLEAN_DEFAULT_SPLINE_ALPHA;
+    __blendArray = undefined;
+    
+    __thickness = CLEAN_DEFAULT_SPLINE_THICKNESS;
+    
+    __join     = CLEAN_DEFAULT_SPLINE_JOIN;
+    __capStart = CLEAN_DEFAULT_SPLINE_START_CAP;
+    __capEnd   = CLEAN_DEFAULT_SPLINE_END_CAP;
+    
+    
+    
+    #region Generate point array
+    
     var _controlPoints = array_length(_controlArray);
     
     var _points = _segments + 1;
     var _pointArray = array_create(2*_points);
+    __pointArray = _pointArray;
     
     var _incr = 1/_segments;
     var _t = 0;
@@ -115,7 +139,118 @@ function CleanSpline(_controlArray, _segments)
         }
     }
     
-    return CleanPolyline(_pointArray);
+    #endregion
+    
+    /// @param color
+    /// @param alpha
+    static Blend = function(_colour, _alpha)
+    {
+        __colour = _colour;
+        __alpha  = _alpha;
+        
+        return self;
+    }
+    
+    /// @param colour1
+    /// @param alpha1
+    /// @param colour2
+    /// @param alpha2
+    static Blend2 = function(_c1, _a1, _c2, _a2)
+    {
+        var _points = array_length(__pointArray) div 2;
+        
+        var _blendArray = array_create(2*_points, 0);
+        
+        var _incr = 1 / (_points - 1);
+        var _t = 0;
+        var _i = 0;
+        repeat(_points)
+        {
+            _blendArray[@ _i  ] = merge_colour(_c1, _c2, _t);
+            _blendArray[@ _i+1] = lerp(_a1, _a2, _t);
+            
+            _i += 2;
+            _t += _incr;
+        }
+        
+        __colour     = undefined;
+        __alpha      = undefined;
+        __blendArray = _blendArray;
+        
+        return self;
+    }
+    
+    /// @param blendArray
+    static BlendExt = function(_inputArray)
+    {
+        if (!is_array(_inputArray)) __CleanError("Invalid datatype given for argument0 (", typeof(_inputArray), "), was expecting an array");
+        if ((array_length(_inputArray) mod 2) != 0) __CleanError("Blend array must have an even number of elements (RGB/alpha pairs)");
+        
+        var _colours    = array_length(_inputArray) div 2;
+        var _points     = array_length(__pointArray) div 2;
+        var _blendArray = array_create(2*_points, 0);
+        
+        var _incr = (_colours - 1) / (_points - 1);
+        var _t = 0;
+        var _i = 0;
+        repeat(_points)
+        {
+            var _int  = 2*floor(_t);
+            var _frac = frac(_t);
+            
+            var _colour = merge_colour(_inputArray[_int], _inputArray[_int + 2], _frac);
+            var _alpha  = lerp(_inputArray[_int + 1], _inputArray[_int + 3], _frac);
+            
+            _blendArray[@ _i  ] = _colour;
+            _blendArray[@ _i+1] = _alpha;
+            
+            _i += 2;
+            _t += _incr;
+        }
+        
+        __colour     = undefined;
+        __alpha      = undefined;
+        __blendArray = _blendArray;
+        
+        return self;
+    }
+    
+    static Thickness = function(_thickness)
+    {
+        __thickness = _thickness;
+        
+        return self;
+    }
+    
+    /// @param startType
+    /// @param endType
+    static Cap = function(_cap_start, _cap_end)
+    {
+        __capStart = _cap_start;
+        __capEnd   = _cap_end;
+        
+        return self;
+    }
+    
+    /// @param type
+    static Join = function(_join)
+    {
+        __join = _join;
+        
+        return self;
+    }
+    
+    static Draw = function()
+    {
+        __CleanDraw();
+        return undefined;
+    }
+    
+    /// @param vertexBuffer
+    static __Build = function(_vbuff)
+    {
+        return __CleanBuildPolyline(_vbuff);
+    }
 }
 
 global.__cleanSplineArray = [];

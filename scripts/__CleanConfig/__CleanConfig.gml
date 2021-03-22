@@ -37,6 +37,13 @@
 #macro CLEAN_DEFAULT_POLYLINE_END_CAP                "round"
 #macro CLEAN_DEFAULT_POLYLINE_THICKNESS              2
 
+#macro CLEAN_DEFAULT_SPLINE_COLOUR                   draw_get_colour()
+#macro CLEAN_DEFAULT_SPLINE_ALPHA                    draw_get_alpha()
+#macro CLEAN_DEFAULT_SPLINE_JOIN                     "round"
+#macro CLEAN_DEFAULT_SPLINE_START_CAP                "round"
+#macro CLEAN_DEFAULT_SPLINE_END_CAP                  "round"
+#macro CLEAN_DEFAULT_SPLINE_THICKNESS                2
+
 #macro CLEAN_DEFAULT_CONVEX_COLOUR                   draw_get_colour()
 #macro CLEAN_DEFAULT_CONVEX_ALPHA                    draw_get_alpha()
 #macro CLEAN_DEFAULT_CONVEX_BORDER_THICKNESS         0

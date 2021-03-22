@@ -80,6 +80,7 @@
   },
   "RoomOrderNodes": [
     {"roomId":{"name":"rmExample","path":"rooms/rmExample/rmExample.yy",},},
+    {"roomId":{"name":"rmTestSpline","path":"rooms/rmTestSpline/rmTestSpline.yy",},},
     {"roomId":{"name":"rmTestSurface","path":"rooms/rmTestSurface/rmTestSurface.yy",},},
     {"roomId":{"name":"rmTestRectangle","path":"rooms/rmTestRectangle/rmTestRectangle.yy",},},
     {"roomId":{"name":"rmTestMatrix","path":"rooms/rmTestMatrix/rmTestMatrix.yy",},},
@@ -88,7 +89,6 @@
     {"roomId":{"name":"rmTestLine","path":"rooms/rmTestLine/rmTestLine.yy",},},
     {"roomId":{"name":"rmTestCircle","path":"rooms/rmTestCircle/rmTestCircle.yy",},},
     {"roomId":{"name":"rmTestPug","path":"rooms/rmTestPug/rmTestPug.yy",},},
-    {"roomId":{"name":"rmTestSpline","path":"rooms/rmTestSpline/rmTestSpline.yy",},},
     {"roomId":{"name":"rmTestClockwise","path":"rooms/rmTestClockwise/rmTestClockwise.yy",},},
     {"roomId":{"name":"rmTestPolyline","path":"rooms/rmTestPolyline/rmTestPolyline.yy",},},
   ],
