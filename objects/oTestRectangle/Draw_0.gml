@@ -13,8 +13,10 @@ CleanRectangle(120, 230, 220, 330).Border(5, c_red, 1.0).Draw();
 
 CleanRectangleXYWH(350, 150, 100, 200)
 .Rotate(current_time/20)
-.Blend4(c_white, 1.0, c_yellow, 1.0, c_aqua, 1.0, c_fuchsia, 1.0)
-.Border(5, c_white, 1.0)
+.Blend4(c_white, 0.5, c_yellow, 0.5, c_aqua, 0.5, c_fuchsia, 0.5)
+.Border4(5, c_white, 1.0, c_yellow, 1.0, c_aqua, 1.0, c_fuchsia, 1.0)
 .Rounding(10).Draw();
 
 CleanRectangle(230, 230, 330, 330).Border(5, c_blue, 1.0).Rounding(10).Draw();
+
+CleanRectangle(340, 230, 440, 330).Border4(5, c_white, 1.0, c_yellow, 1.0, c_aqua, 1.0, c_fuchsia, 1.0).Draw();
