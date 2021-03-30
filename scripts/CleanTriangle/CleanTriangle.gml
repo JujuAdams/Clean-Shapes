@@ -27,8 +27,12 @@ function __CleanClassTriangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor
     __alpha3  = CLEAN_DEFAULT_TRIANGLE_ALPHA;
     
     __borderThickness = CLEAN_DEFAULT_TRIANGLE_BORDER_THICKNESS;
-    __borderColour    = CLEAN_DEFAULT_TRIANGLE_BORDER_COLOUR;
-    __borderAlpha     = CLEAN_DEFAULT_TRIANGLE_BORDER_ALPHA;
+    __borderColour1   = CLEAN_DEFAULT_TRIANGLE_BORDER_COLOUR;
+    __borderAlpha1    = CLEAN_DEFAULT_TRIANGLE_BORDER_ALPHA;
+    __borderColour2   = CLEAN_DEFAULT_TRIANGLE_BORDER_COLOUR;
+    __borderAlpha2    = CLEAN_DEFAULT_TRIANGLE_BORDER_ALPHA;
+    __borderColour3   = CLEAN_DEFAULT_TRIANGLE_BORDER_COLOUR;
+    __borderAlpha3    = CLEAN_DEFAULT_TRIANGLE_BORDER_ALPHA;
     
     __rounding = CLEAN_DEFAULT_TRIANGLE_ROUNDING;
     
@@ -67,8 +71,25 @@ function __CleanClassTriangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor
     static Border = function(_thickness, _colour, _alpha)
     {
         __borderThickness = _thickness;
-        __borderColour    = _colour;
-        __borderAlpha     = _alpha;
+        __borderColour1    = _colour;
+        __borderAlpha1     = _alpha;
+        __borderColour2    = _colour;
+        __borderAlpha2     = _alpha;
+        __borderColour3    = _colour;
+        __borderAlpha3     = _alpha;
+        
+        return self;
+    }
+    
+    static Border3 = function(_thickness, _colour1, _alpha1, _colour2, _alpha2, _colour3, _alpha3)
+    {
+        __borderThickness = _thickness;
+        __borderColour1    = _colour1;
+        __borderAlpha1     = _alpha1;
+        __borderColour2    = _colour2;
+        __borderAlpha2     = _alpha2;
+        __borderColour3    = _colour3;
+        __borderAlpha3     = _alpha3;
         
         return self;
     }
@@ -132,10 +153,44 @@ function __CleanClassTriangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor
         var _rounding        = __rounding;
         var _borderThickness = __borderThickness;
         
-        var _border_r = colour_get_red(  __borderColour)/255;
-        var _border_g = colour_get_green(__borderColour)/255;
-        var _border_b = colour_get_blue( __borderColour)/255;
-        var _border_a = __borderAlpha;
+        var _border_r1 = colour_get_red(  __borderColour1)/255;
+        var _border_g1 = colour_get_green(__borderColour1)/255;
+        var _border_b1 = colour_get_blue( __borderColour1)/255;
+        var _border_a1 = __borderAlpha1;
+        
+        var _border_r2 = colour_get_red(  __borderColour2)/255;
+        var _border_g2 = colour_get_green(__borderColour2)/255;
+        var _border_b2 = colour_get_blue( __borderColour2)/255;
+        var _border_a2 = __borderAlpha2;
+        
+        var _border_r3 = colour_get_red(  __borderColour3)/255;
+        var _border_g3 = colour_get_green(__borderColour3)/255;
+        var _border_b3 = colour_get_blue( __borderColour3)/255;
+        var _border_a3 = __borderAlpha3;
+        
+        var _border_rc = 0.3333*(colour_get_red(__borderColour1) + colour_get_red(__borderColour2) + colour_get_red(__borderColour3))/255;
+        var _border_gc = 0.3333*(colour_get_red(__borderColour1) + colour_get_red(__borderColour2) + colour_get_red(__borderColour3))/255;
+        var _border_bc = 0.3333*(colour_get_red(__borderColour1) + colour_get_red(__borderColour2) + colour_get_red(__borderColour3))/255;
+        var _border_ac = 0.3333*(__borderAlpha1 + __borderAlpha2 + __borderAlpha3);
+        
+        var _border_c12 = merge_colour(__borderColour1, __borderColour2, 0.5);
+        var _border_c23 = merge_colour(__borderColour2, __borderColour3, 0.5);
+        var _border_c31 = merge_colour(__borderColour3, __borderColour1, 0.5);
+        
+        var _border_r12 = colour_get_red(  _border_c12)/255;
+        var _border_g12 = colour_get_green(_border_c12)/255;
+        var _border_b12 = colour_get_blue( _border_c12)/255;
+        var _border_a12 = lerp(__borderAlpha1, __borderAlpha2, 0.5);
+        
+        var _border_r23 = colour_get_red(  _border_c23)/255;
+        var _border_g23 = colour_get_green(_border_c23)/255;
+        var _border_b23 = colour_get_blue( _border_c23)/255;
+        var _border_a23 = lerp(__borderAlpha2, __borderAlpha3, 0.5);
+        
+        var _border_r31 = colour_get_red(  _border_c31)/255;
+        var _border_g31 = colour_get_green(_border_c31)/255;
+        var _border_b31 = colour_get_blue( _border_c31)/255;
+        var _border_a31 = lerp(__borderAlpha3, __borderAlpha1, 0.5);
         
         var _cx = 0.3333*(_x1 + _x2 + _x3);
         var _cy = 0.3333*(_y1 + _y2 + _y3);
@@ -144,7 +199,6 @@ function __CleanClassTriangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor
                                   0.3333*(colour_get_green(_c1) + colour_get_green(_c2) + colour_get_green(_c3)),
                                   0.3333*(colour_get_blue( _c1) + colour_get_blue( _c2) + colour_get_blue( _c3)));
         var _ac = 0.3333*(_a1 + _a2 + _a3);
-        
         
         var _c12 = merge_colour(_c1, _c2, 0.5);
         var _c23 = merge_colour(_c2, _c3, 0.5);
@@ -182,35 +236,35 @@ function __CleanClassTriangle(_x1, _y1, _x2, _y2, _x3, _y3) constructor
         var _n    = 1/sqrt(_nx31*_nx31 + _ny31*_ny31);
         var _tmp  =  _nx31;
             _nx31 = -_ny31*_n;
-            _ny31 =  _tmp*_n;
+           _ny31 =  _tmp*_n;
         var _ds31 = dot_product(_x1, _y1, _nx31, _ny31);
         
         //Corner 1
-        vertex_position_3d(_vbuff,  _cx,  _cy, 6); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _cc , _ac ); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff, _x31, _y31, 6); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _c31, _a31); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff,  _x1,  _y1, 6); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _c1 , _a1 ); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff,  _cx,  _cy, 6); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _cc , _ac ); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_rc, _border_gc, _border_bc, _border_ac); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff, _x31, _y31, 6); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _c31, _a31); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_r31, _border_g31, _border_b31, _border_a31); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff,  _x1,  _y1, 6); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _c1 , _a1 ); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_r1, _border_g1, _border_b1, _border_a1); vertex_texcoord(_vbuff, _rounding, _borderThickness);
         
-        vertex_position_3d(_vbuff,  _cx,  _cy, 6); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _cc , _ac ); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff,  _x1,  _y1, 6); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _c1 , _a1 ); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff, _x12, _y12, 6); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _c12, _a12); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff,  _cx,  _cy, 6); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _cc , _ac ); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_rc, _border_gc, _border_bc, _border_ac); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff,  _x1,  _y1, 6); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _c1 , _a1 ); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_r1, _border_g1, _border_b1, _border_a1); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff, _x12, _y12, 6); vertex_normal(_vbuff, _nx31, _ny31, _ds31); vertex_colour(_vbuff, _c12, _a12); vertex_float3(_vbuff, _nx12, _ny12, _ds12); vertex_float4(_vbuff, _border_r12, _border_g12, _border_b12, _border_a12); vertex_texcoord(_vbuff, _rounding, _borderThickness);
         
         //Corner 2
-        vertex_position_3d(_vbuff,  _cx,  _cy, 6); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _cc , _ac ); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff, _x12, _y12, 6); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _c12, _a12); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff,  _x2,  _y2, 6); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _c2 , _a2 ); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff,  _cx,  _cy, 6); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _cc , _ac ); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_rc, _border_gc, _border_bc, _border_ac); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff, _x12, _y12, 6); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _c12, _a12); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_r12, _border_g12, _border_b12, _border_a12); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff,  _x2,  _y2, 6); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _c2 , _a2 ); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_r2, _border_g2, _border_b2, _border_a2); vertex_texcoord(_vbuff, _rounding, _borderThickness);
         
-        vertex_position_3d(_vbuff,  _cx,  _cy, 6); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _cc , _ac ); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff,  _x2,  _y2, 6); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _c2 , _a2 ); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff, _x23, _y23, 6); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _c23, _a23); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff,  _cx,  _cy, 6); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _cc , _ac ); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_rc, _border_gc, _border_bc, _border_ac); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff,  _x2,  _y2, 6); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _c2 , _a2 ); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_r2, _border_g2, _border_b2, _border_a2); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff, _x23, _y23, 6); vertex_normal(_vbuff, _nx12, _ny12, _ds12); vertex_colour(_vbuff, _c23, _a23); vertex_float3(_vbuff, _nx23, _ny23, _ds23); vertex_float4(_vbuff, _border_r23, _border_g23, _border_b23, _border_a23); vertex_texcoord(_vbuff, _rounding, _borderThickness);
         
         //Corner 3
-        vertex_position_3d(_vbuff,  _cx,  _cy, 6); vertex_normal(_vbuff, _nx23, _ny23, _ds23); vertex_colour(_vbuff, _cc , _ac ); vertex_float3(_vbuff, _nx31, _ny31, _ds31); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff, _x23, _y23, 6); vertex_normal(_vbuff, _nx23, _ny23, _ds23); vertex_colour(_vbuff, _c23, _a23); vertex_float3(_vbuff, _nx31, _ny31, _ds31); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff,  _x3,  _y3, 6); vertex_normal(_vbuff, _nx23, _ny23, _ds23); vertex_colour(_vbuff, _c3 , _a3 ); vertex_float3(_vbuff, _nx31, _ny31, _ds31); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff,  _cx,  _cy, 6); vertex_normal(_vbuff, _nx23, _ny23, _ds23); vertex_colour(_vbuff, _cc , _ac ); vertex_float3(_vbuff, _nx31, _ny31, _ds31); vertex_float4(_vbuff, _border_rc, _border_gc, _border_bc, _border_ac); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff, _x23, _y23, 6); vertex_normal(_vbuff, _nx23, _ny23, _ds23); vertex_colour(_vbuff, _c23, _a23); vertex_float3(_vbuff, _nx31, _ny31, _ds31); vertex_float4(_vbuff, _border_r23, _border_g23, _border_b23, _border_a23); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff,  _x3,  _y3, 6); vertex_normal(_vbuff, _nx23, _ny23, _ds23); vertex_colour(_vbuff, _c3 , _a3 ); vertex_float3(_vbuff, _nx31, _ny31, _ds31); vertex_float4(_vbuff, _border_r3, _border_g3, _border_b3, _border_a3); vertex_texcoord(_vbuff, _rounding, _borderThickness);
         
-        vertex_position_3d(_vbuff,  _cx,  _cy, 6); vertex_normal(_vbuff, _nx23, _ny23, _ds23); vertex_colour(_vbuff, _cc , _ac ); vertex_float3(_vbuff, _nx31, _ny31, _ds31); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff,  _x3,  _y3, 6); vertex_normal(_vbuff, _nx23, _ny23, _ds23); vertex_colour(_vbuff, _c3 , _a3 ); vertex_float3(_vbuff, _nx31, _ny31, _ds31); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
-        vertex_position_3d(_vbuff, _x31, _y31, 6); vertex_normal(_vbuff, _nx23, _ny23, _ds23); vertex_colour(_vbuff, _c31, _a31); vertex_float3(_vbuff, _nx31, _ny31, _ds31); vertex_float4(_vbuff, _border_r, _border_g, _border_b, _border_a); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff,  _cx,  _cy, 6); vertex_normal(_vbuff, _nx23, _ny23, _ds23); vertex_colour(_vbuff, _cc , _ac ); vertex_float3(_vbuff, _nx31, _ny31, _ds31); vertex_float4(_vbuff, _border_rc, _border_gc, _border_bc, _border_ac); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff,  _x3,  _y3, 6); vertex_normal(_vbuff, _nx23, _ny23, _ds23); vertex_colour(_vbuff, _c3 , _a3 ); vertex_float3(_vbuff, _nx31, _ny31, _ds31); vertex_float4(_vbuff, _border_r3, _border_g3, _border_b3, _border_a3); vertex_texcoord(_vbuff, _rounding, _borderThickness);
+        vertex_position_3d(_vbuff, _x31, _y31, 6); vertex_normal(_vbuff, _nx23, _ny23, _ds23); vertex_colour(_vbuff, _c31, _a31); vertex_float3(_vbuff, _nx31, _ny31, _ds31); vertex_float4(_vbuff, _border_r31, _border_g31, _border_b31, _border_a31); vertex_texcoord(_vbuff, _rounding, _borderThickness);
         
         return undefined;
     }

@@ -29,6 +29,17 @@ CleanTriangle(50, 100,   150, 150,   60, 200)
 .Rounding(5)
 .Draw();
 
+// epic rotating gamer rgb triangle
+var _x = 120, _y = 90, _len = 30, _dir = -current_time / 20;
+var _x1 = _x + lengthdir_x(_len, _dir), _y1 = _y + lengthdir_y(_len, _dir);
+var _x2 = _x + lengthdir_x(_len, _dir - 120), _y2 = _y + lengthdir_y(_len, _dir - 120);
+var _x3 = _x + lengthdir_x(_len, _dir - 240), _y3 = _y + lengthdir_y(_len, _dir - 240);
+CleanTriangle(_x1, _y1, _x2, _y2, _x3, _y3)
+.Blend3(c_fuchsia, 0.5, c_aqua, 0.5, c_yellow, 0.5)
+.Border3(5, c_fuchsia, 1.0, c_aqua, 1.0, c_yellow, 1.0)
+.Rounding(0)
+.Draw();
+
 CleanConvex([160, 100,   250, 130,   260, 170,   170, 200])
 .BlendExt([c_yellow, 1.0, c_aqua, 1.0, c_white, 1.0, c_fuchsia, 1.0])
 .Border(5, c_black, 0.75)
