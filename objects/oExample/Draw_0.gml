@@ -1,7 +1,7 @@
 //Shapes can be drawn by themselves
 CleanRectangle(20, 20, 610, 330)
 .Blend4(c_white, 1.0, c_white, 0.5, c_white, 1.0, c_white, 0.5)
-.Border(10, c_black, 1.0)
+.Border4(10, c_yellow, 1.0, c_aqua, 1.0, c_fuchsia, 1.0, c_white, 1.0)
 .Rounding(10)
 .Draw();
 
