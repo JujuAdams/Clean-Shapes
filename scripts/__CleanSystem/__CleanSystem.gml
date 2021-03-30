@@ -5,6 +5,7 @@
 #macro __CLEAN_FLAG_AB  196608 // 2^16 + 2^17
 
 __CleanTrace("Welcome to Clean Shapes by @jujuadams! This is version ", __CLEAN_VERSION, ", ", __CLEAN_DATE);
+__CleanTrace("Made using code borrowed from Inigo Quilez, and with contributions from @bakumoe");
 
 global.__cleanBatch     = undefined;
 global.__cleanAntialias = CLEAN_DEFAULT_ANTIALIAS;
