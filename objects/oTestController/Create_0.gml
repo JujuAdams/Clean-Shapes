@@ -2,7 +2,7 @@
 rooms = [];
 array_push(rooms, rmExample);
 array_push(rooms, rmTestSpline);
-// array_push(rooms, rmTestSurface); // Crashes
+array_push(rooms, rmTestSurface);
 array_push(rooms, rmTestRectangle);
 array_push(rooms, rmTestMatrix);
 array_push(rooms, rmTestRing);
