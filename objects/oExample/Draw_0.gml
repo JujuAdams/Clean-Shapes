@@ -30,20 +30,20 @@ CleanTriangle(50, 100,   150, 150,   60, 200)
 .Draw();
 
 CleanConvex([160, 100,   250, 130,   260, 170,   170, 200])
-.BlendExt([c_yellow, 1.0, c_aqua, 1.0, c_white, 1.0, c_fuchsia, 1.0])
-.Border(5, c_black, 0.75)
+.BlendExt([c_yellow, 0.5, c_aqua, 0.5, c_white, 0.5, c_fuchsia, 0.5])
+.BorderExt(5, [c_yellow, 1.0, c_aqua, 1.0, c_white, 1.0, c_fuchsia, 1.0])
 .Rounding(15)
 .Draw();
 
 CleanConvex([270, 100,   360, 120,   370, 180,   280, 200])
-.BlendExt([c_yellow, 1.0, c_aqua, 1.0, c_white, 1.0, c_fuchsia, 1.0])
-.Border(5, c_black, 0.50)
+.BlendExt([c_yellow, 0.5, c_aqua, 0.5, c_white, 0.5, c_fuchsia, 0.5])
+.BorderExt(5, [c_yellow, 1.0, c_aqua, 1.0, c_white, 1.0, c_fuchsia, 1.0])
 .Rounding(25)
 .Draw();
 
 CleanConvex([380, 100,   470, 100,   480, 200,   390, 200])
-.BlendExt([c_yellow, 1.0, c_aqua, 1.0, c_white, 1.0, c_fuchsia, 1.0])
-.Border(5, c_black, 0.25)
+.BlendExt([c_yellow, 0.5, c_aqua, 0.5, c_white, 0.5, c_fuchsia, 0.5])
+.BorderExt(5, [c_yellow, 1.0, c_aqua, 1.0, c_white, 1.0, c_fuchsia, 1.0])
 .Rounding(30)
 .Draw();
 
