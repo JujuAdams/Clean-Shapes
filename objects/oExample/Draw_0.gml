@@ -24,8 +24,8 @@ CleanLine(50, 50, 450, 50)
 .Draw();
 
 CleanTriangle(50, 100,   150, 150,   60, 200)
-.Blend3(c_yellow, 1.0, c_aqua, 1.0, c_fuchsia, 1.0)
-.Border(5, c_black, 1.0)
+.Blend3(c_yellow, 0.5, c_aqua, 0.5, c_fuchsia, 0.5)
+.Border3(5, c_yellow, 1.0, c_aqua, 1.0, c_fuchsia, 1.0)
 .Rounding(5)
 .Draw();
 
