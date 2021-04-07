@@ -1,8 +1,6 @@
 precision highp float;
 
-const float SMOOTHNESS = 1.41421356237;
-
-
+#define SMOOTHNESS 1.0
 
 //Shared
 varying vec2  v_vOutputTexel;
@@ -50,6 +48,7 @@ varying float v_fRingApertureSize;
 varying float v_fRingInnerRadius;
 varying float v_fRingOuterRadius;
 
+varying float v_fBorder;
 
 
 float CircleDistance(vec2 p, vec2 ab)
@@ -75,32 +74,12 @@ float CircleDistance(vec2 p, vec2 ab)
     return length(p-ab*vec2(cos(w),sin(w))) * (s?1.0:-1.0);
 }
 
-vec4 CircleDerivatives(vec2 coord, vec2 radius)
-{
-    //Emulates dFdx/dFdy
-    return vec4(CircleDistance(coord - vec2(v_vOutputTexel.x, 0.0), radius),
-                CircleDistance(coord - vec2(0.0, v_vOutputTexel.y), radius),
-                CircleDistance(coord + vec2(v_vOutputTexel.x, 0.0), radius),
-                CircleDistance(coord + vec2(0.0, v_vOutputTexel.y), radius));
-}
-
-
-
 float RectangleDistance(vec2 pos, vec2 rectCentre, vec2 rectSize, float radius)
 {
     pos -= rectCentre;
     
     vec2 vector = abs(pos) - 0.5*rectSize + radius;
     return length(max(vector, 0.0)) + min(max(vector.x, vector.y), 0.0) - radius;
-}
-
-vec4 RectangleDerivatives(vec2 pos, vec2 rectCentre, vec2 rectSize, float radius)
-{
-    //Emulates dFdx/dFdy
-    return vec4(RectangleDistance(pos - vec2(v_vOutputTexel.x, 0.0), rectCentre, rectSize, radius),
-                RectangleDistance(pos - vec2(0.0, v_vOutputTexel.y), rectCentre, rectSize, radius),
-                RectangleDistance(pos + vec2(v_vOutputTexel.x, 0.0), rectCentre, rectSize, radius),
-                RectangleDistance(pos + vec2(0.0, v_vOutputTexel.y), rectCentre, rectSize, radius));
 }
 
 float LineNoCapDistance( in vec2 p, in vec2 a, in vec2 b, float th )
@@ -113,35 +92,14 @@ float LineNoCapDistance( in vec2 p, in vec2 a, in vec2 b, float th )
     return length(max(q,0.0)) + min(max(q.x,q.y),0.0);    
 }
 
-vec4 LineNoCapDerivatives(vec2 pos, vec2 posA, vec2 posB, float thickness)
-{
-    //Emulates dFdx/dFdy
-    return vec4(LineNoCapDistance(pos - vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
-                LineNoCapDistance(pos - vec2(0.0, v_vOutputTexel.y), posA, posB, thickness),
-                LineNoCapDistance(pos + vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
-                LineNoCapDistance(pos + vec2(0.0, v_vOutputTexel.y), posA, posB, thickness));
-}
-
-
-
 float LineRoundCapDistance(vec2 position, vec2 posA, vec2 posB, float thickness)
 {
     vec2 pos  = position - posA;
-    vec2 para = normalize(posB - posA);
+	float len = length(posB - posA);
+    vec2 para = (posB - posA)/len;
     
-    return (length(pos - para*max(0.0, min(length(posB - posA), dot(pos, para)))) - 0.5*thickness);
+    return (length(pos - para*max(0.0, min(len, dot(pos, para)))) - 0.5*thickness);
 }
-
-vec4 LineRoundCapDerivatives(vec2 pos, vec2 posA, vec2 posB, float thickness)
-{
-    //Emulates dFdx/dFdy
-    return vec4(LineRoundCapDistance(pos - vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
-                LineRoundCapDistance(pos - vec2(0.0, v_vOutputTexel.y), posA, posB, thickness),
-                LineRoundCapDistance(pos + vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
-                LineRoundCapDistance(pos + vec2(0.0, v_vOutputTexel.y), posA, posB, thickness));
-}
-
-
 
 float LineSquareCapDistance( in vec2 p, in vec2 a, in vec2 b, float th )
 {
@@ -152,17 +110,6 @@ float LineSquareCapDistance( in vec2 p, in vec2 a, in vec2 b, float th )
           q = abs(q)-vec2(l,th)*0.5;
     return length(max(q,0.0)) + min(max(q.x,q.y),0.0);    
 }
-
-vec4 LineSquareCapDerivatives(vec2 pos, vec2 posA, vec2 posB, float thickness)
-{
-    //Emulates dFdx/dFdy
-    return vec4(LineSquareCapDistance(pos - vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
-                LineSquareCapDistance(pos - vec2(0.0, v_vOutputTexel.y), posA, posB, thickness),
-                LineSquareCapDistance(pos + vec2(v_vOutputTexel.x, 0.0), posA, posB, thickness),
-                LineSquareCapDistance(pos + vec2(0.0, v_vOutputTexel.y), posA, posB, thickness));
-}
-
-
 
 float BoundaryDistance(vec2 position, vec2 norm, float distanceFromOrigin)
 {
@@ -175,17 +122,6 @@ float ConvexDistance(vec2 position, vec3 boundary1, vec3 boundary2, float roundi
                       BoundaryDistance(position, boundary2.xy, boundary2.z)) + rounding;
     return min(max(delta.x, delta.y), 0.0) + length(max(delta, 0.0)) - rounding;
 }
-
-vec4 ConvexDerivatives(vec2 pos, vec3 line1, vec3 line2, float rounding)
-{
-    //Emulates dFdx/dFdy
-    return vec4(ConvexDistance(pos - vec2(v_vOutputTexel.x, 0.0), line1, line2, rounding),
-                ConvexDistance(pos - vec2(0.0, v_vOutputTexel.y), line1, line2, rounding),
-                ConvexDistance(pos + vec2(v_vOutputTexel.x, 0.0), line1, line2, rounding),
-                ConvexDistance(pos + vec2(0.0, v_vOutputTexel.y), line1, line2, rounding));
-}
-
-
 
 float LineDistance(vec2 position, vec2 posA, vec2 posB)
 {
@@ -213,17 +149,6 @@ float PolylineMitreJoinDistance(vec2 position, vec2 posA, vec2 posB, vec2 posC, 
     return max(dist, ConvexDistance(position, vec3(norm1, dot1), vec3(norm2, dot2), 0.0));
 }
 
-vec4 PolylineMitreJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
-{
-    //Emulates dFdx/dFdy
-    return vec4(PolylineMitreJoinDistance(position - vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
-                PolylineMitreJoinDistance(position - vec2(0.0, v_vOutputTexel.y), posA, posB, posC, thickness),
-                PolylineMitreJoinDistance(position + vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
-                PolylineMitreJoinDistance(position + vec2(0.0, v_vOutputTexel.y), posA, posB, posC, thickness));
-}
-
-
-
 float PolylineBevelJoinDistance(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
 {
     float mitreDist = PolylineMitreJoinDistance(position, posA, posB, posC, thickness);
@@ -238,32 +163,10 @@ float PolylineBevelJoinDistance(vec2 position, vec2 posA, vec2 posB, vec2 posC, 
     return max(mitreDist, -BoundaryDistance(position, norm, pointDot));
 }
 
-vec4 PolylineBevelJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
-{
-    //Emulates dFdx/dFdy
-    return vec4(PolylineBevelJoinDistance(position - vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
-                PolylineBevelJoinDistance(position - vec2(0.0, v_vOutputTexel.y), posA, posB, posC, thickness),
-                PolylineBevelJoinDistance(position + vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
-                PolylineBevelJoinDistance(position + vec2(0.0, v_vOutputTexel.y), posA, posB, posC, thickness));
-}
-
-
-
 float PolylineRoundJoinDistance(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
 {
     return min(LineRoundCapDistance(position, posA, posB, thickness), LineRoundCapDistance(position, posC, posB, thickness));
 }
-
-vec4 PolylineRoundJoinDerivatives(vec2 position, vec2 posA, vec2 posB, vec2 posC, float thickness)
-{
-    //Emulates dFdx/dFdy
-    return vec4(PolylineRoundJoinDistance(position - vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
-                PolylineRoundJoinDistance(position - vec2(0.0, v_vOutputTexel.y), posA, posB, posC, thickness),
-                PolylineRoundJoinDistance(position + vec2(v_vOutputTexel.x, 0.0), posA, posB, posC, thickness),
-                PolylineRoundJoinDistance(position + vec2(0.0, v_vOutputTexel.y), posA, posB, posC, thickness));
-}
-
-
 
 float NgonDistance(vec2 pos, vec2 ngonXY, float radius, float sides, float angleDivisor, float angle, float rounding)
 {
@@ -285,17 +188,6 @@ float NgonDistance(vec2 pos, vec2 ngonXY, float radius, float sides, float angle
     return length(pos)*sign(pos.x) - rounding;
 }
 
-vec4 NgonDerivatives(vec2 pos, vec2 ngonXY, float radius, float sides, float angleDivisor, float angle, float rounding)
-{
-    //Emulates dFdx/dFdy
-    return vec4(NgonDistance(pos - vec2(v_vOutputTexel.x, 0.0), ngonXY, radius, sides, angleDivisor, angle, rounding),
-                NgonDistance(pos - vec2(0.0, v_vOutputTexel.y), ngonXY, radius, sides, angleDivisor, angle, rounding),
-                NgonDistance(pos + vec2(v_vOutputTexel.x, 0.0), ngonXY, radius, sides, angleDivisor, angle, rounding),
-                NgonDistance(pos + vec2(0.0, v_vOutputTexel.y), ngonXY, radius, sides, angleDivisor, angle, rounding));
-}
-
-
-
 float SegmentDistance(vec2 pos, vec3 shapeXYR, float apertureCentre, float apertureSize, float rounding)
 {
     pos -= shapeXYR.xy;
@@ -311,17 +203,6 @@ float SegmentDistance(vec2 pos, vec3 shapeXYR, float apertureCentre, float apert
     
     return max(l, m*sign(trigCoeffs.y*pos.x - trigCoeffs.x*pos.y)) - rounding;
 }
-
-vec4 SegmentDerivatives(vec2 pos, vec3 shapeXYR, float apertureCentre, float apertureSize, float rounding)
-{
-    //Emulates dFdx/dFdy
-    return vec4(SegmentDistance(pos - vec2(v_vOutputTexel.x, 0.0), shapeXYR, apertureCentre, apertureSize, rounding),
-                SegmentDistance(pos - vec2(0.0, v_vOutputTexel.y), shapeXYR, apertureCentre, apertureSize, rounding),
-                SegmentDistance(pos + vec2(v_vOutputTexel.x, 0.0), shapeXYR, apertureCentre, apertureSize, rounding),
-                SegmentDistance(pos + vec2(0.0, v_vOutputTexel.y), shapeXYR, apertureCentre, apertureSize, rounding));
-}
-
-
 
 float RingDistance(vec2 position, vec2 centre, float apertureCentre, float apertureSize, float innerRadius, float outerRadius)
 {
@@ -340,115 +221,115 @@ float RingDistance(vec2 position, vec2 centre, float apertureCentre, float apert
     return sqrt(max(0.0, dot(position, position) + outerRadius*outerRadius - 2.0*outerRadius*k)) - thickness;
 }
 
-vec4 RingDerivatives(vec2 position, vec2 centre, float apertureCentre, float apertureSize, float innerRadius, float outerRadius)
+float Distance(vec2 position)
+{	
+	if (v_fMode == 1.0) //Circle
+    {
+        return CircleDistance(position, v_vCircleRadius);
+    }
+    else if (v_fMode == 2.0) //Rectangle + Capsule
+    {
+        return RectangleDistance(position, v_vRectangleXY, v_vRectangleWH, v_fRounding);
+    }
+    else if (v_fMode == 3.0) //Line with no cap
+    {
+        return LineNoCapDistance(position, v_vLineA, v_vLineB, v_fLineThickness);
+    }
+    else if (v_fMode == 4.0) //Line with square cap
+    {
+        return LineSquareCapDistance(position, v_vLineA, v_vLineB, v_fLineThickness);
+    }
+    else if (v_fMode == 5.0) //Line with round cap
+    {
+        return LineRoundCapDistance(position, v_vLineA, v_vLineB, v_fLineThickness);
+    }
+    else if (v_fMode == 6.0) //Triangle + Convex
+    {
+        return ConvexDistance(position, v_vLine1, v_vLine2, v_fRounding);
+    }
+    else if (v_fMode == 7.0) //Polyline with mitre joint
+    {
+        return PolylineMitreJoinDistance(position, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
+    }
+    else if (v_fMode == 8.0) //Polyline with bevel joint
+    {
+        return PolylineBevelJoinDistance(position, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
+    }
+    else if (v_fMode == 9.0) //Polyline with round joint
+    {
+        return PolylineRoundJoinDistance(position, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
+    }
+    else if (v_fMode == 10.0) //N-gon
+    {
+        return NgonDistance(position, v_vNgonXYR.xy, v_vNgonXYR.z, v_fNgonSides, v_fNgonStarFactor, v_fNgonAngle, v_fRounding);
+    }
+    else if (v_fMode == 11.0) //Segment
+    {
+        return SegmentDistance(position, v_vSegmentXYR, v_vSegmentApertureCentre, v_vSegmentApertureSize, v_fRounding);
+    }
+    else if (v_fMode == 12.0) //Ring
+    {
+        return RingDistance(position, v_vRingCentre, v_fRingApertureCentre, v_fRingApertureSize, v_fRingInnerRadius, v_fRingOuterRadius);
+    }
+	
+	return 0.0;
+}
+
+vec4 Derivatives(vec2 position)
 {
-    //Emulates dFdx/dFdy
-    return vec4(RingDistance(position - vec2(v_vOutputTexel.x, 0.0), centre, apertureCentre, apertureSize, innerRadius, outerRadius),
-                RingDistance(position - vec2(0.0, v_vOutputTexel.y), centre, apertureCentre, apertureSize, innerRadius, outerRadius),
-                RingDistance(position + vec2(v_vOutputTexel.x, 0.0), centre, apertureCentre, apertureSize, innerRadius, outerRadius),
-                RingDistance(position + vec2(0.0, v_vOutputTexel.y), centre, apertureCentre, apertureSize, innerRadius, outerRadius));
+	 return vec4(Distance(position - vec2(v_vOutputTexel.x, 0.0)),
+                 Distance(position + vec2(v_vOutputTexel.x, 0.0)),
+				 Distance(position - vec2(0.0, v_vOutputTexel.y)),
+                 Distance(position + vec2(0.0, v_vOutputTexel.y)));	
 }
 
 
 
 float GradientVec4(vec4 value)
 {
-    return 0.5*(abs(value.x) + abs(value.y) + abs(value.z) + abs(value.w));
+	//Correct gradient formula:
+    return SMOOTHNESS * length(value);
+	
+	//Try this with a high SMOOTHNESS value to exaggerate the difference
+	//return SMOOTHNESS * (abs(value.x) + abs(value.y) + abs(value.z) + abs(value.w));
 }
 
 float Feather(float dist, vec4 derivatives, float threshold)
 {
-    return smoothstep(threshold - SMOOTHNESS*GradientVec4(dist - derivatives), threshold, dist);
+	//Compute edge linearly:
+	float gradient = GradientVec4(dist - derivatives);
+    return clamp((dist - threshold) / gradient + 1.0, 0.0, 1.0);
 }
 
 
 
 void main()
 {
-    float dist = 0.0;
-    vec4  derivatives = vec4(0.0);
-    
     if (v_fMode <= 0.0)
     {
         gl_FragColor = v_vFillColour;
     }
     else
     {
-        if (v_fMode == 1.0) //Circle
-        {
-            dist        = CircleDistance(   v_vCircleCoord, v_vCircleRadius);
-            derivatives = CircleDerivatives(v_vCircleCoord, v_vCircleRadius);
-            
-            vec4 fillColour = mix(v_vCircleInnerColour, v_vFillColour, length(v_vCircleCoord/v_vCircleRadius));
-            gl_FragColor = mix(v_vBorderColour, fillColour, Feather(-dist, -derivatives, v_fBorderThickness));
-        }
-        if (v_fMode == 2.0) //Rectangle + Capsule
-        {
-            dist        = RectangleDistance(   v_vPosition, v_vRectangleXY, v_vRectangleWH, v_fRounding);
-            derivatives = RectangleDerivatives(v_vPosition, v_vRectangleXY, v_vRectangleWH, v_fRounding);
-            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
-        }
-        else if (v_fMode == 3.0) //Line with no cap
-        {
-            dist        = LineNoCapDistance(   v_vPosition, v_vLineA, v_vLineB, v_fLineThickness);
-            derivatives = LineNoCapDerivatives(v_vPosition, v_vLineA, v_vLineB, v_fLineThickness);
-            gl_FragColor = v_vFillColour;
-        }
-        else if (v_fMode == 4.0) //Line with square cap
-        {
-            dist        = LineSquareCapDistance(   v_vPosition, v_vLineA, v_vLineB, v_fLineThickness);
-            derivatives = LineSquareCapDerivatives(v_vPosition, v_vLineA, v_vLineB, v_fLineThickness);
-            gl_FragColor = v_vFillColour;
-        }
-        else if (v_fMode == 5.0) //Line with round cap
-        {
-            dist        = LineRoundCapDistance(   v_vPosition, v_vLineA, v_vLineB, v_fLineThickness);
-            derivatives = LineRoundCapDerivatives(v_vPosition, v_vLineA, v_vLineB, v_fLineThickness);
-            gl_FragColor = v_vFillColour;
-        }
-        else if (v_fMode == 6.0) //Triangle + Convex
-        {
-            dist        = ConvexDistance(   v_vPosition, v_vLine1, v_vLine2, v_fRounding);
-            derivatives = ConvexDerivatives(v_vPosition, v_vLine1, v_vLine2, v_fRounding);
-            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
-        }
-        else if (v_fMode == 7.0) //Polyline with mitre joint
-        {
-            dist        = PolylineMitreJoinDistance(   v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
-            derivatives = PolylineMitreJoinDerivatives(v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
-            gl_FragColor = v_vFillColour;
-        }
-        else if (v_fMode == 8.0) //Polyline with bevel joint
-        {
-            dist        = PolylineBevelJoinDistance(   v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
-            derivatives = PolylineBevelJoinDerivatives(v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
-            gl_FragColor = v_vFillColour;
-        }
-        else if (v_fMode == 9.0) //Polyline with round joint
-        {
-            dist        = PolylineRoundJoinDistance(   v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
-            derivatives = PolylineRoundJoinDerivatives(v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
-            gl_FragColor = v_vFillColour;
-        }
-        else if (v_fMode == 10.0) //N-gon
-        {
-            dist        = NgonDistance(   v_vPosition, v_vNgonXYR.xy, v_vNgonXYR.z, v_fNgonSides, v_fNgonStarFactor, v_fNgonAngle, v_fRounding);
-            derivatives = NgonDerivatives(v_vPosition, v_vNgonXYR.xy, v_vNgonXYR.z, v_fNgonSides, v_fNgonStarFactor, v_fNgonAngle, v_fRounding);
-            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
-        }
-        else if (v_fMode == 11.0) //Segment
-        {
-            dist        = SegmentDistance(   v_vPosition, v_vSegmentXYR, v_vSegmentApertureCentre, v_vSegmentApertureSize, v_fRounding);
-            derivatives = SegmentDerivatives(v_vPosition, v_vSegmentXYR, v_vSegmentApertureCentre, v_vSegmentApertureSize, v_fRounding);
-            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
-        }
-        else if (v_fMode == 12.0) //Ring
-        {
-            dist        = RingDistance(   v_vPosition, v_vRingCentre, v_fRingApertureCentre, v_fRingApertureSize, v_fRingInnerRadius, v_fRingOuterRadius);
-            derivatives = RingDerivatives(v_vPosition, v_vRingCentre, v_fRingApertureCentre, v_fRingApertureSize, v_fRingInnerRadius, v_fRingOuterRadius);
-            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, -derivatives, v_fBorderThickness));
-        }
-        
-        gl_FragColor.a *= 1.0 - Feather(dist, derivatives, 0.0);
+		vec2 position = v_vPosition;
+		vec4 fillColour = v_vFillColour;
+		
+		if (v_fMode == 1.0) // Circle
+		{
+			position = v_vCircleCoord;
+			fillColour = mix(v_vCircleInnerColour, v_vFillColour, length(position/v_vCircleRadius));
+		}
+		
+		float dist = Distance(position);
+		vec4  derivatives = Derivatives(position);
+		
+		vec4 borderColour = fillColour;
+		if (v_fBorder < .5) // Border
+		{
+			borderColour = mix(v_vBorderColour, fillColour, Feather(-dist, -derivatives, v_fBorderThickness));
+		}
+		
+		borderColour.a *= 1.0 - Feather(dist, derivatives, 0.0); // Edge alpha
+        gl_FragColor = borderColour;
     }
 }
