@@ -81,8 +81,8 @@
     "children": [],
   },
   "RoomOrderNodes": [
-    {"roomId":{"name":"rmTestConvex","path":"rooms/rmTestConvex/rmTestConvex.yy",},},
     {"roomId":{"name":"rmExample","path":"rooms/rmExample/rmExample.yy",},},
+    {"roomId":{"name":"rmTestConvex","path":"rooms/rmTestConvex/rmTestConvex.yy",},},
     {"roomId":{"name":"rmTestSpline","path":"rooms/rmTestSpline/rmTestSpline.yy",},},
     {"roomId":{"name":"rmTestSurface","path":"rooms/rmTestSurface/rmTestSurface.yy",},},
     {"roomId":{"name":"rmTestRectangle","path":"rooms/rmTestRectangle/rmTestRectangle.yy",},},
