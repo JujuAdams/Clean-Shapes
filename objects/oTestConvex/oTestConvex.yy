@@ -27,7 +27,7 @@
     "path": "folders/Tests.yy",
   },
   "resourceVersion": "1.0",
-  "name": "oTestRing",
+  "name": "oTestConvex",
   "tags": [],
   "resourceType": "GMObject",
 }
