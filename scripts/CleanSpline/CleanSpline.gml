@@ -198,8 +198,16 @@ function __CleanClassSpline(_controlArray, _segments) constructor
             var _int  = 2*floor(_t);
             var _frac = frac(_t);
             
-            var _colour = merge_colour(_inputArray[_int], _inputArray[_int + 2], _frac);
-            var _alpha  = lerp(_inputArray[_int + 1], _inputArray[_int + 3], _frac);
+            if (_frac == 0.0)
+            {
+                var _colour = _inputArray[_int  ];
+                var _alpha  = _inputArray[_int+1];
+            }
+            else
+            {
+                var _colour = merge_colour(_inputArray[_int], _inputArray[_int + 2], _frac);
+                var _alpha  = lerp(_inputArray[_int + 1], _inputArray[_int + 3], _frac);
+            }
             
             _blendArray[@ _i  ] = _colour;
             _blendArray[@ _i+1] = _alpha;
