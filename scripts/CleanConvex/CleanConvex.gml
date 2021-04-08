@@ -96,6 +96,8 @@ function __CleanClassConvex(_array) constructor
         var _size  = array_length(_pointArray);
         var _count = _size div 2;
         
+        #region Detect and fix clockwise definitions
+        
         if ((CLEAN_CONVEX_FIX_COUNTERCLOCKWISE_POINTS || CLEAN_CONVEX_ERROR_COUNTERCLOCKWISE_POINTS)
         &&  !__CleanIsClockwise(_pointArray[0], _pointArray[1], _pointArray[2], _pointArray[3], _pointArray[4], _pointArray[5]))
         {
@@ -104,34 +106,59 @@ function __CleanClassConvex(_array) constructor
                 __CleanError("Convex polygon defined with counter-clockwise coordinates\nConvex polygons should be defined using clockwise coodinates\n(Set CLEAN_CONVEX_ERROR_COUNTERCLOCKWISE_POINTS to <false> to turn off this error)\n(Set CLEAN_CONVEX_FIX_COUNTERCLOCKWISE_POINTS to <true> to *slowly* fix point ordering automatically)\n \n", _pointArray);
             }
             
-            var _size = array_length(_pointArray);
-            
+            //Reverse the vertex oositions
             var _oldPointArray = _pointArray;
             _pointArray = array_create(_size);
             
-            var _oldBlendArray = _blendArray;
-            _blendArray = array_create(_size);
-            
-            var _oldBorderArray = _borderArray;
-            _borderArray = array_create(_size);
-            
             var _i = 0;
             var _j = _size - 2;
-            repeat(_size div 2)
+            repeat(_count)
             {
                 _pointArray[@ _j  ] = _oldPointArray[_i  ];
                 _pointArray[@ _j+1] = _oldPointArray[_i+1];
                 
-                _blendArray[@ _j  ] = _oldBlendArray[_i  ];
-                _blendArray[@ _j+1] = _oldBlendArray[_i+1];
-                
-                _borderArray[@ _j  ] = _oldBorderArray[_i  ];
-                _borderArray[@ _j+1] = _oldBorderArray[_i+1];
-                
                 _i += 2;
                 _j -= 2;
             }
+            
+            //If the blend colour is an array, reverse that too
+            if (_blendIsArray)
+            {
+                var _oldBlendArray = _blendArray;
+                _blendArray = array_create(_size);
+                
+                var _i = 0;
+                var _j = _size - 2;
+                repeat(_count)
+                {
+                    _blendArray[@ _j  ] = _oldBlendArray[_i  ];
+                    _blendArray[@ _j+1] = _oldBlendArray[_i+1];
+                    
+                    _i += 2;
+                    _j -= 2;
+                }
+            }
+            
+            //And if the border colour is an array, reverse that as well!
+            if (_borderIsArray)
+            {
+                var _oldBorderArray = _blendArray;
+                _blendArray = array_create(_size);
+                
+                var _i = 0;
+                var _j = _size - 2;
+                repeat(_count)
+                {
+                    _borderArray[@ _j  ] = _oldBorderArray[_i  ];
+                    _borderArray[@ _j+1] = _oldBorderArray[_i+1];
+                    
+                    _i += 2;
+                    _j -= 2;
+                }
+            }
         }
+        
+        #endregion
         
         if (!_blendIsArray && !_borderIsArray)
         {
@@ -231,7 +258,8 @@ function __CleanClassConvex(_array) constructor
         {
             #region  Border is an array but Blend is not
             
-            //Unpack the border colour/alpha into components for use when writing the vertex buffer
+            //Calculate the inner border colour of the middle of the polygon by using a simple mean average
+            //This seems a little silly - the inside of the shape will have no border obviously - but it ensures the interpolation works correctly
             var _border_r  = 0;
             var _border_g  = 0;
             var _border_b  = 0;
@@ -255,6 +283,7 @@ function __CleanClassConvex(_array) constructor
             _border_ac /= _count;
             var _border_cc = make_colour_rgb(_border_r, _border_g, _border_b);
             
+            //Set up border state variables
         	var _border_c0 = undefined;
         	var _border_a0 = undefined;
         	var _border_c1 = _borderArray[0];
@@ -374,42 +403,6 @@ function __CleanClassConvex(_array) constructor
         	var _border_g = colour_get_green(__borderColour)/255;
         	var _border_b = colour_get_blue( __borderColour)/255;
         	var _border_a = __borderAlpha;
-            
-            var _border_r  = 0;
-            var _border_g  = 0;
-            var _border_b  = 0;
-            var _border_ac = 0;
-            
-            var _i = 0;
-            repeat(_count)
-            {
-                var _border_colour = _borderArray[_i];
-                _border_r  += colour_get_red(_border_colour);
-                _border_g  += colour_get_green(_border_colour);
-                _border_b  += colour_get_blue(_border_colour);
-                _border_ac += _borderArray[_i+1];
-                
-                _i += 2;
-            }
-            
-            _border_r  /= _count;
-            _border_g  /= _count;
-            _border_b  /= _count;
-            _border_ac /= _count;
-            var _border_cc = make_colour_rgb(_border_r, _border_g, _border_b);
-            
-        	var _border_c0 = undefined;
-        	var _border_a0 = undefined;
-        	var _border_c1 = _borderArray[0];
-        	var _border_a1 = _borderArray[1];
-        	var _border_c2 = _borderArray[2];
-        	var _border_a2 = _borderArray[3];
-        	
-        	var _border_c01 = undefined;
-        	var _border_a01 = undefined;
-        	
-        	var _border_c12 = merge_colour(_border_c1, _border_c2, 0.5);
-        	var _border_a12 = 0.5*(_border_a1 + _border_a2);
             
             //Find the centre of the polygon, and also the colour of the centre of the polygon
             var _cx = 0;
@@ -535,6 +528,8 @@ function __CleanClassConvex(_array) constructor
         {
             #region Blend + Border are both arrays
             
+            //Calculate the inner border colour of the middle of the polygon by using a simple mean average
+            //This seems a little silly - the inside of the shape will have no border obviously - but it ensures the interpolation works correctly
             var _border_r  = 0;
             var _border_g  = 0;
             var _border_b  = 0;
