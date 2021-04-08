@@ -1,4 +1,4 @@
-<h1 align="center">Clean Shapes 1.0.9 (beta)</h1>
+<h1 align="center">Clean Shapes 1.0.10 (beta)</h1>
 
 <p align="center">Antialiased primitives library for GameMaker Studio 2.3</p>
 
