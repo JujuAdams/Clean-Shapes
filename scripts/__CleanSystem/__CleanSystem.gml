@@ -1,11 +1,11 @@
-#macro __CLEAN_VERSION  "1.0.10 beta"
-#macro __CLEAN_DATE     "2021-04-08"
+#macro __CLEAN_VERSION  "1.0.11"
+#macro __CLEAN_DATE     "2021-04-09"
 #macro __CLEAN_FLAG_A   65536  // 2^16
 #macro __CLEAN_FLAG_B   131072 // 2^17
 #macro __CLEAN_FLAG_AB  196608 // 2^16 + 2^17
 
-__CleanTrace("Welcome to Clean Shapes by @jujuadams! This is version ", __CLEAN_VERSION, ", ", __CLEAN_DATE);
-__CleanTrace("Made using code borrowed from Inigo Quilez, and with contributions from Alice Pedersen (@bakumoe)");
+__CleanTrace("Welcome to Clean Shapes by @jujuadams, with help from Alice Pedersen (@bakumoe) and @XorDev! This is version ", __CLEAN_VERSION, ", ", __CLEAN_DATE);
+__CleanTrace("Made using a ton of shader code borrowed from Inigo Quilez");
 
 global.__cleanBatch     = undefined;
 global.__cleanAntialias = CLEAN_DEFAULT_ANTIALIAS;
