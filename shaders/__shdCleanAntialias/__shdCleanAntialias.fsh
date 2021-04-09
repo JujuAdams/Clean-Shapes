@@ -10,6 +10,7 @@ varying vec4  v_vFillColour;
 varying float v_fBorderThickness;
 varying vec4  v_vBorderColour;
 varying float v_fRounding;
+varying float v_fBorder;
 
 //Circle
 varying vec2 v_vCircleRadius;
@@ -20,7 +21,7 @@ varying vec4 v_vCircleInnerColour;
 varying vec2 v_vRectangleXY;
 varying vec2 v_vRectangleWH;
 
-//Line
+//Line + Polyline
 varying vec2  v_vLineA;
 varying vec2  v_vLineB;
 varying vec2  v_vLineC;
@@ -48,7 +49,6 @@ varying float v_fRingApertureSize;
 varying float v_fRingInnerRadius;
 varying float v_fRingOuterRadius;
 
-varying float v_fBorder;
 
 
 float CircleDistance(vec2 p, vec2 ab)

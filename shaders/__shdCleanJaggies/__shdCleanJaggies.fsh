@@ -7,6 +7,7 @@ varying vec4  v_vFillColour;
 varying float v_fBorderThickness;
 varying vec4  v_vBorderColour;
 varying float v_fRounding;
+varying float v_fBorder;
 
 //Circle
 varying vec2 v_vCircleRadius;
@@ -91,9 +92,10 @@ float LineNoCapDistance( in vec2 p, in vec2 a, in vec2 b, float th )
 float LineRoundCapDistance(vec2 position, vec2 posA, vec2 posB, float thickness)
 {
     vec2 pos  = position - posA;
-    vec2 para = normalize(posB - posA);
+    float len = length(posB - posA);
+    vec2 para = (posB - posA)/len;
     
-    return (length(pos - para*max(0.0, min(length(posB - posA), dot(pos, para)))) - 0.5*thickness);
+    return (length(pos - para*max(0.0, min(len, dot(pos, para)))) - 0.5*thickness);
 }
 
 float LineSquareCapDistance( in vec2 p, in vec2 a, in vec2 b, float th )
@@ -216,6 +218,60 @@ float RingDistance(vec2 position, vec2 centre, float apertureCentre, float apert
     return sqrt(max(0.0, dot(position, position) + outerRadius*outerRadius - 2.0*outerRadius*k)) - thickness;
 }
 
+float Distance(vec2 position)
+{    
+    if (v_fMode == 1.0) //Circle
+    {
+        return CircleDistance(position, v_vCircleRadius);
+    }
+    else if (v_fMode == 2.0) //Rectangle + Capsule
+    {
+        return RectangleDistance(position, v_vRectangleXY, v_vRectangleWH, v_fRounding);
+    }
+    else if (v_fMode == 3.0) //Line with no cap
+    {
+        return LineNoCapDistance(position, v_vLineA, v_vLineB, v_fLineThickness);
+    }
+    else if (v_fMode == 4.0) //Line with square cap
+    {
+        return LineSquareCapDistance(position, v_vLineA, v_vLineB, v_fLineThickness);
+    }
+    else if (v_fMode == 5.0) //Line with round cap
+    {
+        return LineRoundCapDistance(position, v_vLineA, v_vLineB, v_fLineThickness);
+    }
+    else if (v_fMode == 6.0) //Triangle + Convex
+    {
+        return ConvexDistance(position, v_vLine1, v_vLine2, v_fRounding);
+    }
+    else if (v_fMode == 7.0) //Polyline with mitre joint
+    {
+        return PolylineMitreJoinDistance(position, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
+    }
+    else if (v_fMode == 8.0) //Polyline with bevel joint
+    {
+        return PolylineBevelJoinDistance(position, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
+    }
+    else if (v_fMode == 9.0) //Polyline with round joint
+    {
+        return PolylineRoundJoinDistance(position, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
+    }
+    else if (v_fMode == 10.0) //N-gon
+    {
+        return NgonDistance(position, v_vNgonXYR.xy, v_vNgonXYR.z, v_fNgonSides, v_fNgonStarFactor, v_fNgonAngle, v_fRounding);
+    }
+    else if (v_fMode == 11.0) //Segment
+    {
+        return SegmentDistance(position, v_vSegmentXYR, v_vSegmentApertureCentre, v_vSegmentApertureSize, v_fRounding);
+    }
+    else if (v_fMode == 12.0) //Ring
+    {
+        return RingDistance(position, v_vRingCentre, v_fRingApertureCentre, v_fRingApertureSize, v_fRingInnerRadius, v_fRingOuterRadius);
+    }
+    
+    return 0.0;
+}
+
 float Feather(float dist, float threshold)
 {
     return step(threshold, dist);
@@ -225,77 +281,30 @@ float Feather(float dist, float threshold)
 
 void main()
 {
-    float dist = 0.0;
-    vec2  derivatives = vec2(0.0);
-    
     if (v_fMode <= 0.0)
     {
         gl_FragColor = v_vFillColour;
     }
     else
     {
-        if (v_fMode == 1.0) //Circle
+        vec2 position = v_vPosition;
+        vec4 fillColour = v_vFillColour;
+        
+        if (v_fMode == 1.0) // Circle
         {
-            dist = CircleDistance(v_vCircleCoord, v_vCircleRadius);
-            vec4 fillColour = mix(v_vCircleInnerColour, v_vFillColour, length(v_vCircleCoord/v_vCircleRadius));
-            gl_FragColor = mix(v_vBorderColour, fillColour, Feather(-dist, v_fBorderThickness));
-        }
-        else if (v_fMode == 2.0) //Rectangle + Capsule
-        {
-            dist = RectangleDistance(v_vPosition, v_vRectangleXY, v_vRectangleWH, v_fRounding);
-            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, v_fBorderThickness));
-        }
-        else if (v_fMode == 3.0) //Line with no cap
-        {
-            dist = LineNoCapDistance(v_vPosition, v_vLineA, v_vLineB, v_fLineThickness);
-            gl_FragColor = v_vFillColour;
-        }
-        else if (v_fMode == 4.0) //Line with square cap
-        {
-            dist = LineSquareCapDistance(v_vPosition, v_vLineA, v_vLineB, v_fLineThickness);
-            gl_FragColor = v_vFillColour;
-        }
-        else if (v_fMode == 5.0) //Line with round cap
-        {
-            dist = LineRoundCapDistance(v_vPosition, v_vLineA, v_vLineB, v_fLineThickness);
-            gl_FragColor = v_vFillColour;
-        }
-        else if (v_fMode == 6.0) //Triangle + Convex
-        {
-            dist = ConvexDistance(v_vPosition, v_vLine1, v_vLine2, v_fRounding);
-            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, v_fBorderThickness));
-        }
-        else if (v_fMode == 7.0) //Polyline with mitre joint
-        {
-            dist = PolylineMitreJoinDistance(v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
-            gl_FragColor = v_vFillColour;
-        }
-        else if (v_fMode == 8.0) //Polyline with bevel joint
-        {
-            dist = PolylineBevelJoinDistance(v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
-            gl_FragColor = v_vFillColour;
-        }
-        else if (v_fMode == 9.0) //Polyline with round joint
-        {
-            dist = PolylineRoundJoinDistance(v_vPosition, v_vLineA, v_vLineB, v_vLineC, v_fLineThickness);
-            gl_FragColor = v_vFillColour;
-        }
-        else if (v_fMode == 10.0) //N-gon
-        {
-            dist = NgonDistance(v_vPosition, v_vNgonXYR.xy, v_vNgonXYR.z, v_fNgonSides, v_fNgonStarFactor, v_fNgonAngle, v_fRounding);
-            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, v_fBorderThickness));
-        }
-        else if (v_fMode == 11.0) //Segment
-        {
-            dist = SegmentDistance(v_vPosition, v_vSegmentXYR, v_vSegmentApertureCentre, v_vSegmentApertureSize, v_fRounding);
-            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, v_fBorderThickness));
-        }
-        else if (v_fMode == 12.0) //Ring
-        {
-            dist = RingDistance(v_vPosition, v_vRingCentre, v_fRingApertureCentre, v_fRingApertureSize, v_fRingInnerRadius, v_fRingOuterRadius);
-            gl_FragColor = mix(v_vBorderColour, v_vFillColour, Feather(-dist, v_fBorderThickness));
+            position = v_vCircleCoord;
+            fillColour = mix(v_vCircleInnerColour, v_vFillColour, length(position/v_vCircleRadius));
         }
         
-        gl_FragColor.a *= 1.0 - Feather(dist, 0.0);
+        float dist = Distance(position);
+        
+        vec4 borderColour = fillColour;
+        if (v_fBorder < .5) // Border
+        {
+            borderColour = mix(v_vBorderColour, fillColour, Feather(-dist, v_fBorderThickness));
+        }
+        
+        borderColour.a *= 1.0 - Feather(dist, 0.0); // Edge alpha
+        gl_FragColor = borderColour;
     }
 }
