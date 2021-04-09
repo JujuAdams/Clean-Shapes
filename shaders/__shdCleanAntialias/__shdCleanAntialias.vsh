@@ -118,7 +118,8 @@ void main()
     if (v_fMode >= 131072.0) { v_fMode -= 131072.0; flagB = 1.0; } // 2^17
     if (v_fMode >=  65536.0) { v_fMode -=  65536.0; flagA = 1.0; } // 2^16
     
-    //Shapes with borders (could be reorganized like: v_fMode >= 6.0)
+    //Shapes with borders
+    //TODO - Reorganise or use a flag
     v_fBorder = float(v_fMode == 3.0 || v_fMode == 4.0 || v_fMode == 5.0 || v_fMode == 7.0 || v_fMode == 8.0 || v_fMode == 9.0);
     
     //Circle
