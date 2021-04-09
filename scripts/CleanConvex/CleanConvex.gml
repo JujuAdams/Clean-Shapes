@@ -20,7 +20,7 @@ function __CleanClassConvex(_array) constructor
     __borderThickness = CLEAN_DEFAULT_CONVEX_BORDER_THICKNESS;
     __borderColour    = CLEAN_DEFAULT_CONVEX_BORDER_COLOUR;
     __borderAlpha     = CLEAN_DEFAULT_CONVEX_BORDER_ALPHA;
-    __borderArray	  = undefined;
+    __borderArray      = undefined;
     
     __rounding = CLEAN_DEFAULT_CONVEX_ROUNDING;
     
@@ -52,19 +52,19 @@ function __CleanClassConvex(_array) constructor
         __borderThickness = _thickness;
         __borderColour    = _colour;
         __borderAlpha     = _alpha;
-        __borderArray	  = undefined;
+        __borderArray      = undefined;
         return self;
     }
     
     static BorderExt = function(_thickness, _array)
     {
-    	if (!is_array(_array)) __CleanError("Invalid datatype given for argument1 (", typeof(_array), "), was expecting an array");
+        if (!is_array(_array)) __CleanError("Invalid datatype given for argument1 (", typeof(_array), "), was expecting an array");
         if ((array_length(_array) mod 2) != 0) __CleanError("Border array must have an even number of elements (RGB/alpha pairs)");
-    	
+        
         __borderThickness = _thickness;
         __borderColour    = undefined;
         __borderAlpha     = undefined;
-        __borderArray	  = _array;
+        __borderArray      = _array;
         return self;
     }
     
@@ -165,10 +165,10 @@ function __CleanClassConvex(_array) constructor
             #region Blend + Border are not arrays
             
             //Unpack the border colour/alpha into components for use when writing the vertex buffer
-        	var _border_r = colour_get_red(  __borderColour)/255;
-        	var _border_g = colour_get_green(__borderColour)/255;
-        	var _border_b = colour_get_blue( __borderColour)/255;
-        	var _border_a = __borderAlpha;
+            var _border_r = colour_get_red(  __borderColour)/255;
+            var _border_g = colour_get_green(__borderColour)/255;
+            var _border_b = colour_get_blue( __borderColour)/255;
+            var _border_a = __borderAlpha;
             
             //Find the centre of the polygon
             var _cx = 0;
@@ -284,18 +284,18 @@ function __CleanClassConvex(_array) constructor
             var _border_cc = make_colour_rgb(_border_r, _border_g, _border_b);
             
             //Set up border state variables
-        	var _border_c0 = undefined;
-        	var _border_a0 = undefined;
-        	var _border_c1 = _borderArray[0];
-        	var _border_a1 = _borderArray[1];
-        	var _border_c2 = _borderArray[2];
-        	var _border_a2 = _borderArray[3];
-        	
-        	var _border_c01 = undefined;
-        	var _border_a01 = undefined;
-        	
-        	var _border_c12 = merge_colour(_border_c1, _border_c2, 0.5);
-        	var _border_a12 = 0.5*(_border_a1 + _border_a2);
+            var _border_c0 = undefined;
+            var _border_a0 = undefined;
+            var _border_c1 = _borderArray[0];
+            var _border_a1 = _borderArray[1];
+            var _border_c2 = _borderArray[2];
+            var _border_a2 = _borderArray[3];
+            
+            var _border_c01 = undefined;
+            var _border_a01 = undefined;
+            
+            var _border_c12 = merge_colour(_border_c1, _border_c2, 0.5);
+            var _border_a12 = 0.5*(_border_a1 + _border_a2);
             
             //Find the centre of the polygon
             var _cx = 0;
@@ -399,10 +399,10 @@ function __CleanClassConvex(_array) constructor
             #region  Blend is an array but Border is not
             
             //Unpack the border colour/alpha into components for use when writing the vertex buffer
-        	var _border_r = colour_get_red(  __borderColour)/255;
-        	var _border_g = colour_get_green(__borderColour)/255;
-        	var _border_b = colour_get_blue( __borderColour)/255;
-        	var _border_a = __borderAlpha;
+            var _border_r = colour_get_red(  __borderColour)/255;
+            var _border_g = colour_get_green(__borderColour)/255;
+            var _border_b = colour_get_blue( __borderColour)/255;
+            var _border_a = __borderAlpha;
             
             //Find the centre of the polygon, and also the colour of the centre of the polygon
             var _cx = 0;
@@ -553,18 +553,18 @@ function __CleanClassConvex(_array) constructor
             _border_ac /= _count;
             var _border_cc = make_colour_rgb(_border_r, _border_g, _border_b);
             
-        	var _border_c0 = undefined;
-        	var _border_a0 = undefined;
-        	var _border_c1 = _borderArray[0];
-        	var _border_a1 = _borderArray[1];
-        	var _border_c2 = _borderArray[2];
-        	var _border_a2 = _borderArray[3];
-        	
-        	var _border_c01 = undefined;
-        	var _border_a01 = undefined;
-        	
-        	var _border_c12 = merge_colour(_border_c1, _border_c2, 0.5);
-        	var _border_a12 = 0.5*(_border_a1 + _border_a2);
+            var _border_c0 = undefined;
+            var _border_a0 = undefined;
+            var _border_c1 = _borderArray[0];
+            var _border_a1 = _borderArray[1];
+            var _border_c2 = _borderArray[2];
+            var _border_a2 = _borderArray[3];
+            
+            var _border_c01 = undefined;
+            var _border_a01 = undefined;
+            
+            var _border_c12 = merge_colour(_border_c1, _border_c2, 0.5);
+            var _border_a12 = 0.5*(_border_a1 + _border_a2);
             
             //Find the centre of the polygon, and also the colour of the centre of the polygon
             var _cx = 0;
