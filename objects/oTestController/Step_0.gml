@@ -1,8 +1,25 @@
-// Press arrows to navigate rooms
-var _change = keyboard_check_pressed(vk_right) - keyboard_check_pressed(vk_left);
-if _change != 0 {
-	current_room_id += _change;
-	if current_room_id >= array_length(rooms) current_room_id = 0;
-	if current_room_id <= -1 current_room_id = array_length(rooms) - 1;
-	room_goto(rooms[current_room_id]);
+//Press arrows to navigate rooms
+
+if (keyboard_check_pressed(vk_left))
+{
+    if (room_previous(room) >= 0)
+    {
+        room_goto(room_previous(room));
+    }
+    else
+    {
+        room_goto(room_last);
+    }
+}
+
+if (keyboard_check_pressed(vk_right))
+{
+    if (room_next(room) >= 0)
+    {
+        room_goto(room_next(room));
+    }
+    else
+    {
+        room_goto(room_first);
+    }
 }
