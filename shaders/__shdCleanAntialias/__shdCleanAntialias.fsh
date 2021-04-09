@@ -95,7 +95,7 @@ float LineNoCapDistance( in vec2 p, in vec2 a, in vec2 b, float th )
 float LineRoundCapDistance(vec2 position, vec2 posA, vec2 posB, float thickness)
 {
     vec2 pos  = position - posA;
-	float len = length(posB - posA);
+    float len = length(posB - posA);
     vec2 para = (posB - posA)/len;
     
     return (length(pos - para*max(0.0, min(len, dot(pos, para)))) - 0.5*thickness);
@@ -222,8 +222,8 @@ float RingDistance(vec2 position, vec2 centre, float apertureCentre, float apert
 }
 
 float Distance(vec2 position)
-{	
-	if (v_fMode == 1.0) //Circle
+{    
+    if (v_fMode == 1.0) //Circle
     {
         return CircleDistance(position, v_vCircleRadius);
     }
@@ -271,34 +271,21 @@ float Distance(vec2 position)
     {
         return RingDistance(position, v_vRingCentre, v_fRingApertureCentre, v_fRingApertureSize, v_fRingInnerRadius, v_fRingOuterRadius);
     }
-	
-	return 0.0;
+    
+    return 0.0;
 }
 
 vec4 Derivatives(vec2 position)
 {
-	 return vec4(Distance(position - vec2(v_vOutputTexel.x, 0.0)),
+     return vec4(Distance(position - vec2(v_vOutputTexel.x, 0.0)),
                  Distance(position + vec2(v_vOutputTexel.x, 0.0)),
-				 Distance(position - vec2(0.0, v_vOutputTexel.y)),
-                 Distance(position + vec2(0.0, v_vOutputTexel.y)));	
-}
-
-
-
-float GradientVec4(vec4 value)
-{
-	//Correct gradient formula:
-    return SMOOTHNESS * length(value);
-	
-	//Try this with a high SMOOTHNESS value to exaggerate the difference
-	//return SMOOTHNESS * (abs(value.x) + abs(value.y) + abs(value.z) + abs(value.w));
+                 Distance(position - vec2(0.0, v_vOutputTexel.y)),
+                 Distance(position + vec2(0.0, v_vOutputTexel.y)));    
 }
 
 float Feather(float dist, vec4 derivatives, float threshold)
 {
-	//Compute edge linearly:
-	float gradient = GradientVec4(dist - derivatives);
-    return clamp((dist - threshold) / gradient + 1.0, 0.0, 1.0);
+    return clamp(1.0 + ((dist - threshold) / (SMOOTHNESS*length(dist - derivatives))), 0.0, 1.0);
 }
 
 
@@ -311,25 +298,25 @@ void main()
     }
     else
     {
-		vec2 position = v_vPosition;
-		vec4 fillColour = v_vFillColour;
-		
-		if (v_fMode == 1.0) // Circle
-		{
-			position = v_vCircleCoord;
-			fillColour = mix(v_vCircleInnerColour, v_vFillColour, length(position/v_vCircleRadius));
-		}
-		
-		float dist = Distance(position);
-		vec4  derivatives = Derivatives(position);
-		
-		vec4 borderColour = fillColour;
-		if (v_fBorder < .5) // Border
-		{
-			borderColour = mix(v_vBorderColour, fillColour, Feather(-dist, -derivatives, v_fBorderThickness));
-		}
-		
-		borderColour.a *= 1.0 - Feather(dist, derivatives, 0.0); // Edge alpha
+        vec2 position = v_vPosition;
+        vec4 fillColour = v_vFillColour;
+        
+        if (v_fMode == 1.0) // Circle
+        {
+            position = v_vCircleCoord;
+            fillColour = mix(v_vCircleInnerColour, v_vFillColour, length(position/v_vCircleRadius));
+        }
+        
+        float dist = Distance(position);
+        vec4  derivatives = Derivatives(position);
+        
+        vec4 borderColour = fillColour;
+        if (v_fBorder < .5) // Border
+        {
+            borderColour = mix(v_vBorderColour, fillColour, Feather(-dist, -derivatives, v_fBorderThickness));
+        }
+        
+        borderColour.a *= 1.0 - Feather(dist, derivatives, 0.0); // Edge alpha
         gl_FragColor = borderColour;
     }
 }
