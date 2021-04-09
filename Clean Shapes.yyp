@@ -51,6 +51,7 @@
     {"id":{"name":"oTestCircle","path":"objects/oTestCircle/oTestCircle.yy",},"order":7,},
     {"id":{"name":"__CleanSystem","path":"scripts/__CleanSystem/__CleanSystem.yy",},"order":0,},
     {"id":{"name":"oTestSegment","path":"objects/oTestSegment/oTestSegment.yy",},"order":17,},
+    {"id":{"name":"oTestController","path":"objects/oTestController/oTestController.yy",},"order":4,},
     {"id":{"name":"CleanCapsule","path":"scripts/CleanCapsule/CleanCapsule.yy",},"order":9,},
     {"id":{"name":"oTestLine","path":"objects/oTestLine/oTestLine.yy",},"order":9,},
     {"id":{"name":"CleanRing","path":"scripts/CleanRing/CleanRing.yy",},"order":6,},

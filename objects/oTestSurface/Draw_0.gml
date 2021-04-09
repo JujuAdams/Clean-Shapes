@@ -15,7 +15,7 @@ repeat(41)
     _i += 2;
 }
 
-CleanSpline([30, 30, 0, 300, 300, 0, 230, 230], 40).Blend(merge_colour(0xFFA687, 0xFFFFFF, 0.3), 1.0).BlendExt(_array).Thickness(30).Draw();
+CleanSpline([30, 30, 0, 300, 300, 0, 230, 230], 42).Blend(merge_colour(0xFFA687, 0xFFFFFF, 0.3), 1.0).BlendExt(_array).Thickness(30).Draw();
 //CleanRectangle(30, 30, 230, 230).Blend4(c_white, 1.0, c_yellow, 1.0, c_aqua, 1.0, c_fuchsia, 1.0).Border(10, merge_colour(0xFFA687, 0xFFFFFF, 0.3), 1.0).Rounding(10).Draw();
 //CleanCapsule(30, 80, 230, 180, true).Blend4(c_white, 1.0, c_yellow, 1.0, c_aqua, 1.0, c_fuchsia, 1.0).Border(10, merge_colour(0x9FEDFF, 0xFFFFFF, 0.3), 1.0).Draw();
 //CleanCapsuleVertical(80, 30, 180, 230, true).Blend4(c_white, 1.0, c_yellow, 1.0, c_aqua, 1.0, c_fuchsia, 1.0).Border(10, merge_colour(0xFFA687, 0xFFFFFF, 0.3), 1.0).Draw();
