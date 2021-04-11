@@ -4,7 +4,7 @@
 #macro __CLEAN_FLAG_B   131072 // 2^17
 #macro __CLEAN_FLAG_AB  196608 // 2^16 + 2^17
 
-__CleanTrace("Welcome to Clean Shapes by @jujuadams, with help from Alice Pedersen (@bakumoe) and @XorDev! This is version ", __CLEAN_VERSION, ", ", __CLEAN_DATE);
+__CleanTrace("Welcome to Clean Shapes by @jujuadams, Alice Pedersen (@bakumoe), and @XorDev! This is version ", __CLEAN_VERSION, ", ", __CLEAN_DATE);
 __CleanTrace("Made using a ton of shader code borrowed from Inigo Quilez");
 
 global.__cleanBatch     = undefined;
