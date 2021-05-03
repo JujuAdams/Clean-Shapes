@@ -6,6 +6,8 @@ function CleanBatchDrawVertexBuffer()
     var _vertexBuffer = argument[0];
     var _destroyAfter = ((argument_count > 1) && (argument[1] != undefined))? argument[1] : false;
     
+    if (_vertexBuffer == undefined) return undefined;
+    
     if (!global.__cleanMatrixIdentity)
     {
         var _oldWorldMatrix = matrix_get(matrix_world);
