@@ -3,7 +3,6 @@ precision highp float;
 #define SMOOTHNESS 1.0
 
 //Shared
-varying vec2  v_vOutputTexel;
 varying vec2  v_vPosition;
 varying float v_fMode;
 varying vec4  v_vFillColour;
@@ -275,17 +274,9 @@ float Distance(vec2 position)
     return 0.0;
 }
 
-vec4 Derivatives(vec2 position)
+float Feather(float dist, float distFwidth, float threshold)
 {
-     return vec4(Distance(position - vec2(v_vOutputTexel.x, 0.0)),
-                 Distance(position + vec2(v_vOutputTexel.x, 0.0)),
-                 Distance(position - vec2(0.0, v_vOutputTexel.y)),
-                 Distance(position + vec2(0.0, v_vOutputTexel.y)));    
-}
-
-float Feather(float dist, vec4 derivatives, float threshold)
-{
-    return clamp(1.0 + ((dist - threshold) / (SMOOTHNESS*length(dist - derivatives))), 0.0, 1.0);
+    return 1.0 - smoothstep(-SMOOTHNESS*distFwidth, 0.0, dist - threshold);
 }
 
 
@@ -308,15 +299,15 @@ void main()
         }
         
         float dist = Distance(position);
-        vec4  derivatives = Derivatives(position);
+        float distFwidth = fwidth(dist);
         
         vec4 borderColour = fillColour;
-        if (v_fBorder < .5) // Border
+        if (v_fBorder < 0.5) // Border
         {
-            borderColour = mix(v_vBorderColour, fillColour, Feather(-dist, -derivatives, v_fBorderThickness));
+            borderColour = mix(fillColour, v_vBorderColour, Feather(-dist, distFwidth, v_fBorderThickness));
         }
         
-        borderColour.a *= 1.0 - Feather(dist, derivatives, 0.0); // Edge alpha
+        borderColour.a *= Feather(dist, distFwidth, 0.0); // Edge alpha
         gl_FragColor = borderColour;
     }
 }

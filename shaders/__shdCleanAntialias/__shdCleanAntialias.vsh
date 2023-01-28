@@ -44,7 +44,6 @@ attribute vec2 in_TextureCoord;
 
 
 //Shared
-varying vec2  v_vOutputTexel;
 varying vec2  v_vPosition;
 varying float v_fMode;
 varying vec4  v_vFillColour;
@@ -91,18 +90,11 @@ varying float v_fRingOuterRadius;
 
 varying float v_fBorder;
 
-uniform vec2 u_vOutputSize;
-
 
 
 void main()
 {
     gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION]*vec4(in_Position.xy, 0.0, 1.0);
-    
-    mat4 wvpMatrix = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION];
-    v_vOutputTexel = 1.0 / vec2(length(wvpMatrix[0].xyz),
-                                length(wvpMatrix[1].xyz));
-    v_vOutputTexel /= 0.5*u_vOutputSize;
     
     //Shared
     v_vPosition        = in_Position.xy;

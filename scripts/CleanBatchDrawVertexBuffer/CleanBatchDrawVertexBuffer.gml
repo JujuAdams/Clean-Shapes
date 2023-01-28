@@ -44,7 +44,6 @@ function CleanBatchDrawVertexBuffer()
         }
         
         shader_set(__shdCleanAntialias);
-        shader_set_uniform_f(global.__clean_u_vOutputSize, _surfaceWidth, _surfaceHeight);
     }
     else
     {
