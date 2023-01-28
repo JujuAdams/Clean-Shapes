@@ -1,5 +1,5 @@
-#macro __CLEAN_VERSION  "1.0.12"
-#macro __CLEAN_DATE     "2021-05-03"
+#macro __CLEAN_VERSION  "1.1.0"
+#macro __CLEAN_DATE     "2023-01-28"
 #macro __CLEAN_FLAG_A   65536  // 2^16
 #macro __CLEAN_FLAG_B   131072 // 2^17
 #macro __CLEAN_FLAG_AB  196608 // 2^16 + 2^17
