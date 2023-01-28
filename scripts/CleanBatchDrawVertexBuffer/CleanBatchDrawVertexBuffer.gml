@@ -29,20 +29,6 @@ function CleanBatchDrawVertexBuffer()
     
     if (global.__cleanAntialias)
     {
-        //Find the inverse scale of our output surface
-        //These values are passed in our shader and are used for resolution independent rendering
-        var _surface = surface_get_target();
-        if (_surface >= 0)
-        {
-            var _surfaceWidth  = surface_get_width( _surface);
-            var _surfaceHeight = surface_get_height(_surface);
-        }
-        else
-        {
-            var _surfaceWidth  = window_get_width();
-            var _surfaceHeight = window_get_height();
-        }
-        
         shader_set(__shdCleanAntialias);
     }
     else
