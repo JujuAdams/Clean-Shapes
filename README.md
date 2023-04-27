@@ -2,7 +2,7 @@
 
 <p align="center">Antialiased primitives library for GameMaker Studio 2023.1</p>
 
-<p align="center"><b>@jujuadams</b>, <b>Alice Pedersen (@bakumoe)</b>, and <b>@XorDev</b> with substantial help from <a href="https://www.iquilezles.org/">Inigo Quilez's</a> <a href="https://www.iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm">2D SDF functions</a></p>
+<p align="center"><a href="https://www.jujuadams.com/" target="_blank">Juju Adams</a>, <a href="https://baku.moe/" target="_blank">Alice Pedersen</a>, and <a href="https://linktr.ee/xordev/" target="_blank">XorDev</a> with substantial help from <a href="https://www.iquilezles.org/">Inigo Quilez's</a> <a href="https://www.iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm">2D SDF functions</a></p>
 
 <p align="center"><a href="https://github.com/JujuAdams/clean-shapes/releases/">Download the .yymps</a></p>
 <p align="center">Chat about Clean Shapes on the <a href="https://discord.gg/8krYCqr">Discord server</a></p>
