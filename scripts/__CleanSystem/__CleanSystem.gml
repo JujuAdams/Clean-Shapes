@@ -40,7 +40,7 @@ function __CleanTrace()
         ++_i;
     }
 
-    show_debug_message("Clean Shapes: " + _string);
+    show_debug_message("Clean Shapes " + string(__CLEAN_VERSION) + ": " + _string);
 
     return _string;
 }
@@ -57,7 +57,7 @@ function __CleanError()
         ++_i;
     }
     
-    show_error("Clean Shapes:\n" + _string + "\n ", false);
+    show_error("Clean Shapes " + string(__CLEAN_VERSION) + ":\n" + _string + "\n ", false);
     
     return _string;
 }
