@@ -1,5 +1,5 @@
-#macro __CLEAN_VERSION  "1.1.0"
-#macro __CLEAN_DATE     "2023-01-28"
+#macro __CLEAN_VERSION  "1.1.1"
+#macro __CLEAN_DATE     "2023-05-03"
 #macro __CLEAN_FLAG_A   65536  // 2^16
 #macro __CLEAN_FLAG_B   131072 // 2^17
 #macro __CLEAN_FLAG_AB  196608 // 2^16 + 2^17
@@ -40,7 +40,7 @@ function __CleanTrace()
         ++_i;
     }
 
-    show_debug_message("Clean Shapes: " + _string);
+    show_debug_message("Clean Shapes " + string(__CLEAN_VERSION) + ": " + _string);
 
     return _string;
 }
@@ -57,7 +57,7 @@ function __CleanError()
         ++_i;
     }
     
-    show_error("Clean Shapes:\n" + _string + "\n ", false);
+    show_error("Clean Shapes " + string(__CLEAN_VERSION) + ":\n" + _string + "\n ", false);
     
     return _string;
 }

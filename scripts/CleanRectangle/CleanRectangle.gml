@@ -10,10 +10,10 @@ function CleanRectangle(_left, _top, _right, _bottom)
 
 function __CleanClassRectangle(_left, _top, _right, _bottom) constructor
 {
-    __left   = _left;
-    __top    = _top;
-    __right  = _right;
-    __bottom = _bottom;
+    __left   = min(_left, _right);
+    __top    = min(_top, _bottom);
+    __right  = max(_left, _right);
+    __bottom = max(_top, _bottom);
     
     __colour1 = CLEAN_DEFAULT_RECTANGLE_COLOUR;
     __alpha1  = CLEAN_DEFAULT_RECTANGLE_ALPHA;
