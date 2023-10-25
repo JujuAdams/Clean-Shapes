@@ -1,3 +1,5 @@
+<p align="center"><img src="https://raw.githubusercontent.com/JujuAdams/Clean-Shapes/master/LOGO.png" style="display:block; margin:auto; width:400px"></p>
+
 <h1 align="center">Clean Shapes 1.1.1</h1>
 
 <p align="center">Antialiased primitives library for GameMaker Studio 2023.1</p>
