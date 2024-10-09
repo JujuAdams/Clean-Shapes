@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "CleanTransformAddRotate",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Transform",
-    "path": "folders/Clean Shapes/Transform.yy",
+  "$GMScript":"v1",
+  "%Name":"CleanTransformAddRotate",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"CleanTransformAddRotate",
+  "parent":{
+    "name":"Transform",
+    "path":"folders/Clean Shapes/Transform.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

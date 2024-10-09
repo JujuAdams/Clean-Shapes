@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "CleanPolyline",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Shapes",
-    "path": "folders/Clean Shapes/Shapes.yy",
+  "$GMScript":"v1",
+  "%Name":"CleanPolyline",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"CleanPolyline",
+  "parent":{
+    "name":"Shapes",
+    "path":"folders/Clean Shapes/Shapes.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

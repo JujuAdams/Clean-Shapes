@@ -1,10 +1,12 @@
 {
-  "resourceType": "GMShader",
-  "resourceVersion": "1.0",
-  "name": "__shdCleanAntialias",
-  "parent": {
-    "name": "(System)",
-    "path": "folders/Clean Shapes/(System).yy",
+  "$GMShader":"",
+  "%Name":"__shdCleanAntialias",
+  "name":"__shdCleanAntialias",
+  "parent":{
+    "name":"(System)",
+    "path":"folders/Clean Shapes/(System).yy",
   },
-  "type": 1,
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
 }

@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "CleanBatchEndDraw",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Batches",
-    "path": "folders/Clean Shapes/Batches.yy",
+  "$GMScript":"v1",
+  "%Name":"CleanBatchEndDraw",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"CleanBatchEndDraw",
+  "parent":{
+    "name":"Batches",
+    "path":"folders/Clean Shapes/Batches.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }
