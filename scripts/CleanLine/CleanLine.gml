@@ -85,9 +85,6 @@ function __CleanClassLine(_x1, _y1, _x2, _y2) constructor
         var _alpha2    = __alpha2;
         var _thickness = __thickness;
         
-        //Divide down the thickness since it's applied equally to both "sides" of the line
-        _thickness *= 0.5;
-        
         var _ox1 = __x1;
         var _oy1 = __y1;
         var _ox2 = __x2;
