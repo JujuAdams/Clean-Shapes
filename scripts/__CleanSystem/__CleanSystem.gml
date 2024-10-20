@@ -1,10 +1,8 @@
-#macro __CLEAN_VERSION  "1.1.2"
-#macro __CLEAN_DATE     "2024-10-09"
 #macro __CLEAN_FLAG_A   65536  // 2^16
 #macro __CLEAN_FLAG_B   131072 // 2^17
 #macro __CLEAN_FLAG_AB  196608 // 2^16 + 2^17
 
-__CleanTrace("Welcome to Clean Shapes by Juju Adams, Alice Pedersen, and XorDev! This is version ", __CLEAN_VERSION, ", ", __CLEAN_DATE);
+__CleanTrace("Welcome to Clean Shapes by Juju Adams, Alice Pedersen, and XorDev! This is version ", CLEAN_VERSION, ", ", CLEAN_DATE);
 __CleanTrace("Made using a ton of shader code borrowed from Inigo Quilez");
 
 if (os_browser != browser_not_a_browser)
@@ -40,7 +38,7 @@ function __CleanTrace()
         ++_i;
     }
 
-    show_debug_message("Clean Shapes " + string(__CLEAN_VERSION) + ": " + _string);
+    show_debug_message("Clean Shapes " + string(CLEAN_VERSION) + ": " + _string);
 
     return _string;
 }
@@ -57,7 +55,7 @@ function __CleanError()
         ++_i;
     }
     
-    show_error("Clean Shapes " + string(__CLEAN_VERSION) + ":\n" + _string + "\n ", false);
+    show_error("Clean Shapes " + string(CLEAN_VERSION) + ":\n" + _string + "\n ", false);
     
     return _string;
 }

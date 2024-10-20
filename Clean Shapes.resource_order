@@ -1,9 +1,9 @@
 {
   "FolderOrderSettings":[
-    {"name":"(System)","order":14,"path":"folders/Clean Shapes/(System).yy",},
-    {"name":"Batches","order":12,"path":"folders/Clean Shapes/Batches.yy",},
-    {"name":"Shapes","order":3,"path":"folders/Clean Shapes/Shapes.yy",},
-    {"name":"Transform","order":13,"path":"folders/Clean Shapes/Transform.yy",},
+    {"name":"(System)","order":7,"path":"folders/Clean Shapes/(System).yy",},
+    {"name":"Batches","order":5,"path":"folders/Clean Shapes/Batches.yy",},
+    {"name":"Shapes","order":4,"path":"folders/Clean Shapes/Shapes.yy",},
+    {"name":"Transform","order":6,"path":"folders/Clean Shapes/Transform.yy",},
     {"name":"Tests","order":5,"path":"folders/Tests.yy",},
   ],
   "ResourceOrderSettings":[
@@ -33,8 +33,9 @@
     {"name":"rmTestSegment","order":15,"path":"rooms/rmTestSegment/rmTestSegment.yy",},
     {"name":"rmTestSpline","order":11,"path":"rooms/rmTestSpline/rmTestSpline.yy",},
     {"name":"rmTestSurface","order":19,"path":"rooms/rmTestSurface/rmTestSurface.yy",},
-    {"name":"CleanAntialiasGet","order":2,"path":"scripts/CleanAntialiasGet/CleanAntialiasGet.yy",},
-    {"name":"CleanAntialiasSet","order":1,"path":"scripts/CleanAntialiasSet/CleanAntialiasSet.yy",},
+    {"name":"__CleanConstants","order":1,"path":"scripts/__CleanConstants/__CleanConstants.yy",},
+    {"name":"CleanAntialiasGet","order":3,"path":"scripts/CleanAntialiasGet/CleanAntialiasGet.yy",},
+    {"name":"CleanAntialiasSet","order":2,"path":"scripts/CleanAntialiasSet/CleanAntialiasSet.yy",},
     {"name":"CleanBatchDrawVertexBuffer","order":3,"path":"scripts/CleanBatchDrawVertexBuffer/CleanBatchDrawVertexBuffer.yy",},
     {"name":"CleanBatchEndDraw","order":1,"path":"scripts/CleanBatchEndDraw/CleanBatchEndDraw.yy",},
     {"name":"CleanBatchEndReturnVertexBuffer","order":2,"path":"scripts/CleanBatchEndReturnVertexBuffer/CleanBatchEndReturnVertexBuffer.yy",},

@@ -55,6 +55,7 @@
     {"id":{"name":"rmTestSpline","path":"rooms/rmTestSpline/rmTestSpline.yy",},},
     {"id":{"name":"rmTestSurface","path":"rooms/rmTestSurface/rmTestSurface.yy",},},
     {"id":{"name":"__CleanConfig","path":"scripts/__CleanConfig/__CleanConfig.yy",},},
+    {"id":{"name":"__CleanConstants","path":"scripts/__CleanConstants/__CleanConstants.yy",},},
     {"id":{"name":"__CleanSystem","path":"scripts/__CleanSystem/__CleanSystem.yy",},},
     {"id":{"name":"CleanAntialiasGet","path":"scripts/CleanAntialiasGet/CleanAntialiasGet.yy",},},
     {"id":{"name":"CleanAntialiasSet","path":"scripts/CleanAntialiasSet/CleanAntialiasSet.yy",},},
