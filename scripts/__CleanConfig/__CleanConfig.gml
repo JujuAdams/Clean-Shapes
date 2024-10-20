@@ -1,3 +1,9 @@
+// When drawing CleanConvex() with sharp, unrounded corners you may find that you get small
+// visual artefacts in the corners. This can be eliminated by adding very slight rounding via the
+// `.Rounding()` method. If this is unsuitable for your game, you can set this macro to `true`
+// to use a slower legacy antialiasing method that solves the problem.
+#macro CLEAN_LEGACY_ANTIALIAS  false
+
 #macro CLEAN_DEFAULT_ANTIALIAS                       true
 
 #macro CLEAN_DEFAULT_LINE_COLOUR                     draw_get_colour()

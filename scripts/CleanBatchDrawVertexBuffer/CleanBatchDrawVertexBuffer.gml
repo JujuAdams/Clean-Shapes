@@ -3,6 +3,8 @@
 
 function CleanBatchDrawVertexBuffer()
 {
+    static _u_vOutputSize = shader_get_uniform(__shdCleanAntialiasLegacy, "u_vOutputSize");
+    
     var _vertexBuffer = argument[0];
     var _destroyAfter = ((argument_count > 1) && (argument[1] != undefined))? argument[1] : false;
     
@@ -29,7 +31,29 @@ function CleanBatchDrawVertexBuffer()
     
     if (global.__cleanAntialias)
     {
-        shader_set(__shdCleanAntialias);
+        if (CLEAN_LEGACY_ANTIALIAS)
+        {
+            //Find the inverse scale of our output surface
+            //These values are passed in our shader and are used for resolution independent rendering
+            var _surface = surface_get_target();
+            if (_surface >= 0)
+            {
+                var _surfaceWidth  = surface_get_width( _surface);
+                var _surfaceHeight = surface_get_height(_surface);
+            }
+            else
+            {
+                var _surfaceWidth  = window_get_width();
+                var _surfaceHeight = window_get_height();
+            }
+            
+            shader_set(__shdCleanAntialiasLegacy);
+            shader_set_uniform_f(_u_vOutputSize, _surfaceWidth, _surfaceHeight);
+        }
+        else
+        {
+            shader_set(__shdCleanAntialias);
+        }
     }
     else
     {

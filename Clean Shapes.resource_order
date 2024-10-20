@@ -58,6 +58,7 @@
     {"name":"CleanTransformReset","order":7,"path":"scripts/CleanTransformReset/CleanTransformReset.yy",},
     {"name":"CleanTriangle","order":11,"path":"scripts/CleanTriangle/CleanTriangle.yy",},
     {"name":"__shdCleanAntialias","order":1,"path":"shaders/__shdCleanAntialias/__shdCleanAntialias.yy",},
-    {"name":"__shdCleanJaggies","order":2,"path":"shaders/__shdCleanJaggies/__shdCleanJaggies.yy",},
+    {"name":"__shdCleanAntialiasLegacy","order":2,"path":"shaders/__shdCleanAntialiasLegacy/__shdCleanAntialiasLegacy.yy",},
+    {"name":"__shdCleanJaggies","order":3,"path":"shaders/__shdCleanJaggies/__shdCleanJaggies.yy",},
   ],
 }
