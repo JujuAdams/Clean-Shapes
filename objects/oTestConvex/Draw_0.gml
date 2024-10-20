@@ -21,3 +21,6 @@ CleanConvex([120, 120, 220, 120, 220, 220, 150, 190])
 .BorderExt(10, [c_yellow, 1.0, c_fuchsia, 1.0, c_white, 1.0, c_aqua, 1.0])
 .Rounding(10)
 .Draw();
+
+CleanConvex([100, 250, 200, 250, 200, 300, 150, 300])
+.Draw();
