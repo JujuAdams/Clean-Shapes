@@ -92,8 +92,8 @@
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
     {"roomId":{"name":"rmExample","path":"rooms/rmExample/rmExample.yy",},},
-    {"roomId":{"name":"rmTestLine","path":"rooms/rmTestLine/rmTestLine.yy",},},
     {"roomId":{"name":"rmTestConvex","path":"rooms/rmTestConvex/rmTestConvex.yy",},},
+    {"roomId":{"name":"rmTestLine","path":"rooms/rmTestLine/rmTestLine.yy",},},
     {"roomId":{"name":"rmTestMatrix","path":"rooms/rmTestMatrix/rmTestMatrix.yy",},},
     {"roomId":{"name":"rmTestPug","path":"rooms/rmTestPug/rmTestPug.yy",},},
     {"roomId":{"name":"rmTestCircle","path":"rooms/rmTestCircle/rmTestCircle.yy",},},
