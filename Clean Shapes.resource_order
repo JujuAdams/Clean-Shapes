@@ -9,7 +9,7 @@
   "ResourceOrderSettings":[
     {"name":"oExample","order":3,"path":"objects/oExample/oExample.yy",},
     {"name":"oTestCircle","order":6,"path":"objects/oTestCircle/oTestCircle.yy",},
-    {"name":"oTestClockwise","order":24,"path":"objects/oTestClockwise/oTestClockwise.yy",},
+    {"name":"oTestClockwise","order":25,"path":"objects/oTestClockwise/oTestClockwise.yy",},
     {"name":"oTestConvex","order":22,"path":"objects/oTestConvex/oTestConvex.yy",},
     {"name":"oTestLine","order":8,"path":"objects/oTestLine/oTestLine.yy",},
     {"name":"oTestMatrix","order":2,"path":"objects/oTestMatrix/oTestMatrix.yy",},

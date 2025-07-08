@@ -23,7 +23,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.8.1.171",
+    "IDEVersion":"2024.11.0.179",
   },
   "name":"Clean Shapes",
   "resources":[
@@ -91,6 +91,7 @@
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
+    {"roomId":{"name":"rmTestSurface","path":"rooms/rmTestSurface/rmTestSurface.yy",},},
     {"roomId":{"name":"rmExample","path":"rooms/rmExample/rmExample.yy",},},
     {"roomId":{"name":"rmTestConvex","path":"rooms/rmTestConvex/rmTestConvex.yy",},},
     {"roomId":{"name":"rmTestLine","path":"rooms/rmTestLine/rmTestLine.yy",},},
@@ -102,7 +103,6 @@
     {"roomId":{"name":"rmTestRectangle","path":"rooms/rmTestRectangle/rmTestRectangle.yy",},},
     {"roomId":{"name":"rmTestSegment","path":"rooms/rmTestSegment/rmTestSegment.yy",},},
     {"roomId":{"name":"rmTestRing","path":"rooms/rmTestRing/rmTestRing.yy",},},
-    {"roomId":{"name":"rmTestSurface","path":"rooms/rmTestSurface/rmTestSurface.yy",},},
     {"roomId":{"name":"rmTestClockwise","path":"rooms/rmTestClockwise/rmTestClockwise.yy",},},
   ],
   "templateType":null,
