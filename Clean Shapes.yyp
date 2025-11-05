@@ -1,8 +1,8 @@
 {
-  "$GMProject":"",
+  "$GMProject":"v1",
   "%Name":"Clean Shapes",
   "AudioGroups":[
-    {"$GMAudioGroup":"","%Name":"audiogroup_default","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
+    {"$GMAudioGroup":"v1","%Name":"audiogroup_default","exportDir":"","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
   ],
   "configs":{
     "children":[],
@@ -17,6 +17,7 @@
     {"$GMFolder":"","%Name":"Transform","folderPath":"folders/Clean Shapes/Transform.yy","name":"Transform","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Tests","folderPath":"folders/Tests.yy","name":"Tests","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
+  "ForcedPrefabProjectReferences":[],
   "IncludedFiles":[
     {"$GMIncludedFile":"","%Name":"inigo quilez 2d sdf license.txt","CopyToMask":-1,"filePath":"datafiles","name":"inigo quilez 2d sdf license.txt","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
   ],
